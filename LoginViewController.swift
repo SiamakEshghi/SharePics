@@ -38,6 +38,11 @@ class LoginViewController: UIViewController {
          handleRegisterAndSignIn()
     }
     
+    @IBAction func btnForgetPass(_ sender: UIButton) {
+        showForgetPassView()
+    }
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
