@@ -42,16 +42,13 @@ class LoginViewController: UIViewController {
         showForgetPassView()
     }
     
-    
+   
     override func viewDidLoad() {
         super.viewDidLoad()
         
         setupVideoBackground()
         hiddensHandles()
         addProfileImage()
-    }
-    
-    
-    
+       }
    
-}
+  }

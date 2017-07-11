@@ -109,7 +109,7 @@ extension LoginViewController: UIImagePickerControllerDelegate,UINavigationContr
         if isSignIn{
             Auth.auth().signIn(withEmail: txtFieldEmail.text!, password: txtFieldPass1.text!, completion: { (user, error) in
                 if error != nil{
-                    UsefullFunctions.showAlert(text: "User name or Password are not correct!", title: "Error", view: self)
+                    UsefullFunctions.showAlert(text: "User name or Password are not correct!", title: "Error", vc: self)
                 }else{
                     self.dismiss(animated: true, completion: nil)
                 }
@@ -118,7 +118,7 @@ extension LoginViewController: UIImagePickerControllerDelegate,UINavigationContr
             
            Auth.auth().createUser(withEmail: txtFieldEmail.text!, password: txtFieldPass1.text!){ (user, error) in
                 if error != nil{
-                    UsefullFunctions.showAlert(text: (error?.localizedDescription)!, title: "Error", view: self)
+                    UsefullFunctions.showAlert(text: (error?.localizedDescription)!, title: "Error", vc: self)
                     return
                 }else{
                     guard let uid = user?.uid else{
@@ -154,10 +154,10 @@ extension LoginViewController: UIImagePickerControllerDelegate,UINavigationContr
         let userRef = ref.child("users").child(uid)
         userRef.updateChildValues(values) { (error, ref) in
             if error != nil{
-                UsefullFunctions.showAlert(text: "There is some error in registering!", title: "Error", view: self)
+                UsefullFunctions.showAlert(text: "There is some error in registering!", title: "Error", vc: self)
                 return
             }
-             UsefullFunctions.showAlert(text: "New user is registerd successfully!", title: "Success", view: self)
+             UsefullFunctions.showAlert(text: "New user is registerd successfully!", title: "Success", vc: self)
             self.dismiss(animated: true, completion: nil)
         }
     }
@@ -169,21 +169,21 @@ extension LoginViewController: UIImagePickerControllerDelegate,UINavigationContr
         
         guard txtFieldEmail.text != "",
             txtFieldPass1.text != "" else {
-                UsefullFunctions.showAlert(text: "Please fill all fields!", title: "Alert", view: self)
+                UsefullFunctions.showAlert(text: "Please fill all fields!", title: "Alert", vc: self)
                 return
         }
         
-        //register
+        //for register
         if !isSignIn{
             guard txtFieldPass2.text != "",
                 txtFieldName.text  != "" else{
-                    UsefullFunctions.showAlert(text: "Please fill all fields!", title: "Alert", view: self)
+                    UsefullFunctions.showAlert(text: "Please fill all fields!", title: "Alert", vc: self)
                     return
             }
             
             //check pass1 is equal pass2
             guard txtFieldPass1 != txtFieldPass2 else{
-               UsefullFunctions.showAlert(text: "Entered passwords are diffrent!", title: "Pass Error", view: self)
+               UsefullFunctions.showAlert(text: "Entered passwords are diffrent!", title: "Pass Error", vc: self)
                 return
             }
             
@@ -193,10 +193,13 @@ extension LoginViewController: UIImagePickerControllerDelegate,UINavigationContr
     
     //MARK: -FORGET PASS
     func showForgetPassView() {
-        let popOverVc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "popUpId") as! ForgetPasswordPopUpViewController
-        self.addChildViewController(popOverVc)
-        popOverVc.view.frame = self.view.frame
-        self.view.addSubview(popOverVc.view)
-        popOverVc.didMove(toParentViewController: self)
+        let popOverResetPassVc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "popUpResetPass") as! ForgetPasswordPopUpViewController
+        self.addChildViewController(popOverResetPassVc)
+        popOverResetPassVc.view.frame = self.view.frame
+        self.view.addSubview(popOverResetPassVc.view)
+        popOverResetPassVc.didMove(toParentViewController: self)
     }
+    
+    
+    
 }
