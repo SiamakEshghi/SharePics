@@ -6,9 +6,10 @@
 //  Copyright © 2017 Joopooli. All rights reserved.
 //
 
-import Foundation
+import UIKit
 
-class user: NSObject {
+class User: NSObject {
+    
     var name:String?
     var email:String?
     var profileImageUrl:String?

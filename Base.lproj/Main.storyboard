@@ -336,6 +336,42 @@
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="nvU-h4-ros">
                                 <rect key="frame" x="0.0" y="44" width="375" height="574"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" restorationIdentifier="friendCell" selectionStyle="default" indentationWidth="10" reuseIdentifier="friendCell" rowHeight="100" id="ixt-dc-pzd" customClass="FreindTableViewCell" customModule="SharePics" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="28" width="375" height="100"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" restorationIdentifier="friends" tableViewCell="ixt-dc-pzd" id="j26-nk-7QR">
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="99.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="uDt-ps-J3K">
+                                                    <rect key="frame" x="8" y="0.0" width="141" height="100"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="100" id="DTb-9C-6CL"/>
+                                                        <constraint firstAttribute="width" constant="141" id="F8F-jn-YeR"/>
+                                                    </constraints>
+                                                </imageView>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jtF-Hl-xw2">
+                                                    <rect key="frame" x="199" y="40" width="168" height="21"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstAttribute="trailing" secondItem="jtF-Hl-xw2" secondAttribute="trailing" constant="8" id="6gp-UE-UfV"/>
+                                                <constraint firstItem="uDt-ps-J3K" firstAttribute="leading" secondItem="j26-nk-7QR" secondAttribute="leading" constant="8" id="QA1-O0-Qg9"/>
+                                                <constraint firstItem="uDt-ps-J3K" firstAttribute="top" secondItem="j26-nk-7QR" secondAttribute="top" id="f9o-iX-YGI"/>
+                                                <constraint firstItem="jtF-Hl-xw2" firstAttribute="leading" secondItem="uDt-ps-J3K" secondAttribute="trailing" constant="50" id="fuV-HP-gzm"/>
+                                                <constraint firstItem="jtF-Hl-xw2" firstAttribute="centerY" secondItem="j26-nk-7QR" secondAttribute="centerY" id="sZR-YF-Y20"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="friendImage" destination="uDt-ps-J3K" id="Y81-qh-US5"/>
+                                            <outlet property="labelFriendName" destination="jtF-Hl-xw2" id="cQi-CL-jf8"/>
+                                        </connections>
+                                    </tableViewCell>
+                                </prototypes>
                             </tableView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -358,7 +394,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="vMJ-2r-2Qa" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2523" y="391"/>
+            <point key="canvasLocation" x="2522.4000000000001" y="390.85457271364322"/>
         </scene>
         <!--Add New Friends View Controller-->
         <scene sceneID="pJb-eb-7z6">

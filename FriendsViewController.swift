@@ -10,9 +10,13 @@ import UIKit
 import FirebaseAuth
 import FirebaseDatabase
 import FirebaseStorage
+import Kingfisher
 
 class FriendsViewController: UIViewController,UITableViewDelegate,UITableViewDataSource,ParentDelegateUpdate {
 
+    
+    //MARK: -PROPERTIES
+    var friendsId = [String]()
     
    //MARK: -OUTLETS AND ACTIONS
     
@@ -31,11 +35,17 @@ class FriendsViewController: UIViewController,UITableViewDelegate,UITableViewDat
         popOverNewFriendVc.didMove(toParentViewController: self)
     }
     
+    
 override func viewDidLoad() {
-        super.viewDidLoad()
         tableView.delegate = self
         tableView.dataSource = self
-        
+    
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        self.friendsId.removeAll()
+        self.tableView.reloadData()
+        fetchFriends()
     }
 
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -43,17 +53,40 @@ override func viewDidLoad() {
     }
    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 0
+        return friendsId.count
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell: UITableViewCell? = nil
-        return cell!
+        let cell = tableView.dequeueReusableCell(withIdentifier: "friendCell", for: indexPath) as!
+        FreindTableViewCell
+        
+        let friendId = friendsId[indexPath.row]
+        
+        cell.friendId = friendId
+        
+        return cell
     }
-
+    
+   
+    
     //MARK: -DELEGATE FUNCTION
     
     func parentViewUpdate() {
-        print("subview is closed")
+       self.friendsId.removeAll()
+        fetchFriends()
     }
   
+    //MARK: -FETCH FRIENDS FROM DATABASE
+    func fetchFriends() {
+        let uid = Auth.auth().currentUser?.uid
+        let refFriendList = Database.database().reference().child("users").child(uid!).child("friends")
+        refFriendList.observe(.childAdded, with: { (snapshot) in
+            
+            let friendKey = snapshot.key
+            self.friendsId.append(friendKey)
+            
+            DispatchQueue.main.async {
+                self.tableView.reloadData()
+            }
+        }, withCancel: nil)
+    }
 }

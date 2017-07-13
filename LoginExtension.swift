@@ -157,7 +157,6 @@ extension LoginViewController: UIImagePickerControllerDelegate,UINavigationContr
                 UsefullFunctions.showAlert(text: "There is some error in registering!", title: "Error", vc: self)
                 return
             }
-             UsefullFunctions.showAlert(text: "New user is registerd successfully!", title: "Success", vc: self)
             self.dismiss(animated: true, completion: nil)
         }
     }

@@ -25,14 +25,15 @@ class AddNewFriendsViewController: UIViewController {
     }
     
     @IBAction func btnAddFriendTapped(_ sender: UIButton) {
-        handleAddFriend()
+        perform(#selector(handleAddFriend), with: nil, afterDelay: 0)
+        
     }
    
     override func viewDidLoad() {
         super.viewDidLoad()
         
        UsefullFunctions.showAnimate(vc: self)
-       self.view.backgroundColor = UIColor.black.withAlphaComponent(0.8)
+       self.view.backgroundColor = UIColor.black.withAlphaComponent(1)
     }
 
     
@@ -50,12 +51,14 @@ class AddNewFriendsViewController: UIViewController {
                 
                //access user key in snapshot
                     if let dictionary = snapshot.value as? [String:AnyObject]{
-                        for (id,_) in dictionary{
+                        for (friendId,_) in dictionary{
                            
                             //save new friend in database
-                            let friendRef = Database.database().reference().child("users").child(uid!).child("friends").child(id)
-                            friendRef.setValue(email)
+                            let friendRef = Database.database().reference().child("users").child(uid!).child("friends")
+                            friendRef.updateChildValues([friendId:email!])
                             
+                            UsefullFunctions.showAlert(text: "New friend is added successfully!", title: "Success", vc: self)
+                            self.txtEmail.text = ""
                         }
                     }
                     
