@@ -12,15 +12,14 @@ import FirebaseDatabase
 
 class AddNewFriendsViewController: UIViewController {
 
-    var delegate : ParentDelegateUpdate?
-    
+      
     //MARK: -OUTLETS AND ACTIONS
     
     @IBOutlet weak var txtEmail: UITextField!
     
     @IBAction func btncCloseTapped(_ sender: UIButton) {
        UsefullFunctions.removeAnimate(vc: self)
-        delegate?.parentViewUpdate()
+       
         self.view.removeFromSuperview()
     }
     
@@ -33,7 +32,7 @@ class AddNewFriendsViewController: UIViewController {
         super.viewDidLoad()
         
        UsefullFunctions.showAnimate(vc: self)
-       self.view.backgroundColor = UIColor.black.withAlphaComponent(1)
+       self.view.backgroundColor = UIColor.black.withAlphaComponent(0.7)
     }
 
     

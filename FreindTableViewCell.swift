@@ -13,10 +13,10 @@ import FirebaseDatabase
 class FreindTableViewCell: UITableViewCell {
 
    
-    
     //MARK: -OUTLETS
     
     @IBOutlet weak var friendImage: UIImageView!
+    
     
     @IBOutlet weak var labelFriendName: UILabel!
     

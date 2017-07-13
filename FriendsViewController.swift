@@ -12,7 +12,7 @@ import FirebaseDatabase
 import FirebaseStorage
 import Kingfisher
 
-class FriendsViewController: UIViewController,UITableViewDelegate,UITableViewDataSource,ParentDelegateUpdate {
+class FriendsViewController: UIViewController,UITableViewDelegate,UITableViewDataSource{
 
     
     //MARK: -PROPERTIES
@@ -29,8 +29,6 @@ class FriendsViewController: UIViewController,UITableViewDelegate,UITableViewDat
         self.addChildViewController(popOverNewFriendVc)
         popOverNewFriendVc.view.frame = self.view.frame
         self.view.addSubview(popOverNewFriendVc.view)
-        
-        popOverNewFriendVc.delegate = self
         
         popOverNewFriendVc.didMove(toParentViewController: self)
     }
@@ -67,15 +65,8 @@ override func viewDidLoad() {
     }
     
    
-    
-    //MARK: -DELEGATE FUNCTION
-    
-    func parentViewUpdate() {
-       self.friendsId.removeAll()
-        fetchFriends()
-    }
-  
-    //MARK: -FETCH FRIENDS FROM DATABASE
+ 
+//    //MARK: -FETCH FRIENDS FROM DATABASE
     func fetchFriends() {
         let uid = Auth.auth().currentUser?.uid
         let refFriendList = Database.database().reference().child("users").child(uid!).child("friends")

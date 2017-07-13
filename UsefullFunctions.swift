@@ -46,6 +46,4 @@ class UsefullFunctions {
     }
 }
 
-protocol ParentDelegateUpdate {
-    func parentViewUpdate()
-}
+
