@@ -28,8 +28,7 @@ class AddNewEventsViewController: UIViewController,UITableViewDelegate,UITableVi
     }
     @IBAction func btnAdd(_ sender: UIButton) {
         addNewEvent()
-        UsefullFunctions.removeAnimate(vc: self)
-        self.view.removeFromSuperview()
+        
     }
     
     override func viewDidLoad() {
@@ -78,20 +77,30 @@ class AddNewEventsViewController: UIViewController,UITableViewDelegate,UITableVi
         let ref = Database.database().reference().child("events")
         let eventdRef = ref.childByAutoId()
         guard txtEventName.text != "" else {
-            UsefullFunctions.showAlert(text: "Please fill all fields", title: "Alert", vc: self)
+            UsefullFunctions.showAlert(text: "Please enter name of event!", title: "Alert", vc: self)
             return
         }
         eventdRef.updateChildValues(["name":txtEventName.text!])
         eventdRef.updateChildValues(["date":""])
         
-        let friendsRef = eventdRef.child("friendsId")
-        for friendId in selectedFriendsIds {
-            friendsRef.updateChildValues([friendId:1])
-        }
+//        let friendsRef = eventdRef.child("friendsId")
+//        friendsRef.updateChildValues([uid!:1])
+//        
+//        for friendId in selectedFriendsIds {
+//            friendsRef.updateChildValues([friendId:1])
+//        }
         
         let eventId = eventdRef.key
         let userEventRef = Database.database().reference().child("user-events").child(uid!)
         userEventRef.updateChildValues([eventId:1])
+        
+        //add event id for all selected user
+        for friendId in selectedFriendsIds {
+            let userEventRef = Database.database().reference().child("user-events").child(friendId)
+            userEventRef.updateChildValues([eventId:1])
+        }
+        UsefullFunctions.removeAnimate(vc: self)
+        self.view.removeFromSuperview()
     }
     
 
