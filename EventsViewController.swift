@@ -14,6 +14,12 @@ class EventsViewController: UIViewController {
     //MARK: -OUTLETS AND ACTIONS
     @IBOutlet weak var NavBar: UINavigationItem!
     
+  
+    @IBAction func btnAddEvent(_ sender: UIBarButtonItem) {
+        addNewEvent()
+    }
+    
+    
     @IBAction func btnLogoutTapped(_ sender: UIBarButtonItem) {
         handleLogout()
     }
@@ -23,7 +29,7 @@ class EventsViewController: UIViewController {
         }
     
 
-    override func viewDidAppear(_ animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         perform(#selector (isUserLogedIn), with: nil, afterDelay: 0)
     }
     

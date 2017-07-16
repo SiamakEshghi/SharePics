@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import FirebaseAuth
+import FirebaseDatabase
 
 class UsefullFunctions {
     
@@ -44,6 +46,7 @@ class UsefullFunctions {
             }
         });
     }
+   
 }
 
 

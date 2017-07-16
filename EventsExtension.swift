@@ -43,4 +43,12 @@ extension EventsViewController {
         let Loginview = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "loginView") as! LoginViewController
         present(Loginview, animated: true, completion:nil)
     }
+    //MARK: _ADD NEW EVENT
+    func addNewEvent()  {
+        let popOverAddNewEvent = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "popUpAddNewEvent") as! AddNewEventsViewController
+        self.addChildViewController(popOverAddNewEvent)
+        popOverAddNewEvent.view.frame = self.view.frame
+        self.view.addSubview(popOverAddNewEvent.view)
+        popOverAddNewEvent.didMove(toParentViewController: self)
+    }
 }

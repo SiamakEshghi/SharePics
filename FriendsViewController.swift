@@ -40,7 +40,7 @@ override func viewDidLoad() {
     
     }
     
-    override func viewDidAppear(_ animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         self.friendsId.removeAll()
         self.tableView.reloadData()
         fetchFriends()
@@ -66,7 +66,7 @@ override func viewDidLoad() {
     
    
  
-//    //MARK: -FETCH FRIENDS FROM DATABASE
+    //MARK: -FETCH FRIENDS FROM DATABASE
     func fetchFriends() {
         let uid = Auth.auth().currentUser?.uid
         let refFriendList = Database.database().reference().child("users").child(uid!).child("friends")
