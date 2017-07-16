@@ -10,10 +10,12 @@ import UIKit
 import FirebaseAuth
 import FirebaseDatabase
 
+
 class AddNewEventsViewController: UIViewController,UITableViewDelegate,UITableViewDataSource {
 
     //MARK: -PROPERTIES
     var friendsId = [String]()
+    var selectedFriendsIds = [String]()
     
     //MARK: -OUTLETS AND ACTIONS
     @IBOutlet weak var tableView: UITableView!
@@ -21,15 +23,21 @@ class AddNewEventsViewController: UIViewController,UITableViewDelegate,UITableVi
     @IBOutlet weak var txtEventName: UITextField!
     
     @IBAction func btnCancell(_ sender: UIButton) {
+        UsefullFunctions.removeAnimate(vc: self)
+        self.view.removeFromSuperview()
     }
     @IBAction func btnAdd(_ sender: UIButton) {
+        addNewEvent()
+        UsefullFunctions.removeAnimate(vc: self)
+        self.view.removeFromSuperview()
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        UsefullFunctions.showAnimate(vc: self)
+        self.view.backgroundColor = UIColor.black.withAlphaComponent(0.5)
         tableView.delegate = self
         tableView.dataSource = self
-        self.tableView.allowsMultipleSelection = true
         fetchFriends()
         }
 
@@ -43,11 +51,48 @@ class AddNewEventsViewController: UIViewController,UITableViewDelegate,UITableVi
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "friendCell2", for: indexPath) as!
         FreindTableViewCell
+     
         let friendId = friendsId[indexPath.row]
         cell.friendId = friendId
         return cell
     }
     
+    //MARK: -MULTI SELECTED TABLEVIEW
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let cell = tableView.cellForRow(at: indexPath)
+        if (cell?.accessoryType == UITableViewCellAccessoryType.checkmark){
+            
+            cell!.accessoryType = UITableViewCellAccessoryType.none;
+            selectedFriendsIds = selectedFriendsIds.filter(){$0 != friendsId[indexPath.row]}
+        }else{
+            
+            cell!.accessoryType = UITableViewCellAccessoryType.checkmark;
+            selectedFriendsIds.append(friendsId[indexPath.row])
+        }
+        
+    }
+    
+    //MARK: -ADD NEW FRIEND
+    func addNewEvent() {
+        let uid = Auth.auth().currentUser?.uid
+        let ref = Database.database().reference().child("events")
+        let eventdRef = ref.childByAutoId()
+        guard txtEventName.text != "" else {
+            UsefullFunctions.showAlert(text: "Please fill all fields", title: "Alert", vc: self)
+            return
+        }
+        eventdRef.updateChildValues(["name":txtEventName.text!])
+        eventdRef.updateChildValues(["date":""])
+        
+        let friendsRef = eventdRef.child("friendsId")
+        for friendId in selectedFriendsIds {
+            friendsRef.updateChildValues([friendId:1])
+        }
+        
+        let eventId = eventdRef.key
+        let userEventRef = Database.database().reference().child("user-events").child(uid!)
+        userEventRef.updateChildValues([eventId:1])
+    }
     
 
     //MARK: -FETCH FRIENDS FROM DATABASE
