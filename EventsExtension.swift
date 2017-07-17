@@ -51,4 +51,22 @@ extension EventsViewController {
         self.view.addSubview(popOverAddNewEvent.view)
         popOverAddNewEvent.didMove(toParentViewController: self)
     }
+    
+    //MARK: -FETCH EVENTS ID FROM DATABASE
+    func fetchEvents() {
+        guard let uid = Auth.auth().currentUser?.uid else {
+            handleLogout()
+            return
+        }
+        let eventsRef = Database.database().reference().child("user-events").child(uid)
+        
+        eventsRef.observe(.childAdded, with: { (snapshot) in
+            let eventKey = snapshot.key
+            self.eventsIds.append(eventKey)
+            
+            DispatchQueue.main.async {
+                self.collectionView.reloadData()
+            }
+        }, withCancel: nil)
+    }
 }

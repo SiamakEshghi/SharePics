@@ -25,7 +25,6 @@ class FreindTableViewCell: UITableViewCell {
         didSet{
             let refFriend = Database.database().reference().child("users").child(friendId!)
             refFriend.observe(.value, with: { (snapshot) in
-                print(snapshot)
                 //create user list and add to users
                 if let dictionary = snapshot.value as? [String:AnyObject]{
                     let name = dictionary["name"] as! String

@@ -74,8 +74,7 @@ override func viewDidLoad() {
             
             let friendKey = snapshot.key
             self.friendsId.append(friendKey)
-            
-            DispatchQueue.main.async {
+           DispatchQueue.main.async {
                 self.tableView.reloadData()
             }
         }, withCancel: nil)
