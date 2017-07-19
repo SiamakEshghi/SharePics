@@ -24,7 +24,7 @@ extension EventsViewController {
         userRef.observeSingleEvent(of: .value, with: { (snapshot) in
             if let dictionary = snapshot.value as? [String:AnyObject]{
                 let name = dictionary["name"] as! String
-                self.NavBar.title = name
+                self.NavBar.title = name + "'s groups"
             }
         })
         
@@ -39,9 +39,10 @@ extension EventsViewController {
             UsefullFunctions.showAlert(text: error.localizedDescription, title: "Error", vc: self)
         }
         
-        
-        let Loginview = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "loginView") as! LoginViewController
-        present(Loginview, animated: true, completion:nil)
+        DispatchQueue.main.async {
+              let Loginview = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "loginView") as! LoginViewController
+            self.present(Loginview, animated: true, completion:nil)
+        }
     }
     //MARK: _ADD NEW EVENT
     func addNewEvent()  {
@@ -54,6 +55,7 @@ extension EventsViewController {
     
     //MARK: -FETCH EVENTS ID FROM DATABASE
     func fetchEvents() {
+       
         guard let uid = Auth.auth().currentUser?.uid else {
             handleLogout()
             return
@@ -66,7 +68,18 @@ extension EventsViewController {
             
             DispatchQueue.main.async {
                 self.collectionView.reloadData()
-            }
-        }, withCancel: nil)
+                }
+            }, withCancel: nil)
+        self.spinner.stopAnimating()
     }
-}
+    //MARK: -DISPATCH GROUP
+    func prepareEventsController()  {
+      self.spinner.startAnimating()
+        let serialQueueHighPriority = DispatchQueue(label: "com.ASJ.SharePics.Serial1", qos: .userInitiated)
+        serialQueueHighPriority.async {
+            self.isUserLogedIn()
+            self.fetchEvents()
+        }
+      
+     }
+ }

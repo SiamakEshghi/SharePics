@@ -83,12 +83,7 @@ class AddNewEventsViewController: UIViewController,UITableViewDelegate,UITableVi
         eventdRef.updateChildValues(["name":txtEventName.text!])
         eventdRef.updateChildValues(["date":""])
         
-//        let friendsRef = eventdRef.child("friendsId")
-//        friendsRef.updateChildValues([uid!:1])
-//        
-//        for friendId in selectedFriendsIds {
-//            friendsRef.updateChildValues([friendId:1])
-//        }
+
         
         let eventId = eventdRef.key
         let userEventRef = Database.database().reference().child("user-events").child(uid!)

@@ -19,6 +19,7 @@ class EventsViewController: UIViewController ,UICollectionViewDelegate,UICollect
     
     @IBOutlet weak var collectionView: UICollectionView!
     
+    @IBOutlet weak var spinner: UIActivityIndicatorView!
    
   
     @IBAction func btnAddEvent(_ sender: UIBarButtonItem) {
@@ -34,16 +35,14 @@ class EventsViewController: UIViewController ,UICollectionViewDelegate,UICollect
         super.viewDidLoad()
         collectionView.delegate = self
         collectionView.dataSource = self
-        
         }
     
-
     override func viewWillAppear(_ animated: Bool) {
-        perform(#selector (isUserLogedIn), with: nil, afterDelay: 0)
-        self.collectionView.reloadData()
+        self.spinner.startAnimating()
         self.eventsIds.removeAll()
-        fetchEvents()
-    }
+        self.collectionView.reloadData()
+        prepareEventsController()
+        }
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 1
@@ -63,7 +62,18 @@ class EventsViewController: UIViewController ,UICollectionViewDelegate,UICollect
         
         return cell
     }
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        
+        let id = eventsIds[indexPath.row]
+        
+        let oneEventVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "selectedEvent") as! SelectedEventViewController
+            oneEventVC.id = id
+        present(oneEventVC, animated: true, completion: nil)
+        
+        
+    }
     
+    //add 3 cell for each row  
     func collectionView(collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
                         sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {

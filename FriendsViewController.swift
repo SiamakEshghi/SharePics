@@ -43,7 +43,10 @@ override func viewDidLoad() {
     override func viewWillAppear(_ animated: Bool) {
         self.friendsId.removeAll()
         self.tableView.reloadData()
-        fetchFriends()
+        DispatchQueue.global(qos: .userInitiated).async {
+             fetchFriends()
+        }
+       
     }
 
     func numberOfSections(in tableView: UITableView) -> Int {
