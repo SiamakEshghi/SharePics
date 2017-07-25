@@ -46,6 +46,7 @@ class LoginViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        self.hideKeyboardWhenTappedAround()
         setupVideoBackground()
         hiddensHandles()
         addProfileImage()

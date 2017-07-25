@@ -16,11 +16,15 @@ class SelectedEventViewController: UIViewController {
     var id:String?
     //MARK: -OUTLETS AND ACTIONS
     
-    @IBOutlet weak var spinner: UIActivityIndicatorView!
+    
     @IBAction func cancell(_ sender: UIBarButtonItem) {
         self.dismiss(animated: true, completion: nil)
     }
     
+    @IBAction func cameraBTN(_ sender: UIBarButtonItem) {
+        let CameraVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "CameraVC") as! CameraViewController
+        self.present(CameraVC, animated: true, completion: nil)
+    }
     
     @IBOutlet weak var navBar: UINavigationBar!
     override func viewDidLoad() {

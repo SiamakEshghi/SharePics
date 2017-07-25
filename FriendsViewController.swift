@@ -44,7 +44,7 @@ override func viewDidLoad() {
         self.friendsId.removeAll()
         self.tableView.reloadData()
         DispatchQueue.global(qos: .userInitiated).async {
-             fetchFriends()
+             self.fetchFriends()
         }
        
     }
