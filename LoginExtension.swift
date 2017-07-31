@@ -131,6 +131,7 @@ extension LoginViewController: UIImagePickerControllerDelegate,UINavigationContr
                     let imageName = NSUUID().uuidString
                     let storgaeRef = Storage.storage().reference().child("Profile_Images").child("\(imageName).jpg")
                     
+                    //Save image in storage
                     if let profileImage = self.imageViewProfile.image , let uploadedData = UIImageJPEGRepresentation(profileImage, 0.1){
                         storgaeRef.putData(uploadedData, metadata: nil){ (metadata, error) in
                             if error != nil {

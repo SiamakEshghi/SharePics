@@ -49,7 +49,7 @@ class UsefullFunctions {
    
 }
 
-//MARK: -EXTENSION TO HIDE KEYBOARD
+//MARK: -HIDE KEYBOARD
 extension UIViewController {
     func hideKeyboardWhenTappedAround() {
         let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(UIViewController.dismissKeyboard))

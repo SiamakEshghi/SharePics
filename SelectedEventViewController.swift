@@ -8,14 +8,21 @@
 
 import UIKit
 import FirebaseDatabase
+import Kingfisher
 
-class SelectedEventViewController: UIViewController {
+
+class SelectedEventViewController: UIViewController,UICollectionViewDelegate,UICollectionViewDataSource {
 
     //MARK: -PROPERTIES
     var currentEvent = Event()
     var id:String?
+    var photosUrls = [String]()
+    
+    
     //MARK: -OUTLETS AND ACTIONS
     
+    @IBOutlet weak var tappedPhotoImageView: UIImageView!
+    @IBOutlet weak var collectionView: UICollectionView!
     
     @IBAction func cancell(_ sender: UIBarButtonItem) {
         self.dismiss(animated: true, completion: nil)
@@ -23,24 +30,35 @@ class SelectedEventViewController: UIViewController {
     
     @IBAction func cameraBTN(_ sender: UIBarButtonItem) {
         let CameraVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "CameraVC") as! CameraViewController
+        CameraVC.eventId = self.id
         self.present(CameraVC, animated: true, completion: nil)
     }
     
     @IBOutlet weak var navBar: UINavigationBar!
     override func viewDidLoad() {
         super.viewDidLoad()
-       
-       
+        collectionView.delegate = self
+        collectionView.dataSource = self
+        collectionView.reloadData()
     }
 
     override func viewWillAppear(_ animated: Bool) {
-      DispatchQueue.global(qos: .userInitiated).async {
-            self.fetchEvent()
-        }
-       
+        
+      
+        
+         //   self.tappedPhotoImageView?.kf.setImage(with: URL(string: self.photosUrls[0]))
+        
     }
     
-    
+    override func viewDidAppear(_ animated: Bool) {
+        self.photosUrls.removeAll()
+        self.collectionView.reloadData()
+       
+            self.fetchEvent()
+        
+        
+        
+    }
     //MARK: -FETCH CURRENT EVENT
     func fetchEvent() {
       
@@ -49,13 +67,72 @@ class SelectedEventViewController: UIViewController {
         eventRef.observe(.value, with: { (snapshot) in
             if let dictionary = snapshot.value as? [String:AnyObject]{
                 name = dictionary["name"] as? String
-                DispatchQueue.main.async {
+                
+               DispatchQueue.main.async {
                     self.currentEvent.name = name
                     self.navBar.topItem?.title = name
                 }
-                
+                self.fetchPhotos()
             }
         }, withCancel: nil)
     }
+    
+    //MARK: -FETCH PHOTOS
+    func fetchPhotos()  {
+        let ref = Database.database().reference().child("event-photos").child(self.id!)
+        
+        ref.observe(.value, with: { (snapshot) in
+            if let dictionary = snapshot.value{
+                for (_,value) in dictionary as! [String:String]{
+                    self.photosUrls.append(value)
+                    DispatchQueue.main.async {
+                        self.collectionView.reloadData()
+                    }
+                }
+            }
+        }, withCancel: nil)
+    }
+    
+    //MARK: -COLLECTION VIEW CONFIGURATION
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
+        return 1
+    }
+    
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        // #warning Incomplete implementation, return the number of items
+        return (photosUrls.count)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "PhotoCell", for: indexPath) as! PhotosCollectionViewCell
+        
+        let url = photosUrls[indexPath.row]
+        cell.photoUrl = url
+        
+        return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        
+       let selectedPhotoUrl = photosUrls[indexPath.row]
+        
+       self.tappedPhotoImageView?.kf.setImage(with: URL(string: selectedPhotoUrl))
+        
+        
+    }
+    
+    //add 3 cell for each row
+    func collectionView(collectionView: UICollectionView,
+                        layout collectionViewLayout: UICollectionViewLayout,
+                        sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
+        
+        let flowLayout = collectionViewLayout as! UICollectionViewFlowLayout
+        let totalSpace = flowLayout.sectionInset.left
+            + flowLayout.sectionInset.right
+            + (flowLayout.minimumInteritemSpacing * CGFloat(3 - 1))
+        let size = Int((collectionView.bounds.width - totalSpace) / CGFloat(3))
+        return CGSize(width: size, height: size)
+    }
 
-  }
+   }

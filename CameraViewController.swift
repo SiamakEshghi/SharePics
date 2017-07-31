@@ -16,6 +16,7 @@ class CameraViewController: UIViewController,AVCaptureVideoDataOutputSampleBuffe
     let captureSession = AVCaptureSession()
     var previewLayer:CALayer! = nil
     var captureDevice: AVCaptureDevice!
+    var eventId: String?
     
     var takePhoto = false
     
@@ -30,7 +31,7 @@ class CameraViewController: UIViewController,AVCaptureVideoDataOutputSampleBuffe
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
+      
         }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -94,7 +95,7 @@ class CameraViewController: UIViewController,AVCaptureVideoDataOutputSampleBuffe
                 let photoVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "PhotoVC") as! PhotoViewController
                 
                 photoVC.takenPhoto = image
-                
+                photoVC.eventId = self.eventId
                 DispatchQueue.main.async {
                     self.present(photoVC, animated: true, completion: {
                         self.stopCaptureSession()

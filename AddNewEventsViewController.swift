@@ -33,6 +33,7 @@ class AddNewEventsViewController: UIViewController,UITableViewDelegate,UITableVi
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.hideKeyboardWhenTappedAround()
         UsefullFunctions.showAnimate(vc: self)
         self.view.backgroundColor = UIColor.black.withAlphaComponent(0.5)
         tableView.delegate = self
