@@ -15,11 +15,10 @@ class ForgetPasswordPopUpViewController: UIViewController {
 
     
 
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        UsefullFunctions.showAnimate(vc: self)
+        showAnimate(vc: self)
         self.view.backgroundColor = UIColor.black.withAlphaComponent(0.5)
        
     }
@@ -29,7 +28,7 @@ class ForgetPasswordPopUpViewController: UIViewController {
     @IBOutlet weak var txtFieldEmail: UITextField!
     
     @IBAction func btnClose(_ sender: UIButton) {
-        UsefullFunctions.removeAnimate(vc: self)
+       removeAnimate(vc: self)
          self.view.removeFromSuperview()
         }
 
@@ -38,10 +37,10 @@ class ForgetPasswordPopUpViewController: UIViewController {
         let email = txtFieldEmail.text!
         Auth.auth().sendPasswordReset(withEmail: email) { (error) in
             if error != nil {
-               UsefullFunctions.showAlert(text: "Cant send reset email!", title: "Error",vc:self)
+               showAlert(text: "Cant send reset email!", title: "Error",vc:self)
                 return
             }else{
-            UsefullFunctions.showAlert(text: "Reset email is sent successfully!", title: "Success",vc: self)
+             showAlert(text: "Reset email is sent successfully!", title: "Success",vc: self)
             }
         }
         

@@ -10,6 +10,7 @@ import UIKit
 import FirebaseAuth
 import FirebaseDatabase
 import FirebaseStorage
+import SVProgressHUD
 
 extension EventsViewController {
     
@@ -36,7 +37,7 @@ extension EventsViewController {
         do{
             try Auth.auth().signOut()
         }catch {
-            UsefullFunctions.showAlert(text: error.localizedDescription, title: "Error", vc: self)
+            showAlert(text: error.localizedDescription, title: "Error", vc: self)
         }
         
         DispatchQueue.main.async {
@@ -54,32 +55,44 @@ extension EventsViewController {
     }
     
     //MARK: -FETCH EVENTS ID FROM DATABASE
-    func fetchEvents() {
-       
-        guard let uid = Auth.auth().currentUser?.uid else {
+    func fetchEvents()  {
+        
+       guard let uid = Auth.auth().currentUser?.uid else {
             handleLogout()
             return
         }
-        let eventsRef = Database.database().reference().child("user-events").child(uid)
+    
+        let ref = Database.database().reference().child("user-events").child(uid)
         
-        eventsRef.observe(.childAdded, with: { (snapshot) in
-            let eventKey = snapshot.key
-            self.eventsIds.append(eventKey)
+        ref.observe(.value, with: { (snapshot) in
             
-            DispatchQueue.main.async {
-                self.collectionView.reloadData()
+            if let dictionary = snapshot.value as? [String:AnyObject]{
+                
+                self.eventsIds.removeAll()
+                let group = DispatchGroup()
+                for (key, _ ) in dictionary {
+                    group.enter()
+                    self.eventsIds.append(key)
+                    group.leave()
                 }
-            }, withCancel: nil)
-        self.spinner.stopAnimating()
+                group.notify(queue: .main, execute: {
+                    self.collectionView.reloadData()
+                    SVProgressHUD.dismiss()
+                })
+            }
+            
+        }, withCancel: nil)
     }
-    //MARK: -DISPATCH GROUP
+    
+    
+    //MARK: -Prepare Events
     func prepareEventsController()  {
-      self.spinner.startAnimating()
-        let serialQueueHighPriority = DispatchQueue(label: "com.ASJ.SharePics.Serial1", qos: .userInitiated)
-        serialQueueHighPriority.async {
+       
+        DispatchQueue.global(qos: .userInitiated).async {
             self.isUserLogedIn()
             self.fetchEvents()
         }
-      
-     }
- }
+        
+        }
+ 
+}

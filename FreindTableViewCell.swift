@@ -24,17 +24,24 @@ class FreindTableViewCell: UITableViewCell {
     var friendId: String?{
         didSet{
             let refFriend = Database.database().reference().child("users").child(friendId!)
-            refFriend.observe(.value, with: { (snapshot) in
-                //create user list and add to users
-                if let dictionary = snapshot.value as? [String:AnyObject]{
-                    let name = dictionary["name"] as! String
-                    let profilImageUrl = dictionary["profileImageUrl"] as! String
-                    
-                   self.labelFriendName.text = name 
-                    self.friendImage?.kf.setImage(with: URL(string: profilImageUrl))
+            
+            DispatchQueue.global(qos: .userInitiated).async {
+                refFriend.observe(.value, with: { (snapshot) in
+                    //create user list and add to users
+                    if let dictionary = snapshot.value as? [String:AnyObject]{
+                        let name = dictionary["name"] as! String
+                        let profilImageUrl = dictionary["profileImageUrl"] as! String
+                        
+                        DispatchQueue.main.async {
+                            self.labelFriendName.text = name
+                            self.friendImage?.kf.setImage(with: URL(string: profilImageUrl))
+                        }
+                        
                     }
-                
-            }, withCancel: nil)
+                    
+                }, withCancel: nil)
+            }
+            
         }
     }
     

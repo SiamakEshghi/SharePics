@@ -109,7 +109,7 @@ extension LoginViewController: UIImagePickerControllerDelegate,UINavigationContr
         if isSignIn{
             Auth.auth().signIn(withEmail: txtFieldEmail.text!, password: txtFieldPass1.text!, completion: { (user, error) in
                 if error != nil{
-                    UsefullFunctions.showAlert(text: "User name or Password are not correct!", title: "Error", vc: self)
+                    showAlert(text: "User name or Password are not correct!", title: "Error", vc: self)
                 }else{
                     self.dismiss(animated: true, completion: nil)
                 }
@@ -118,7 +118,7 @@ extension LoginViewController: UIImagePickerControllerDelegate,UINavigationContr
             
            Auth.auth().createUser(withEmail: txtFieldEmail.text!, password: txtFieldPass1.text!){ (user, error) in
                 if error != nil{
-                    UsefullFunctions.showAlert(text: (error?.localizedDescription)!, title: "Error", vc: self)
+                    showAlert(text: (error?.localizedDescription)!, title: "Error", vc: self)
                     return
                 }else{
                     guard let uid = user?.uid else{
@@ -155,7 +155,7 @@ extension LoginViewController: UIImagePickerControllerDelegate,UINavigationContr
         let userRef = ref.child("users").child(uid)
         userRef.updateChildValues(values) { (error, ref) in
             if error != nil{
-                UsefullFunctions.showAlert(text: "There is some error in registering!", title: "Error", vc: self)
+                showAlert(text: "There is some error in registering!", title: "Error", vc: self)
                 return
             }
             self.dismiss(animated: true, completion: nil)
@@ -169,7 +169,7 @@ extension LoginViewController: UIImagePickerControllerDelegate,UINavigationContr
         
         guard txtFieldEmail.text != "",
             txtFieldPass1.text != "" else {
-                UsefullFunctions.showAlert(text: "Please fill all fields!", title: "Alert", vc: self)
+               showAlert(text: "Please fill all fields!", title: "Alert", vc: self)
                 return
         }
         
@@ -177,13 +177,13 @@ extension LoginViewController: UIImagePickerControllerDelegate,UINavigationContr
         if !isSignIn{
             guard txtFieldPass2.text != "",
                 txtFieldName.text  != "" else{
-                    UsefullFunctions.showAlert(text: "Please fill all fields!", title: "Alert", vc: self)
+                showAlert(text: "Please fill all fields!", title: "Alert", vc: self)
                     return
             }
             
             //check pass1 is equal pass2
             guard txtFieldPass1 != txtFieldPass2 else{
-               UsefullFunctions.showAlert(text: "Entered passwords are diffrent!", title: "Pass Error", vc: self)
+               showAlert(text: "Entered passwords are diffrent!", title: "Pass Error", vc: self)
                 return
             }
             

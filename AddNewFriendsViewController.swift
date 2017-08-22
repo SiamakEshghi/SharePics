@@ -18,7 +18,7 @@ class AddNewFriendsViewController: UIViewController {
     @IBOutlet weak var txtEmail: UITextField!
     
     @IBAction func btncCloseTapped(_ sender: UIButton) {
-       UsefullFunctions.removeAnimate(vc: self)
+       removeAnimate(vc: self)
        
         self.view.removeFromSuperview()
     }
@@ -31,7 +31,7 @@ class AddNewFriendsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-       UsefullFunctions.showAnimate(vc: self)
+       showAnimate(vc: self)
        self.view.backgroundColor = UIColor.black.withAlphaComponent(0.7)
     }
 
@@ -56,13 +56,13 @@ class AddNewFriendsViewController: UIViewController {
                             let friendRef = Database.database().reference().child("users").child(uid!).child("friends")
                             friendRef.updateChildValues([friendId:email!])
                             
-                            UsefullFunctions.showAlert(text: "New friend is added successfully!", title: "Success", vc: self)
+                            showAlert(text: "New friend is added successfully!", title: "Success", vc: self)
                             self.txtEmail.text = ""
                         }
                     }
                     
             }else{
-                UsefullFunctions.showAlert(text: "The email is not existed!", title: "Not Found", vc: self)
+                showAlert(text: "The email is not existed!", title: "Not Found", vc: self)
             }
         }, withCancel: nil)
     }

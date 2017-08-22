@@ -9,6 +9,7 @@
 import UIKit
 import FirebaseDatabase
 import Kingfisher
+import SVProgressHUD
 
 
 class SelectedEventViewController: UIViewController,UICollectionViewDelegate,UICollectionViewDataSource {
@@ -43,38 +44,31 @@ class SelectedEventViewController: UIViewController,UICollectionViewDelegate,UIC
     }
 
     override func viewWillAppear(_ animated: Bool) {
-        
-      
-        
-         //   self.tappedPhotoImageView?.kf.setImage(with: URL(string: self.photosUrls[0]))
-        
+        SVProgressHUD.show()
+        self.photosUrls.removeAll()
+        self.fetchEvent()
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        self.photosUrls.removeAll()
-        self.collectionView.reloadData()
-       
-            self.fetchEvent()
-        
-        
-        
-    }
+
     //MARK: -FETCH CURRENT EVENT
     func fetchEvent() {
       
-        let eventRef = Database.database().reference().child("events").child(self.id!)
-        var name: String?
-        eventRef.observe(.value, with: { (snapshot) in
-            if let dictionary = snapshot.value as? [String:AnyObject]{
-                name = dictionary["name"] as? String
-                
-               DispatchQueue.main.async {
-                    self.currentEvent.name = name
-                    self.navBar.topItem?.title = name
+        DispatchQueue.global(qos: .userInitiated).async {
+            let eventRef = Database.database().reference().child("events").child(self.id!)
+            var name: String?
+            eventRef.observe(.value, with: { (snapshot) in
+                if let dictionary = snapshot.value as? [String:AnyObject]{
+                    name = dictionary["name"] as? String
+                    
+                    DispatchQueue.main.async {
+                        self.currentEvent.name = name
+                        self.navBar.topItem?.title = name
+                    }
+                    self.fetchPhotos()
                 }
-                self.fetchPhotos()
-            }
-        }, withCancel: nil)
+            }, withCancel: nil)
+        }
+        
     }
     
     //MARK: -FETCH PHOTOS
@@ -82,14 +76,23 @@ class SelectedEventViewController: UIViewController,UICollectionViewDelegate,UIC
         let ref = Database.database().reference().child("event-photos").child(self.id!)
         
         ref.observe(.value, with: { (snapshot) in
-            if let dictionary = snapshot.value{
-                for (_,value) in dictionary as! [String:String]{
+            
+            if let dictionary = snapshot.value as? [String:String]{
+                
+                let group = DispatchGroup()
+                for (_,value) in dictionary {
+                    group.enter()
                     self.photosUrls.append(value)
-                    DispatchQueue.main.async {
-                        self.collectionView.reloadData()
-                    }
-                }
+                    group.leave()
+                   }
+                group.notify(queue: .main, execute: {
+                    self.collectionView.reloadData()
+                    SVProgressHUD.dismiss()
+                })
+            }else{
+                SVProgressHUD.dismiss()
             }
+            
         }, withCancel: nil)
     }
     
@@ -118,7 +121,6 @@ class SelectedEventViewController: UIViewController,UICollectionViewDelegate,UIC
        let selectedPhotoUrl = photosUrls[indexPath.row]
         
        self.tappedPhotoImageView?.kf.setImage(with: URL(string: selectedPhotoUrl))
-        
         
     }
     

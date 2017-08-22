@@ -9,6 +9,7 @@
 import UIKit
 import FirebaseAuth
 import FirebaseDatabase
+import SVProgressHUD
 
 
 class AddNewEventsViewController: UIViewController,UITableViewDelegate,UITableViewDataSource {
@@ -23,7 +24,7 @@ class AddNewEventsViewController: UIViewController,UITableViewDelegate,UITableVi
     @IBOutlet weak var txtEventName: UITextField!
     
     @IBAction func btnCancell(_ sender: UIButton) {
-        UsefullFunctions.removeAnimate(vc: self)
+        removeAnimate(vc: self)
         self.view.removeFromSuperview()
     }
     @IBAction func btnAdd(_ sender: UIButton) {
@@ -32,9 +33,10 @@ class AddNewEventsViewController: UIViewController,UITableViewDelegate,UITableVi
     }
     
     override func viewDidLoad() {
+        SVProgressHUD.show()
         super.viewDidLoad()
         self.hideKeyboardWhenTappedAround()
-        UsefullFunctions.showAnimate(vc: self)
+        showAnimate(vc: self)
         self.view.backgroundColor = UIColor.black.withAlphaComponent(0.5)
         tableView.delegate = self
         tableView.dataSource = self
@@ -78,7 +80,7 @@ class AddNewEventsViewController: UIViewController,UITableViewDelegate,UITableVi
         let ref = Database.database().reference().child("events")
         let eventdRef = ref.childByAutoId()
         guard txtEventName.text != "" else {
-            UsefullFunctions.showAlert(text: "Please enter name of event!", title: "Alert", vc: self)
+            showAlert(text: "Please enter name of event!", title: "Alert", vc: self)
             return
         }
         eventdRef.updateChildValues(["name":txtEventName.text!])
@@ -95,7 +97,7 @@ class AddNewEventsViewController: UIViewController,UITableViewDelegate,UITableVi
             let userEventRef = Database.database().reference().child("user-events").child(friendId)
             userEventRef.updateChildValues([eventId:1])
         }
-        UsefullFunctions.removeAnimate(vc: self)
+        removeAnimate(vc: self)
         self.view.removeFromSuperview()
     }
     
@@ -104,15 +106,16 @@ class AddNewEventsViewController: UIViewController,UITableViewDelegate,UITableVi
     func fetchFriends() {
         let uid = Auth.auth().currentUser?.uid
         let refFriendList = Database.database().reference().child("users").child(uid!).child("friends")
-        refFriendList.observe(.childAdded, with: { (snapshot) in
-            
-            let friendKey = snapshot.key
-            self.friendsId.append(friendKey)
-            
-            DispatchQueue.main.async {
+        DispatchQueue.global(qos: .userInitiated).async {
+            refFriendList.observe(.childAdded, with: { (snapshot) in
+                
+                let friendKey = snapshot.key
+                self.friendsId.append(friendKey)
                 self.tableView.reloadData()
-            }
-        }, withCancel: nil)
+               
+            }, withCancel: nil)
+        }
+        
     }
 
 }

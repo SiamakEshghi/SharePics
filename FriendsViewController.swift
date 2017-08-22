@@ -11,6 +11,7 @@ import FirebaseAuth
 import FirebaseDatabase
 import FirebaseStorage
 import Kingfisher
+import SVProgressHUD
 
 class FriendsViewController: UIViewController,UITableViewDelegate,UITableViewDataSource{
 
@@ -41,10 +42,11 @@ override func viewDidLoad() {
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        SVProgressHUD.show()
         self.friendsId.removeAll()
         self.tableView.reloadData()
         DispatchQueue.global(qos: .userInitiated).async {
-             self.fetchFriends()
+           fetchFriends(ids:self.friendsId,tableview:self.tableView)
         }
        
     }
@@ -68,18 +70,36 @@ override func viewDidLoad() {
     }
     
    
- 
-    //MARK: -FETCH FRIENDS FROM DATABASE
-    func fetchFriends() {
-        let uid = Auth.auth().currentUser?.uid
-        let refFriendList = Database.database().reference().child("users").child(uid!).child("friends")
-        refFriendList.observe(.childAdded, with: { (snapshot) in
-            
-            let friendKey = snapshot.key
-            self.friendsId.append(friendKey)
-           DispatchQueue.main.async {
-                self.tableView.reloadData()
-            }
-        }, withCancel: nil)
-    }
 }
+
+
+    
+    
+//    func fetchFriends() {
+//        let group = DispatchGroup()
+//        
+//        let uid = Auth.auth().currentUser?.uid
+//        let refFriendList = Database.database().reference().child("users").child(uid!).child("friends")
+//        
+//        
+//            refFriendList.observe(.value, with: { (snapshot) in
+//                
+//                if let dictionary = snapshot.value as? [String:AnyObject]{
+//                    self.friendsId.removeAll()
+//                    
+//                    for (key, _ ) in dictionary {
+//                        group.enter()
+//                        self.friendsId.append(key)
+//                        group.leave()
+//                    }
+//                    group.notify(queue: .main, execute: {
+//                        self.tableView.reloadData()
+//                        SVProgressHUD.dismiss()
+//                    })
+//                }
+//                
+//            }, withCancel: nil)
+//       
+//        
+//    }
+//}

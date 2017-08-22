@@ -8,6 +8,7 @@
 
 import UIKit
 import FirebaseDatabase
+import SVProgressHUD
 
 class EventsViewController: UIViewController ,UICollectionViewDelegate,UICollectionViewDataSource{
 
@@ -18,8 +19,6 @@ class EventsViewController: UIViewController ,UICollectionViewDelegate,UICollect
     @IBOutlet weak var NavBar: UINavigationItem!
     
     @IBOutlet weak var collectionView: UICollectionView!
-    
-    @IBOutlet weak var spinner: UIActivityIndicatorView!
    
   
     @IBAction func btnAddEvent(_ sender: UIBarButtonItem) {
@@ -37,10 +36,8 @@ class EventsViewController: UIViewController ,UICollectionViewDelegate,UICollect
         collectionView.dataSource = self
         }
     
-    override func viewWillAppear(_ animated: Bool) {
-        self.spinner.startAnimating()
-        self.eventsIds.removeAll()
-        self.collectionView.reloadData()
+    override func viewDidAppear(_ animated: Bool) {
+        SVProgressHUD.show()
         prepareEventsController()
         }
     
