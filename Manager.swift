@@ -12,6 +12,8 @@ import FirebaseDatabase
 import SVProgressHUD
 
 
+    //MARK: -PUBLIC PROPERTIES
+    public var friendsId = [String]()
     
     //MARK: -ALERT
     public  func showAlert(text:String,title:String,vc:UIViewController)  {
@@ -64,10 +66,9 @@ extension UIViewController {
 }
 
 //MARK: -FETCH FRIENDS FROM DATABASE
-public func fetchFriends(ids:[String],tableview:UITableView) {
-    let group = DispatchGroup()
-    var friendIds = ids
+public func fetchFriends(tableview:UITableView) {
     
+    let group = DispatchGroup()
     let uid = Auth.auth().currentUser?.uid
     let refFriendList = Database.database().reference().child("users").child(uid!).child("friends")
     
@@ -75,11 +76,11 @@ public func fetchFriends(ids:[String],tableview:UITableView) {
     refFriendList.observe(.value, with: { (snapshot) in
         
         if let dictionary = snapshot.value as? [String:AnyObject]{
-            friendIds.removeAll()
+            friendsId.removeAll()
             
             for (key, _ ) in dictionary {
                 group.enter()
-                friendIds.append(key)
+                friendsId.append(key)
                 group.leave()
             }
             group.notify(queue: .main, execute: {

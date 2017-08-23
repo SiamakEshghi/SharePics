@@ -15,7 +15,6 @@ import SVProgressHUD
 class AddNewEventsViewController: UIViewController,UITableViewDelegate,UITableViewDataSource {
 
     //MARK: -PROPERTIES
-    var friendsId = [String]()
     var selectedFriendsIds = [String]()
     
     //MARK: -OUTLETS AND ACTIONS
@@ -40,7 +39,7 @@ class AddNewEventsViewController: UIViewController,UITableViewDelegate,UITableVi
         self.view.backgroundColor = UIColor.black.withAlphaComponent(0.5)
         tableView.delegate = self
         tableView.dataSource = self
-        fetchFriends()
+        fetchFriends(tableview: self.tableView)
         }
 
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -101,21 +100,7 @@ class AddNewEventsViewController: UIViewController,UITableViewDelegate,UITableVi
         self.view.removeFromSuperview()
     }
     
-
-    //MARK: -FETCH FRIENDS FROM DATABASE
-    func fetchFriends() {
-        let uid = Auth.auth().currentUser?.uid
-        let refFriendList = Database.database().reference().child("users").child(uid!).child("friends")
-        DispatchQueue.global(qos: .userInitiated).async {
-            refFriendList.observe(.childAdded, with: { (snapshot) in
-                
-                let friendKey = snapshot.key
-                self.friendsId.append(friendKey)
-                self.tableView.reloadData()
-               
-            }, withCancel: nil)
-        }
-        
-    }
-
 }
+
+
+

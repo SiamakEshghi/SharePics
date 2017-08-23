@@ -16,8 +16,7 @@ import SVProgressHUD
 class FriendsViewController: UIViewController,UITableViewDelegate,UITableViewDataSource{
 
     
-    //MARK: -PROPERTIES
-    var friendsId = [String]()
+  
     
    //MARK: -OUTLETS AND ACTIONS
     
@@ -43,11 +42,7 @@ override func viewDidLoad() {
     
     override func viewWillAppear(_ animated: Bool) {
         SVProgressHUD.show()
-        self.friendsId.removeAll()
-        self.tableView.reloadData()
-        DispatchQueue.global(qos: .userInitiated).async {
-           fetchFriends(ids:self.friendsId,tableview:self.tableView)
-        }
+        fetchFriends(tableview: self.tableView)
        
     }
 
@@ -69,37 +64,5 @@ override func viewDidLoad() {
         return cell
     }
     
-   
+
 }
-
-
-    
-    
-//    func fetchFriends() {
-//        let group = DispatchGroup()
-//        
-//        let uid = Auth.auth().currentUser?.uid
-//        let refFriendList = Database.database().reference().child("users").child(uid!).child("friends")
-//        
-//        
-//            refFriendList.observe(.value, with: { (snapshot) in
-//                
-//                if let dictionary = snapshot.value as? [String:AnyObject]{
-//                    self.friendsId.removeAll()
-//                    
-//                    for (key, _ ) in dictionary {
-//                        group.enter()
-//                        self.friendsId.append(key)
-//                        group.leave()
-//                    }
-//                    group.notify(queue: .main, execute: {
-//                        self.tableView.reloadData()
-//                        SVProgressHUD.dismiss()
-//                    })
-//                }
-//                
-//            }, withCancel: nil)
-//       
-//        
-//    }
-//}
