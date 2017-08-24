@@ -36,7 +36,7 @@ class EventsViewController: UIViewController ,UICollectionViewDelegate,UICollect
         collectionView.dataSource = self
         }
     
-    override func viewDidAppear(_ animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         SVProgressHUD.show()
         prepareEventsController()
         }
