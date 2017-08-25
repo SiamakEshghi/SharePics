@@ -247,7 +247,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5V9-VA-Qkv" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2474" y="-931"/>
+            <point key="canvasLocation" x="3390" y="-1109"/>
         </scene>
         <!--Photo View Controller-->
         <scene sceneID="yye-LN-hE5">
@@ -307,7 +307,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="m5x-PH-P3N" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3537" y="-931"/>
+            <point key="canvasLocation" x="4338" y="-1110"/>
         </scene>
         <!--Selected Event View Controller-->
         <scene sceneID="aFi-4k-TvP">
@@ -339,7 +339,7 @@
                                 </items>
                             </toolbar>
                             <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="L2Z-8B-WTh">
-                                <rect key="frame" x="0.0" y="40" width="375" height="44"/>
+                                <rect key="frame" x="0.0" y="84" width="375" height="44"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="44" id="fPD-Qt-Clz"/>
                                 </constraints>
@@ -355,13 +355,13 @@
                                 </items>
                             </navigationBar>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="HUi-Rv-bg2">
-                                <rect key="frame" x="-0.5" y="84" width="375" height="525"/>
+                                <rect key="frame" x="-0.5" y="128" width="375" height="481"/>
                                 <subviews>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="FpH-B2-PDg">
-                                        <rect key="frame" x="0.0" y="0.0" width="375" height="262.5"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="375" height="240.5"/>
                                     </imageView>
                                     <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="qT6-HW-nqb">
-                                        <rect key="frame" x="0.0" y="262.5" width="375" height="262.5"/>
+                                        <rect key="frame" x="0.0" y="240.5" width="375" height="240.5"/>
                                         <color key="backgroundColor" red="0.0" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                         <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="6To-2f-wOC">
                                             <size key="itemSize" width="137" height="146"/>
@@ -441,6 +441,7 @@
                             <constraint firstItem="L2Z-8B-WTh" firstAttribute="top" secondItem="AZe-z8-cEg" secondAttribute="bottom" constant="20" id="kmL-Ce-hSX"/>
                         </constraints>
                     </view>
+                    <navigationItem key="navigationItem" id="h0W-BK-qzg"/>
                     <connections>
                         <outlet property="collectionView" destination="qT6-HW-nqb" id="XUm-VB-fRR"/>
                         <outlet property="navBar" destination="L2Z-8B-WTh" id="jhX-15-kFk"/>
@@ -449,7 +450,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="xaf-Pw-ItF" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1613.5999999999999" y="-931.48425787106453"/>
+            <point key="canvasLocation" x="2522" y="-1110"/>
         </scene>
         <!--Events-->
         <scene sceneID="H9j-WV-d07">
@@ -534,7 +535,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="2zq-bs-ozb" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2520.8000000000002" y="-313.49325337331339"/>
+            <point key="canvasLocation" x="2996" y="-275"/>
         </scene>
         <!--Add New Events View Controller-->
         <scene sceneID="qRk-Bf-GoH">
@@ -644,7 +645,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4Gg-9i-mkO" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3501.5999999999999" y="-312.59370314842579"/>
+            <point key="canvasLocation" x="3822" y="-276"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="lNa-wd-fNf">

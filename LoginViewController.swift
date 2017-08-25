@@ -7,6 +7,7 @@
 //
 import UIKit
 import AVFoundation
+import SVProgressHUD
 
 class LoginViewController: UIViewController {
     
@@ -45,11 +46,11 @@ class LoginViewController: UIViewController {
    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         self.hideKeyboardWhenTappedAround()
         setupVideoBackground()
         hiddensHandles()
         addProfileImage()
+        SVProgressHUD.dismiss()
        }
    
   }

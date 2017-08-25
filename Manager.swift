@@ -10,6 +10,7 @@ import UIKit
 import FirebaseAuth
 import FirebaseDatabase
 import SVProgressHUD
+import Kingfisher
 
 
     //MARK: -PUBLIC PROPERTIES
@@ -92,4 +93,45 @@ public func fetchFriends(tableview:UITableView) {
     }, withCancel: nil)
     
     
+}
+
+
+//MARK: -Delay Function
+
+func delayWithSeconds(_ seconds: Double, completion: @escaping () -> ()) {
+    DispatchQueue.main.asyncAfter(deadline: .now() + seconds) {
+        completion()
+    }
+}
+
+
+//MARK: -Image Extension
+
+let imageCache = NSCache<AnyObject, AnyObject>()
+
+extension UIImageView {
+    public func imageFromUrl(urlString: String) {
+        
+        if let cachedImage = imageCache.object(forKey: urlString as AnyObject) as? UIImage{
+            self.image = cachedImage
+            return
+        }
+        
+        let url = NSURL(string: urlString)
+        URLSession.shared.dataTask(with: url! as URL, completionHandler: { (data, response, error) in
+            if error != nil {
+                print(error!.localizedDescription)
+                return
+            }
+            DispatchQueue.main.async {
+                if let downloadedImage = UIImage(data: data!){
+                    imageCache.setObject(downloadedImage, forKey: urlString as AnyObject)
+                    self.image = downloadedImage
+                }
+            }
+            
+        }).resume()
+        
+        
+    }
 }

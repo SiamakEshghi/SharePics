@@ -8,7 +8,6 @@
 
 import UIKit
 import FirebaseDatabase
-import Kingfisher
 import SVProgressHUD
 
 
@@ -40,15 +39,16 @@ class SelectedEventViewController: UIViewController,UICollectionViewDelegate,UIC
         super.viewDidLoad()
         collectionView.delegate = self
         collectionView.dataSource = self
-        collectionView.reloadData()
-    }
+       }
 
     override func viewWillAppear(_ animated: Bool) {
-        SVProgressHUD.show()
         self.photosUrls.removeAll()
         self.fetchEvent()
     }
-    
+    override func viewDidAppear(_ animated: Bool) {
+        SVProgressHUD.show()
+        fetchPhotos()
+    }
 
     //MARK: -FETCH CURRENT EVENT
     func fetchEvent() {
@@ -64,7 +64,7 @@ class SelectedEventViewController: UIViewController,UICollectionViewDelegate,UIC
                         self.currentEvent.name = name
                         self.navBar.topItem?.title = name
                     }
-                    self.fetchPhotos()
+                   
                 }
             }, withCancel: nil)
         }
@@ -81,14 +81,18 @@ class SelectedEventViewController: UIViewController,UICollectionViewDelegate,UIC
                 
                 let group = DispatchGroup()
                 for (_,value) in dictionary {
+                
                     group.enter()
+                    if self.photosUrls.contains(value) == false{
                     self.photosUrls.append(value)
+                    }
                     group.leave()
-                   }
+                  
+                }
                 group.notify(queue: .main, execute: {
                     self.collectionView.reloadData()
                     SVProgressHUD.dismiss()
-                })
+                    })
             }else{
                 SVProgressHUD.dismiss()
             }
@@ -107,20 +111,20 @@ class SelectedEventViewController: UIViewController,UICollectionViewDelegate,UIC
         return (photosUrls.count)
     }
     
+    
+    
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "PhotoCell", for: indexPath) as! PhotosCollectionViewCell
         
         let url = photosUrls[indexPath.row]
         cell.photoUrl = url
-        
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
        let selectedPhotoUrl = photosUrls[indexPath.row]
-        
-       self.tappedPhotoImageView?.kf.setImage(with: URL(string: selectedPhotoUrl))
+       self.tappedPhotoImageView?.imageFromUrl(urlString: selectedPhotoUrl)
         
     }
     
@@ -136,5 +140,7 @@ class SelectedEventViewController: UIViewController,UICollectionViewDelegate,UIC
         let size = Int((collectionView.bounds.width - totalSpace) / CGFloat(3))
         return CGSize(width: size, height: size)
     }
+    
+}
 
-   }
+

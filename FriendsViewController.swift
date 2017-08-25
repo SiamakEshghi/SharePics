@@ -10,7 +10,6 @@ import UIKit
 import FirebaseAuth
 import FirebaseDatabase
 import FirebaseStorage
-import Kingfisher
 import SVProgressHUD
 
 class FriendsViewController: UIViewController,UITableViewDelegate,UITableViewDataSource{

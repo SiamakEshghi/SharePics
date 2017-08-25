@@ -27,6 +27,7 @@ class PhotoViewController: UIViewController {
     }
 
     @IBAction func btnOKTapped(_ sender: UIBarButtonItem) {
+        
         self.savePhoto()
         self.dismiss(animated: true, completion: nil)
     }

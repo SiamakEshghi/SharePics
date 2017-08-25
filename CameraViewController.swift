@@ -8,6 +8,7 @@
 
 import UIKit
 import AVFoundation
+import SVProgressHUD
 
 class CameraViewController: UIViewController,AVCaptureVideoDataOutputSampleBufferDelegate {
     
@@ -26,6 +27,7 @@ class CameraViewController: UIViewController,AVCaptureVideoDataOutputSampleBuffe
     }
     
     @IBAction func backBtn(_ sender: UIBarButtonItem) {
+        SVProgressHUD.show()
         self.dismiss(animated: true, completion: nil)
     }
 
