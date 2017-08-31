@@ -11,31 +11,9 @@ import AVFoundation
 import FirebaseAuth
 import FirebaseDatabase
 import FirebaseStorage
+import SVProgressHUD
 
 extension LoginViewController: UIImagePickerControllerDelegate,UINavigationControllerDelegate{
-    
-    
-    //Mark: -VIDEO IN BACKGROUN
-    func setupVideoBackground()  {
-        let URL = Bundle.main.url(forResource: "bluefire", withExtension: "mp4")
-        
-        Player = AVPlayer.init(url:URL!)
-        
-        PlayerLayer = AVPlayerLayer(player: Player)
-        PlayerLayer.videoGravity = AVLayerVideoGravityResizeAspectFill
-        PlayerLayer.frame = view.layer.frame
-        
-        Player.actionAtItemEnd = AVPlayerActionAtItemEnd.none
-        Player.play()
-        
-        view.layer.insertSublayer(PlayerLayer, at: 0)
-        
-        NotificationCenter.default.addObserver(self, selector: #selector(playerItemReachEnd(notification:)), name: NSNotification.Name.AVPlayerItemDidPlayToEndTime, object: Player.currentItem)
-    }
-    
-    func playerItemReachEnd(notification:NSNotification) {
-        Player.seek(to: kCMTimeZero)
-    }
     
     
     //MARK: -TEXTFIELDS
@@ -43,8 +21,8 @@ extension LoginViewController: UIImagePickerControllerDelegate,UINavigationContr
     func hiddensHandles()  {
         txtFieldName.isHidden = true
         txtFieldPass2.isHidden = true
-        imageViewProfile.isHidden = true
-    }
+        imageViewProfile.image = #imageLiteral(resourceName: "welcom")
+        }
     
     
     
@@ -53,13 +31,18 @@ extension LoginViewController: UIImagePickerControllerDelegate,UINavigationContr
         isSignIn = !isSignIn
         
         if isSignIn{
+            imageViewProfile.isUserInteractionEnabled = false
             btnSignIn.setTitle("SignIn", for: .normal)
             hiddensHandles()
+            parentStackView.distribution = .fillProportionally
+            
         }else{
+            addProfileImage()
             btnSignIn.setTitle("Register", for: .normal)
             txtFieldName.isHidden = false
             txtFieldPass2.isHidden = false
-            imageViewProfile.isHidden = false
+            imageViewProfile.image =  #imageLiteral(resourceName: "NoOne")
+            parentStackView.distribution = .fillEqually
         }
     }
     
@@ -107,8 +90,10 @@ extension LoginViewController: UIImagePickerControllerDelegate,UINavigationContr
         
         //sign in
         if isSignIn{
+            SVProgressHUD.show()
             Auth.auth().signIn(withEmail: txtFieldEmail.text!, password: txtFieldPass1.text!, completion: { (user, error) in
                 if error != nil{
+                    SVProgressHUD.dismiss()
                     showAlert(text: "User name or Password are not correct!", title: "Error", vc: self)
                 }else{
                     self.dismiss(animated: true, completion: nil)
@@ -125,9 +110,7 @@ extension LoginViewController: UIImagePickerControllerDelegate,UINavigationContr
                         return
                     }
                     
-                   
-                    
-                    //create a unic name for image
+                 //create a unic name for image
                     let imageName = NSUUID().uuidString
                     let storgaeRef = Storage.storage().reference().child("Profile_Images").child("\(imageName).jpg")
                     

@@ -11,11 +11,16 @@ import FirebaseAuth
 import FirebaseDatabase
 import SVProgressHUD
 import Kingfisher
+import AVFoundation
 
 
     //MARK: -PUBLIC PROPERTIES
     public var friendsId = [String]()
-    
+    var PlayerLayer: AVPlayerLayer!
+    var Player: AVPlayer!
+
+
+
     //MARK: -ALERT
     public  func showAlert(text:String,title:String,vc:UIViewController)  {
         let alert = UIAlertController(title: title, message: text, preferredStyle: UIAlertControllerStyle.alert)
@@ -106,7 +111,6 @@ func delayWithSeconds(_ seconds: Double, completion: @escaping () -> ()) {
 
 
 //MARK: -Image Extension
-
 let imageCache = NSCache<AnyObject, AnyObject>()
 
 extension UIImageView {
@@ -135,3 +139,5 @@ extension UIImageView {
         
     }
 }
+
+

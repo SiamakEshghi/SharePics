@@ -44,7 +44,8 @@ override func viewDidLoad() {
         fetchFriends(tableview: self.tableView)
        
     }
-
+   
+    
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }

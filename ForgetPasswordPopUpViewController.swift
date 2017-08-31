@@ -17,11 +17,10 @@ class ForgetPasswordPopUpViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         showAnimate(vc: self)
         self.view.backgroundColor = UIColor.black.withAlphaComponent(0.5)
-       
-    }
+       }
+    
     
    //MARK: -OUTLETS AND ACTIONS
     

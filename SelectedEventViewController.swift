@@ -19,6 +19,7 @@ class SelectedEventViewController: UIViewController,UICollectionViewDelegate,UIC
     var photosUrls = [String]()
     
     
+    
     //MARK: -OUTLETS AND ACTIONS
     
     @IBOutlet weak var tappedPhotoImageView: UIImageView!
@@ -92,7 +93,8 @@ class SelectedEventViewController: UIViewController,UICollectionViewDelegate,UIC
                 group.notify(queue: .main, execute: {
                     self.collectionView.reloadData()
                     SVProgressHUD.dismiss()
-                    })
+                    self.tappedPhotoImageView?.imageFromUrl(urlString: self.photosUrls[0])
+                   })
             }else{
                 SVProgressHUD.dismiss()
             }
@@ -107,18 +109,29 @@ class SelectedEventViewController: UIViewController,UICollectionViewDelegate,UIC
     
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of items
         return (photosUrls.count)
     }
     
     
-    
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "PhotoCell", for: indexPath) as! PhotosCollectionViewCell
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "PhotoCell", for: indexPath) as! PhotosCell
+        
+        // add a border
+        cell.layer.borderColor = UIColor.black.cgColor
+        cell.layer.borderWidth = 3
+        cell.layer.cornerRadius = 8 // optional
         
         let url = photosUrls[indexPath.row]
         cell.photoUrl = url
+    
         return cell
+    }
+    
+    func scrollViewWillBeginDecelerating(_ scrollView: UIScrollView) {
+         SVProgressHUD.show()
+    }
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+       SVProgressHUD.dismiss()
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
@@ -128,18 +141,6 @@ class SelectedEventViewController: UIViewController,UICollectionViewDelegate,UIC
         
     }
     
-    //add 3 cell for each row
-    func collectionView(collectionView: UICollectionView,
-                        layout collectionViewLayout: UICollectionViewLayout,
-                        sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
-        
-        let flowLayout = collectionViewLayout as! UICollectionViewFlowLayout
-        let totalSpace = flowLayout.sectionInset.left
-            + flowLayout.sectionInset.right
-            + (flowLayout.minimumInteritemSpacing * CGFloat(3 - 1))
-        let size = Int((collectionView.bounds.width - totalSpace) / CGFloat(3))
-        return CGSize(width: size, height: size)
-    }
     
 }
 

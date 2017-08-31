@@ -12,10 +12,7 @@ import SVProgressHUD
 class LoginViewController: UIViewController {
     
     //MARK: -PROPERTIES
-    var Player: AVPlayer!
-    var PlayerLayer: AVPlayerLayer!
     var isSignIn = true
-    
     
     //MARK: -OUTLETS AND ACTIONS
     @IBOutlet weak var txtFieldName: UITextField!
@@ -29,6 +26,8 @@ class LoginViewController: UIViewController {
     @IBOutlet weak var btnSignIn: UIButton!
     
     @IBOutlet weak var imageViewProfile: UIImageView!
+    
+    @IBOutlet weak var parentStackView: UIStackView!
     
     
     @IBAction func segmentAction(_ sender: UISegmentedControl) {
@@ -47,9 +46,9 @@ class LoginViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.hideKeyboardWhenTappedAround()
+        parentStackView.distribution = .fillProportionally
         setupVideoBackground()
         hiddensHandles()
-        addProfileImage()
         SVProgressHUD.dismiss()
        }
    

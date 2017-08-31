@@ -40,6 +40,7 @@ class EventsViewController: UIViewController ,UICollectionViewDelegate,UICollect
         SVProgressHUD.show()
         prepareEventsController()
         }
+   
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 1
