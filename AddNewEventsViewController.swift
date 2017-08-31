@@ -36,7 +36,7 @@ class AddNewEventsViewController: UIViewController,UITableViewDelegate,UITableVi
         super.viewDidLoad()
         self.hideKeyboardWhenTappedAround()
         showAnimate(vc: self)
-        self.view.backgroundColor = UIColor.black.withAlphaComponent(0.5)
+        self.view.backgroundColor = UIColor.black.withAlphaComponent(0.9)
         tableView.delegate = self
         tableView.dataSource = self
         fetchFriends(tableview: self.tableView)
