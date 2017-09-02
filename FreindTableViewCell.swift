@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import Kingfisher
 import FirebaseDatabase
 
 class FreindTableViewCell: UITableViewCell {
@@ -34,7 +33,7 @@ class FreindTableViewCell: UITableViewCell {
                         
                         DispatchQueue.main.async {
                             self.labelFriendName.text = name
-                            self.friendImage?.kf.setImage(with: URL(string: profilImageUrl))
+                            self.friendImage?.imageFromUrl(urlString: profilImageUrl)
                         }
                         
                     }

@@ -30,7 +30,7 @@ class SelectedEventViewController: UIViewController,UICollectionViewDelegate,UIC
     }
     
     @IBAction func cameraBTN(_ sender: UIBarButtonItem) {
-        let CameraVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "CameraVC") as! CameraViewController
+        let CameraVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "CameraVC") as! CameraController
         CameraVC.eventId = self.id
         self.present(CameraVC, animated: true, completion: nil)
     }
@@ -91,7 +91,8 @@ class SelectedEventViewController: UIViewController,UICollectionViewDelegate,UIC
                   
                 }
                 group.notify(queue: .main, execute: {
-                    self.collectionView.reloadData()
+                    
+                   self.collectionView.reloadData()
                     SVProgressHUD.dismiss()
                     self.tappedPhotoImageView?.imageFromUrl(urlString: self.photosUrls[0])
                    })
@@ -116,7 +117,7 @@ class SelectedEventViewController: UIViewController,UICollectionViewDelegate,UIC
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "PhotoCell", for: indexPath) as! PhotosCell
         
-        // add a border
+        // add a border to cell
         cell.layer.borderColor = UIColor.black.cgColor
         cell.layer.borderWidth = 3
         cell.layer.cornerRadius = 8 // optional

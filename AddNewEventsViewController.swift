@@ -24,7 +24,8 @@ class AddNewEventsViewController: UIViewController,UITableViewDelegate,UITableVi
     
     @IBAction func btnCancell(_ sender: UIButton) {
         removeAnimate(vc: self)
-        self.view.removeFromSuperview()
+        self.dismiss(animated: true, completion: nil)
+        
     }
     @IBAction func btnAdd(_ sender: UIButton) {
         addNewEvent()
@@ -97,7 +98,7 @@ class AddNewEventsViewController: UIViewController,UITableViewDelegate,UITableVi
             userEventRef.updateChildValues([eventId:1])
         }
         removeAnimate(vc: self)
-        self.view.removeFromSuperview()
+        self.dismiss(animated: true, completion: nil)
     }
     
 }

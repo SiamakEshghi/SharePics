@@ -35,6 +35,11 @@ class PhotoViewController: UIViewController {
         super.viewDidLoad()
        
         if let availableImage = takenPhoto {
+            
+            if UIDevice.current.orientation.isLandscape{
+                imageView.transform = imageView.transform.rotated(by: CGFloat(-Double.pi/2))
+                imageView.contentMode = .scaleAspectFit
+                }
             imageView.image = availableImage
         }
      

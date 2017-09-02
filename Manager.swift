@@ -10,7 +10,6 @@ import UIKit
 import FirebaseAuth
 import FirebaseDatabase
 import SVProgressHUD
-import Kingfisher
 import AVFoundation
 
 

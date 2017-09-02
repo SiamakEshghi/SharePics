@@ -55,6 +55,11 @@ class EventsViewController: UIViewController ,UICollectionViewDelegate,UICollect
      func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "eventCell", for: indexPath) as! EventCollectionViewCell
         
+        // add a border to cell
+        cell.layer.borderColor = UIColor.black.cgColor
+        cell.layer.borderWidth = 3
+        cell.layer.cornerRadius = 8 // optional
+        
         let id = eventsIds[indexPath.row]
         cell.eventId = id
         
@@ -69,19 +74,6 @@ class EventsViewController: UIViewController ,UICollectionViewDelegate,UICollect
         present(oneEventVC, animated: true, completion: nil)
         
         
-    }
-    
-    //add 3 cell for each row  
-    func collectionView(collectionView: UICollectionView,
-                        layout collectionViewLayout: UICollectionViewLayout,
-                        sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
-        
-        let flowLayout = collectionViewLayout as! UICollectionViewFlowLayout
-        let totalSpace = flowLayout.sectionInset.left
-            + flowLayout.sectionInset.right
-            + (flowLayout.minimumInteritemSpacing * CGFloat(3 - 1))
-        let size = Int((collectionView.bounds.width - totalSpace) / CGFloat(3))
-        return CGSize(width: size, height: size)
     }
     
     
