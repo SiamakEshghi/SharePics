@@ -37,8 +37,7 @@ class EventsViewController: UIViewController ,UICollectionViewDelegate,UICollect
         }
     
     override func viewWillAppear(_ animated: Bool) {
-        SVProgressHUD.show()
-        prepareEventsController()
+         prepareEventsController()
         }
    
     
@@ -73,8 +72,7 @@ class EventsViewController: UIViewController ,UICollectionViewDelegate,UICollect
             oneEventVC.id = id
         present(oneEventVC, animated: true, completion: nil)
         
-        
-    }
+        }
     
     
 }

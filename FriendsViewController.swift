@@ -36,7 +36,6 @@ class FriendsViewController: UIViewController,UITableViewDelegate,UITableViewDat
 override func viewDidLoad() {
         tableView.delegate = self
         tableView.dataSource = self
-    
     }
     
     override func viewWillAppear(_ animated: Bool) {

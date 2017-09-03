@@ -79,6 +79,8 @@ extension EventsViewController {
                     self.collectionView.reloadData()
                     SVProgressHUD.dismiss()
                 })
+            }else{
+                SVProgressHUD.dismiss()
             }
             
         }, withCancel: nil)

@@ -15,6 +15,7 @@ class PhotoViewController: UIViewController {
     //MARK: -PROPERTIES
     var takenPhoto: UIImage?
     var eventId: String?
+    var photo: UIImage?
     
     
     //MARK: -OUTLETS AND ACTIONS
@@ -36,20 +37,24 @@ class PhotoViewController: UIViewController {
        
         if let availableImage = takenPhoto {
             
+            
             if UIDevice.current.orientation.isLandscape{
                 imageView.transform = imageView.transform.rotated(by: CGFloat(-Double.pi/2))
                 imageView.contentMode = .scaleAspectFit
                 }
             imageView.image = availableImage
+            photo = availableImage
         }
      
     }
     
     //MARK: -SAVE PHOTO INTO FIREBASE STORAGE
     func savePhoto()  {
+  
         let photoName = NSUUID().uuidString
         let storageref = Storage.storage().reference().child("event-photos").child("\(photoName).jpg")
-        if let photo = imageView.image , let uploadData = UIImageJPEGRepresentation(photo, 0.1){
+        
+        if  let uploadData = UIImageJPEGRepresentation(photo!, 0.1){
             storageref.putData(uploadData, metadata: nil) { (metadata, error) in
                 if error != nil {
                     return

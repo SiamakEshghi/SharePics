@@ -35,6 +35,7 @@ class LoginViewController: UIViewController {
     }
     
     @IBAction func btnAction(_ sender: UIButton) {
+        SVProgressHUD.show()
          handleRegisterAndSignIn()
     }
     

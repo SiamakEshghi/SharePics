@@ -30,7 +30,7 @@ class AddNewFriendsViewController: UIViewController {
    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+       hideKeyboardWhenTappedAround()
        showAnimate(vc: self)
        self.view.backgroundColor = UIColor.black.withAlphaComponent(0.7)
     }
