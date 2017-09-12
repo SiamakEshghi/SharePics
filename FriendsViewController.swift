@@ -38,9 +38,13 @@ override func viewDidLoad() {
         tableView.dataSource = self
     }
     
-    override func viewWillAppear(_ animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         SVProgressHUD.show()
-        fetchFriends(tableview: self.tableView)
+        friendsId.removeAll()
+        fetchFriends { (fetchedFriendsIds) in
+            friendsId = fetchedFriendsIds
+            self.tableView.reloadData()
+        }
        
     }
    

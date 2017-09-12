@@ -84,7 +84,7 @@ class SelectedEventViewController: UIViewController,UICollectionViewDelegate,UIC
                 for (_,value) in dictionary {
                 
                     group.enter()
-                    if self.photosUrls.contains(value) == false{
+                    if !self.photosUrls.contains(value) {
                     self.photosUrls.append(value)
                     }
                     group.leave()

@@ -111,13 +111,15 @@ extension UIImage {
 
 //MARK:ImageView Extension
 
-// Download image and save in cach and  display in imageView,
-//for next didload fetch from cash
+
 let imageCache = NSCache<AnyObject, AnyObject>()
 
 extension UIImageView {
     
     
+    
+    // Download image and save in cach and  display in imageView,
+    //for next didload fetch from cash
     public func imageFromUrl(urlString: String) {
         
         if let cachedImage = imageCache.object(forKey: urlString as AnyObject) as? UIImage{
@@ -125,20 +127,24 @@ extension UIImageView {
             return
         }
         
-        let url = NSURL(string: urlString)
-        URLSession.shared.dataTask(with: url! as URL, completionHandler: { (data, response, error) in
-            if error != nil {
-                print(error!.localizedDescription)
-                return
+        DispatchQueue.global(qos: .userInitiated).async {
+            if let url = NSURL(string: urlString){
+                URLSession.shared.dataTask(with: url as URL, completionHandler: { (data, response, error) in
+                    if error != nil {
+                        print(error!.localizedDescription)
+                        return
+                    }
+                    DispatchQueue.main.async {
+                        if let downloadedImage = UIImage(data: data!){
+                            imageCache.setObject(downloadedImage, forKey: urlString as AnyObject)
+                            self.image = downloadedImage
+                        }
+                    }
+                    
+                }).resume()
             }
-            DispatchQueue.main.async {
-                if let downloadedImage = UIImage(data: data!){
-                    imageCache.setObject(downloadedImage, forKey: urlString as AnyObject)
-                    self.image = downloadedImage
-                }
-            }
-            
-        }).resume()
+
+        }
         
     }
 

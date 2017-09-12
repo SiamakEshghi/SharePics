@@ -40,8 +40,13 @@ class AddNewEventsViewController: UIViewController,UITableViewDelegate,UITableVi
         self.view.backgroundColor = UIColor.black.withAlphaComponent(0.9)
         tableView.delegate = self
         tableView.dataSource = self
-        fetchFriends(tableview: self.tableView)
+        
+        friendsId.removeAll()
+        fetchFriends { (fetchedFriendsIds) in
+            friendsId = fetchedFriendsIds
+            self.tableView.reloadData()
         }
+     }
 
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1

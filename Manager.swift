@@ -1,60 +1,53 @@
 //
-//  UsefullFunctions.swift
+//  Manager.swift
 //  SharePics
 //
-//  Created by Siamak Eshghi on 2017-07-10.
+//  Created by Siamak Eshghi on 2017-09-11.
 //  Copyright © 2017 Joopooli. All rights reserved.
 //
 
 import UIKit
-import FirebaseAuth
-import FirebaseDatabase
-import SVProgressHUD
 import AVFoundation
 
-
-    //MARK: -PUBLIC PROPERTIES
-    public var friendsId = [String]()
-    var PlayerLayer: AVPlayerLayer!
-    var Player: AVPlayer!
+var PlayerLayer: AVPlayerLayer!
+var Player: AVPlayer!
 
 
+//MARK: -ALERT
+public  func showAlert(text:String,title:String,vc:UIViewController)  {
+    let alert = UIAlertController(title: title, message: text, preferredStyle: UIAlertControllerStyle.alert)
+    
+    // add an action (button)
+    alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
+    
+    // show the alert
+    vc.present(alert, animated: true, completion: nil)
+}
 
-    //MARK: -ALERT
-    public  func showAlert(text:String,title:String,vc:UIViewController)  {
-        let alert = UIAlertController(title: title, message: text, preferredStyle: UIAlertControllerStyle.alert)
-        
-        // add an action (button)
-        alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
-        
-        // show the alert
-        vc.present(alert, animated: true, completion: nil)
-    }
+//MARK: -POPUP ANIMATE
+public  func showAnimate(vc:UIViewController)
+{
+    vc.view.transform = CGAffineTransform(scaleX: 1.3, y: 1.3)
+    vc.view.alpha = 0.0;
+    UIView.animate(withDuration: 0.25, animations: {
+        vc.view.alpha = 1.0
+        vc.view.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
+    });
+}
 
-    //MARK: -POPUP ANIMATE
-    public  func showAnimate(vc:UIViewController)
-    {
+public  func removeAnimate(vc:UIViewController)
+{
+    UIView.animate(withDuration: 0.25, animations: {
         vc.view.transform = CGAffineTransform(scaleX: 1.3, y: 1.3)
         vc.view.alpha = 0.0;
-        UIView.animate(withDuration: 0.25, animations: {
-            vc.view.alpha = 1.0
-            vc.view.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
-        });
-    }
-    
-    public  func removeAnimate(vc:UIViewController)
-    {
-        UIView.animate(withDuration: 0.25, animations: {
-            vc.view.transform = CGAffineTransform(scaleX: 1.3, y: 1.3)
-            vc.view.alpha = 0.0;
-        }, completion:{(finished : Bool)  in
-            if (finished)
-            {
-                vc.view.removeFromSuperview()
-            }
-        });
-    }
-   
+    }, completion:{(finished : Bool)  in
+        if (finished)
+        {
+            vc.view.removeFromSuperview()
+        }
+    });
+}
+
 
 
 //MARK: -HIDE KEYBOARD
@@ -69,46 +62,3 @@ extension UIViewController {
         view.endEditing(true)
     }
 }
-
-//MARK: -FETCH FRIENDS FROM DATABASE
-public func fetchFriends(tableview:UITableView) {
-    
-    let group = DispatchGroup()
-    let uid = Auth.auth().currentUser?.uid
-    let refFriendList = Database.database().reference().child("users").child(uid!).child("friends")
-    
-    
-    refFriendList.observe(.value, with: { (snapshot) in
-        
-        if let dictionary = snapshot.value as? [String:AnyObject]{
-            friendsId.removeAll()
-            
-            for (key, _ ) in dictionary {
-                group.enter()
-                friendsId.append(key)
-                group.leave()
-            }
-            group.notify(queue: .main, execute: {
-                tableview.reloadData()
-                SVProgressHUD.dismiss()
-            })
-        }else{
-            SVProgressHUD.dismiss()
-        }
-        
-    }, withCancel: nil)
-    
-    
-}
-
-
-//MARK: -Delay Function
-
-func delayWithSeconds(_ seconds: Double, completion: @escaping () -> ()) {
-    DispatchQueue.main.asyncAfter(deadline: .now() + seconds) {
-        completion()
-    }
-}
-
-
-

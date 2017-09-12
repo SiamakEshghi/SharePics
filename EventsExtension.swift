@@ -45,7 +45,7 @@ extension EventsViewController {
             self.present(Loginview, animated: true, completion:nil)
         }
     }
-    //MARK: _ADD NEW EVENT
+    //MARK: Display ADD NEW EVENT View
     func addNewEvent()  {
         let popOverAddNewEvent = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "popUpAddNewEvent") as! AddNewEventsViewController
         self.addChildViewController(popOverAddNewEvent)
@@ -54,47 +54,5 @@ extension EventsViewController {
         popOverAddNewEvent.didMove(toParentViewController: self)
     }
     
-    //MARK: -FETCH EVENTS ID FROM DATABASE
-    func fetchEvents()  {
-        
-       guard let uid = Auth.auth().currentUser?.uid else {
-            handleLogout()
-            return
-        }
-    
-        let ref = Database.database().reference().child("user-events").child(uid)
-        
-        ref.observe(.value, with: { (snapshot) in
-            
-            if let dictionary = snapshot.value as? [String:AnyObject]{
-                
-                self.eventsIds.removeAll()
-                let group = DispatchGroup()
-                for (key, _ ) in dictionary {
-                    group.enter()
-                    self.eventsIds.append(key)
-                    group.leave()
-                }
-                group.notify(queue: .main, execute: {
-                    self.collectionView.reloadData()
-                    SVProgressHUD.dismiss()
-                })
-            }else{
-                SVProgressHUD.dismiss()
-            }
-            
-        }, withCancel: nil)
-    }
-    
-    
-    //MARK: -Prepare Events
-    func prepareEventsController()  {
-       
-        DispatchQueue.global(qos: .userInitiated).async {
-            self.isUserLogedIn()
-            self.fetchEvents()
-        }
-        
-        }
  
 }

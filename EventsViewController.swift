@@ -8,6 +8,7 @@
 
 import UIKit
 import FirebaseDatabase
+import FirebaseAuth
 import SVProgressHUD
 
 class EventsViewController: UIViewController ,UICollectionViewDelegate,UICollectionViewDataSource{
@@ -35,11 +36,25 @@ class EventsViewController: UIViewController ,UICollectionViewDelegate,UICollect
         collectionView.delegate = self
         collectionView.dataSource = self
         }
-    
     override func viewWillAppear(_ animated: Bool) {
-         prepareEventsController()
+        //Clean collectionView
+        self.eventsIds.removeAll()
+        self.collectionView.reloadData()
         }
-   
+    override func viewDidAppear(_ animated: Bool) {
+        SVProgressHUD.show()
+        self.isUserLogedIn()
+        
+        guard let uid = Auth.auth().currentUser?.uid else {
+            handleLogout()
+            return
+        }
+        fetchEvents(id: uid) { (fetchedEventIds) in
+         self.eventsIds = fetchedEventIds
+            self.collectionView.reloadData()
+        }
+     }
+    
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 1
@@ -64,6 +79,7 @@ class EventsViewController: UIViewController ,UICollectionViewDelegate,UICollect
         
         return cell
     }
+    
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
         let id = eventsIds[indexPath.row]

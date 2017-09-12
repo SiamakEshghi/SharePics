@@ -47,8 +47,6 @@ extension LoginViewController: UIImagePickerControllerDelegate,UINavigationContr
     }
     
  
-    
-    
     //MARK: -PROFILE IMAGE
     func addProfileImage()  {
         imageViewProfile.isUserInteractionEnabled = true
@@ -89,64 +87,54 @@ extension LoginViewController: UIImagePickerControllerDelegate,UINavigationContr
         checkInputTexts()
         
         //sign in
-        if isSignIn{
-            SVProgressHUD.show()
-            Auth.auth().signIn(withEmail: txtFieldEmail.text!, password: txtFieldPass1.text!, completion: { (user, error) in
-                if error != nil{
-                    SVProgressHUD.dismiss()
-                    showAlert(text: "User name or Password are not correct!", title: "Error", vc: self)
-                }else{
-                    self.dismiss(animated: true, completion: nil)
-                }
-            })
-        }else{ //register new user
-            
-           Auth.auth().createUser(withEmail: txtFieldEmail.text!, password: txtFieldPass1.text!){ (user, error) in
-                if error != nil{
-                    showAlert(text: (error?.localizedDescription)!, title: "Error", vc: self)
-                    return
-                }else{
-                    guard let uid = user?.uid else{
-                        return
-                    }
-                    
-                 //create a unic name for image
-                    let imageName = NSUUID().uuidString
-                    let storgaeRef = Storage.storage().reference().child("Profile_Images").child("\(imageName).jpg")
-                    
-                    //Save image in storage
-                    if let profileImage = self.imageViewProfile.image , let uploadedData = UIImageJPEGRepresentation(profileImage, 0.1){
-                        storgaeRef.putData(uploadedData, metadata: nil){ (metadata, error) in
-                            if error != nil {
-                                return
-                            }
-                            if let profileImageUrl = metadata?.downloadURL()?.absoluteString{
-                                let values = ["name":self.txtFieldName.text!,"email":self.txtFieldEmail.text!,"profileImageUrl":profileImageUrl]
-                                self.registerNewUserIntoFirebaseDatabase(uid: uid, values: values as [String:AnyObject])
-                            }
-                        }
-                    }
-                    
-                }
-            }
-        }
+        if isSignIn{ signIn() }else{   registerNewUser()      }
     }
     
-    func registerNewUserIntoFirebaseDatabase(uid: String,values: [String:AnyObject]) {
-        let ref = Database.database().reference()
-        
-        let userRef = ref.child("users").child(uid)
-        userRef.updateChildValues(values) { (error, ref) in
+    
+    //MARK: -Handle SignIn
+    func signIn()  {
+        SVProgressHUD.show()
+        Auth.auth().signIn(withEmail: txtFieldEmail.text!, password: txtFieldPass1.text!, completion: { (user, error) in
             if error != nil{
-                showAlert(text: "There is some error in registering!", title: "Error", vc: self)
-                return
+                SVProgressHUD.dismiss()
+                showAlert(text: "User name or Password are not correct!", title: "Error", vc: self)
+            }else{
+                self.dismiss(animated: true, completion: nil)
             }
-            self.dismiss(animated: true, completion: nil)
-        }
+        })
+
     }
     
+    //MARK: -Handle Register
+    func registerNewUser()  {
+        //register new user
+        
+        Auth.auth().createUser(withEmail: txtFieldEmail.text!, password: txtFieldPass1.text!){ (user, error) in
+            if error != nil{
+                showAlert(text: (error?.localizedDescription)!, title: "Error", vc: self)
+                return
+            }else{
+                guard let uid = user?.uid else{
+                    return
+                }
+                
+                if  let profileImage = self.imageViewProfile.image{
+                    saveProfileImage(profileImage: profileImage , completionHandler: { (profileImageUrl) in
+                        
+                        saveNewUserInFirebase(profileImageUrl: profileImageUrl, uid: uid, name: self.txtFieldName.text!, email: self.txtFieldEmail.text!, completionHandler: { (isError) in
+                            if isError {
+                                showAlert(text: "There is error in registeration!", title: "Error", vc: self)
+                            }else{
+                                self.dismiss(animated: true, completion: nil)
+                            }
+                        })
+                    })
+                }
+           }
+       }
+  }
     
-    
+        
     //MARK: -INPUT CHECK
     func checkInputTexts()  {
         
@@ -166,7 +154,7 @@ extension LoginViewController: UIImagePickerControllerDelegate,UINavigationContr
             
             //check pass1 is equal pass2
             guard txtFieldPass1 != txtFieldPass2 else{
-               showAlert(text: "Entered passwords are diffrent!", title: "Pass Error", vc: self)
+               showAlert(text: "Passwords are diffrent!", title: "Pass Error", vc: self)
                 return
             }
             

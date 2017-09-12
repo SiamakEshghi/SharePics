@@ -8,6 +8,7 @@
 
 import UIKit
 import FirebaseDatabase
+import SVProgressHUD
 
 class FreindTableViewCell: UITableViewCell {
 
@@ -34,6 +35,7 @@ class FreindTableViewCell: UITableViewCell {
                         DispatchQueue.main.async {
                             self.labelFriendName.text = name
                             self.friendImage?.imageFromUrl(urlString: profilImageUrl)
+                            SVProgressHUD.dismiss()
                         }
                         
                     }
