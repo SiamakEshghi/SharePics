@@ -25,12 +25,12 @@ public  func showAlert(text:String,title:String,vc:UIViewController)  {
 }
 
 //MARK: -POPUP ANIMATE
-public  func showAnimate(vc:UIViewController)
+public  func showAnimateChangeAlpha(vc:UIViewController)
 {
     vc.view.transform = CGAffineTransform(scaleX: 1.3, y: 1.3)
     vc.view.alpha = 0.0;
     UIView.animate(withDuration: 0.25, animations: {
-        vc.view.alpha = 1.0
+        vc.view.alpha = 0.9
         vc.view.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
     });
 }

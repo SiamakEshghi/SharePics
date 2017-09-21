@@ -11,21 +11,21 @@ import FirebaseDatabase
 import FirebaseAuth
 import SVProgressHUD
 
-class EventsViewController: UIViewController ,UICollectionViewDelegate,UICollectionViewDataSource{
+class EventsViewController: UIViewController ,UITableViewDelegate,UITableViewDataSource{
 
     //MARK: -PROPERTIES
     var eventsIds = [String]()
     
     //MARK: -OUTLETS AND ACTIONS
     @IBOutlet weak var NavBar: UINavigationItem!
-    
-    @IBOutlet weak var collectionView: UICollectionView!
    
-  
-    @IBAction func btnAddEvent(_ sender: UIBarButtonItem) {
-        addNewEvent()
-    }
+ 
+    @IBOutlet weak var tableView: UITableView!
+   
     
+    @IBAction func btnInformation(_ sender: UIButton) {
+        print("info test")
+    }
     
     @IBAction func btnLogoutTapped(_ sender: UIBarButtonItem) {
         handleLogout()
@@ -33,13 +33,13 @@ class EventsViewController: UIViewController ,UICollectionViewDelegate,UICollect
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        collectionView.delegate = self
-        collectionView.dataSource = self
+        tableView.delegate = self
+        tableView.dataSource = self
         }
     override func viewWillAppear(_ animated: Bool) {
         //Clean collectionView
         self.eventsIds.removeAll()
-        self.collectionView.reloadData()
+        self.tableView.reloadData()
         }
     override func viewDidAppear(_ animated: Bool) {
         SVProgressHUD.show()
@@ -51,23 +51,21 @@ class EventsViewController: UIViewController ,UICollectionViewDelegate,UICollect
         }
         fetchEvents(id: uid) { (fetchedEventIds) in
          self.eventsIds = fetchedEventIds
-            self.collectionView.reloadData()
+            self.tableView.reloadData()
         }
      }
     
     
-    func numberOfSections(in collectionView: UICollectionView) -> Int {
+    func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
 
-    
-     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of items
-        return eventsIds.count
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+         return eventsIds.count
     }
-    
-     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "eventCell", for: indexPath) as! EventCollectionViewCell
+   
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "eventCell", for: indexPath) as! EventTableViewCell
         
         // add a border to cell
         cell.layer.borderColor = UIColor.black.cgColor
@@ -80,15 +78,14 @@ class EventsViewController: UIViewController ,UICollectionViewDelegate,UICollect
         return cell
     }
     
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let id = eventsIds[indexPath.row]
         
         let oneEventVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "selectedEvent") as! SelectedEventViewController
-            oneEventVC.id = id
+        oneEventVC.id = id
         present(oneEventVC, animated: true, completion: nil)
+
+    }
+    
         
-        }
-    
-    
 }

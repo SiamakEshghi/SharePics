@@ -18,9 +18,7 @@ class AddNewFriendsViewController: UIViewController {
     @IBOutlet weak var txtEmail: UITextField!
     
     @IBAction func btncCloseTapped(_ sender: UIButton) {
-       removeAnimate(vc: self)
-       
-        self.view.removeFromSuperview()
+       self.view.removeFromSuperview()
     }
     
     @IBAction func btnAddFriendTapped(_ sender: UIButton) {
@@ -31,7 +29,6 @@ class AddNewFriendsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
        hideKeyboardWhenTappedAround()
-       showAnimate(vc: self)
        self.view.backgroundColor = UIColor.black.withAlphaComponent(0.7)
     }
 

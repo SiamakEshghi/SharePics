@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import Photos
+
 
 
 public func imageRotatedByDegrees(oldImage: UIImage, deg degrees: CGFloat) -> UIImage {

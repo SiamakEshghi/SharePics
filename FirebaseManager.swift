@@ -57,6 +57,7 @@ func fetchEvents(id:String , completionHandler :@escaping ([String]) -> Void)  {
    
     let ref = Database.database().reference().child("user-events").child(id)
     
+    
     DispatchQueue.global(qos: .userInitiated).async {
         ref.observe(.value, with: { (snapshot) in
             

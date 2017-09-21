@@ -45,9 +45,9 @@ extension EventsViewController {
             self.present(Loginview, animated: true, completion:nil)
         }
     }
-    //MARK: Display ADD NEW EVENT View
+    //MARK: Display AddNewEvent View
     func addNewEvent()  {
-        let popOverAddNewEvent = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "popUpAddNewEvent") as! AddNewEventsViewController
+        let popOverAddNewEvent = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "AddNewEvent") as! AddNewEventsViewController
         self.addChildViewController(popOverAddNewEvent)
         popOverAddNewEvent.view.frame = self.view.frame
         self.view.addSubview(popOverAddNewEvent.view)

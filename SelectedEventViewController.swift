@@ -11,7 +11,7 @@ import FirebaseDatabase
 import SVProgressHUD
 
 
-class SelectedEventViewController: UIViewController,UICollectionViewDelegate,UICollectionViewDataSource {
+class SelectedEventViewController: UIViewController,UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout {
 
     //MARK: -PROPERTIES
     var currentEvent = Event()
@@ -21,8 +21,7 @@ class SelectedEventViewController: UIViewController,UICollectionViewDelegate,UIC
     
     
     //MARK: -OUTLETS AND ACTIONS
-    
-    @IBOutlet weak var tappedPhotoImageView: UIImageView!
+  
     @IBOutlet weak var collectionView: UICollectionView!
     
     @IBAction func cancell(_ sender: UIBarButtonItem) {
@@ -94,7 +93,7 @@ class SelectedEventViewController: UIViewController,UICollectionViewDelegate,UIC
                     
                    self.collectionView.reloadData()
                     SVProgressHUD.dismiss()
-                    self.tappedPhotoImageView?.imageFromUrl(urlString: self.photosUrls[0])
+                    
                    })
             }else{
                 SVProgressHUD.dismiss()
@@ -138,11 +137,26 @@ class SelectedEventViewController: UIViewController,UICollectionViewDelegate,UIC
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
        let selectedPhotoUrl = photosUrls[indexPath.row]
-       self.tappedPhotoImageView?.imageFromUrl(urlString: selectedPhotoUrl)
+     
+        }
+    
+    
+    
+    //define number of cell
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        let width = collectionView.frame.width / 4 - 1
         
+        return CGSize(width: width, height: width)
     }
     
+   
     
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        return 1.0
+    }
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+        return 1.0
+    }
 }
 
 

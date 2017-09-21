@@ -23,24 +23,19 @@ class AddNewEventsViewController: UIViewController,UITableViewDelegate,UITableVi
     @IBOutlet weak var txtEventName: UITextField!
     
     @IBAction func btnCancell(_ sender: UIButton) {
-        removeAnimate(vc: self)
         self.dismiss(animated: true, completion: nil)
-        
-    }
+        }
     @IBAction func btnAdd(_ sender: UIButton) {
         addNewEvent()
-        
-    }
+        }
     
     override func viewDidLoad() {
         SVProgressHUD.show()
         super.viewDidLoad()
         self.hideKeyboardWhenTappedAround()
-        showAnimate(vc: self)
-        self.view.backgroundColor = UIColor.black.withAlphaComponent(0.9)
+       // showAnimateChangeAlpha(vc: self)
         tableView.delegate = self
         tableView.dataSource = self
-        
         friendsId.removeAll()
         fetchFriends { (fetchedFriendsIds) in
             friendsId = fetchedFriendsIds
