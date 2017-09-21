@@ -56,6 +56,7 @@ class EventsViewController: UIViewController ,UITableViewDelegate,UITableViewDat
      }
     
     
+    //TableView Data Source
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
@@ -78,6 +79,8 @@ class EventsViewController: UIViewController ,UITableViewDelegate,UITableViewDat
         return cell
     }
     
+    
+    //TableView Delegate
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let id = eventsIds[indexPath.row]
         
@@ -87,5 +90,20 @@ class EventsViewController: UIViewController ,UITableViewDelegate,UITableViewDat
 
     }
     
+    
+    //Add some animation
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         
+        //1. set the initial state of the cell
+        cell.alpha = 0
+        
+        let transform = CATransform3DTranslate(CATransform3DIdentity, -250, 20, 0)
+        cell.layer.transform = transform
+        
+        //2.UIView animation method to change to the final state of the cell
+        UIView.animate(withDuration: 1.0) { 
+            cell.alpha = 1.0
+            cell.layer.transform = CATransform3DIdentity
+        }
+    }
 }

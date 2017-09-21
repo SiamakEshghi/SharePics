@@ -22,6 +22,9 @@ class AddNewEventsViewController: UIViewController,UITableViewDelegate,UITableVi
     
     @IBOutlet weak var txtEventName: UITextField!
     
+    @IBAction func cancelBtn(_ sender: UIBarButtonItem) {
+        self.dismiss(animated: true, completion: nil)
+    }
     @IBAction func btnCancell(_ sender: UIButton) {
         self.dismiss(animated: true, completion: nil)
         }

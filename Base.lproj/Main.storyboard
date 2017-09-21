@@ -131,7 +131,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="31.199999999999999" y="67.916041979010501"/>
+            <point key="canvasLocation" x="-156" y="68"/>
         </scene>
         <!--Forget Password Pop Up View Controller-->
         <scene sceneID="OKg-yg-5Sm">
@@ -210,7 +210,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Xqc-BL-Tgu" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="850" y="82"/>
+            <point key="canvasLocation" x="574" y="68"/>
         </scene>
         <!--Camera Controller-->
         <scene sceneID="Ec1-Zx-dR3">
@@ -230,13 +230,13 @@
                                     <constraint firstAttribute="height" constant="50" id="u0Y-gf-GNC"/>
                                 </constraints>
                                 <items>
-                                    <barButtonItem title="Cancel" id="VHX-5a-gR4">
+                                    <barButtonItem systemItem="cancel" id="VHX-5a-gR4">
                                         <connections>
                                             <action selector="cancellBtnAction:" destination="nOl-uH-WBn" id="b7a-cZ-NH0"/>
                                         </connections>
                                     </barButtonItem>
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="pha-LA-kj3"/>
-                                    <barButtonItem title="Item" systemItem="camera" id="7PO-9F-cfD">
+                                    <barButtonItem systemItem="camera" id="7PO-9F-cfD">
                                         <connections>
                                             <action selector="takingPhotoAction:" destination="nOl-uH-WBn" id="tUc-Fd-x7M"/>
                                         </connections>
@@ -260,7 +260,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5V9-VA-Qkv" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3390" y="-1109"/>
+            <point key="canvasLocation" x="3509" y="-1119"/>
         </scene>
         <!--Photo View Controller-->
         <scene sceneID="yye-LN-hE5">
@@ -304,15 +304,15 @@
                                             <constraint firstAttribute="height" constant="50" id="3x5-5q-avE"/>
                                         </constraints>
                                         <items>
-                                            <barButtonItem title="Cancel" id="J88-65-lFU" userLabel="Cancel">
+                                            <barButtonItem systemItem="cancel" id="J88-65-lFU" userLabel="Cancel">
                                                 <connections>
                                                     <action selector="cancellBtn:" destination="dVO-PN-aoH" id="0rd-pe-EQa"/>
                                                 </connections>
                                             </barButtonItem>
                                             <barButtonItem style="plain" systemItem="flexibleSpace" id="BAQ-aK-1Qj"/>
-                                            <barButtonItem title="OK" id="zkc-N1-veL">
+                                            <barButtonItem style="done" systemItem="done" id="zkc-N1-veL">
                                                 <connections>
-                                                    <action selector="btnOKTapped:" destination="dVO-PN-aoH" id="bnV-UF-XSU"/>
+                                                    <action selector="btnDownTapped:" destination="dVO-PN-aoH" id="C6u-Rd-PbR"/>
                                                 </connections>
                                             </barButtonItem>
                                         </items>
@@ -362,7 +362,7 @@
                                         </connections>
                                     </barButtonItem>
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="vht-KS-6c5"/>
-                                    <barButtonItem title="SelectAll" style="done" id="zKo-7a-hOy"/>
+                                    <barButtonItem title="SelectAll" id="zKo-7a-hOy"/>
                                 </items>
                             </toolbar>
                             <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="L2Z-8B-WTh">
@@ -372,12 +372,12 @@
                                 </constraints>
                                 <items>
                                     <navigationItem title="Title" id="GSr-yj-YGt">
-                                        <barButtonItem key="leftBarButtonItem" style="done" systemItem="cancel" id="378-Xf-fVQ">
+                                        <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="378-Xf-fVQ">
                                             <connections>
-                                                <action selector="cancell:" destination="ur3-4r-tg4" id="zKB-hv-FfL"/>
+                                                <action selector="cancell:" destination="ur3-4r-tg4" id="Y1y-f5-Dha"/>
                                             </connections>
                                         </barButtonItem>
-                                        <barButtonItem key="rightBarButtonItem" title="Select" style="done" id="p2F-f2-QcK"/>
+                                        <barButtonItem key="rightBarButtonItem" title="Select" id="p2F-f2-QcK"/>
                                     </navigationItem>
                                 </items>
                             </navigationBar>
@@ -439,9 +439,9 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="xaf-Pw-ItF" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2506.875" y="-1117.605633802817"/>
+            <point key="canvasLocation" x="2380" y="-1115"/>
         </scene>
-        <!--Events-->
+        <!--Albums-->
         <scene sceneID="JdO-MR-6MY">
             <objects>
                 <viewController id="G7n-Gv-zDr" customClass="EventsViewController" customModule="SharePics" customModuleProvider="target" sceneMemberID="viewController">
@@ -460,7 +460,7 @@
                                     <constraint firstAttribute="height" constant="44" id="Ow0-2P-HDe"/>
                                 </constraints>
                                 <items>
-                                    <navigationItem title="Groups" id="siJ-uP-r3D">
+                                    <navigationItem title="Albums" id="siJ-uP-r3D">
                                         <barButtonItem key="leftBarButtonItem" title="Logout" id="udO-Ds-3rG">
                                             <connections>
                                                 <action selector="btnLogoutTapped:" destination="G7n-Gv-zDr" id="3KO-oR-ATq"/>
@@ -488,7 +488,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="EYU-X0-z2E">
-                                                    <rect key="frame" x="18" y="18" width="252" height="101"/>
+                                                    <rect key="frame" x="18" y="18" width="307" height="101"/>
                                                     <subviews>
                                                         <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacing="1" translatesAutoresizingMaskIntoConstraints="NO" id="cwT-rn-ruS">
                                                             <rect key="frame" x="0.0" y="0.0" width="101" height="101"/>
@@ -531,25 +531,25 @@
                                                             </subviews>
                                                         </stackView>
                                                         <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacing="1" translatesAutoresizingMaskIntoConstraints="NO" id="HzT-wm-NPq">
-                                                            <rect key="frame" x="111" y="0.0" width="141" height="101"/>
+                                                            <rect key="frame" x="111" y="0.0" width="196" height="101"/>
                                                             <subviews>
                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="eventName" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="C2Q-dx-YK6">
-                                                                    <rect key="frame" x="0.0" y="0.0" width="141" height="33"/>
+                                                                    <rect key="frame" x="0.0" y="0.0" width="196" height="33"/>
                                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                                     <nil key="textColor"/>
                                                                     <nil key="highlightedColor"/>
                                                                 </label>
                                                                 <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="8Pj-i3-b2A">
-                                                                    <rect key="frame" x="0.0" y="34" width="141" height="33"/>
+                                                                    <rect key="frame" x="0.0" y="34" width="196" height="33"/>
                                                                     <subviews>
                                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="date" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4Zw-P9-0k3">
-                                                                            <rect key="frame" x="0.0" y="0.0" width="70.5" height="33"/>
+                                                                            <rect key="frame" x="0.0" y="0.0" width="98" height="33"/>
                                                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                                             <nil key="textColor"/>
                                                                             <nil key="highlightedColor"/>
                                                                         </label>
                                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="place" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="X58-bU-qKH">
-                                                                            <rect key="frame" x="70.5" y="0.0" width="70.5" height="33"/>
+                                                                            <rect key="frame" x="98" y="0.0" width="98" height="33"/>
                                                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                                             <nil key="textColor"/>
                                                                             <nil key="highlightedColor"/>
@@ -557,7 +557,7 @@
                                                                     </subviews>
                                                                 </stackView>
                                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="infoDark" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cXb-3T-cMD">
-                                                                    <rect key="frame" x="0.0" y="68" width="141" height="33"/>
+                                                                    <rect key="frame" x="0.0" y="68" width="196" height="33"/>
                                                                     <connections>
                                                                         <action selector="btnInformation:" destination="G7n-Gv-zDr" eventType="touchUpInside" id="HPR-rZ-p6I"/>
                                                                     </connections>
@@ -596,8 +596,8 @@
                             <constraint firstAttribute="trailingMargin" secondItem="Vcz-lv-0NN" secondAttribute="trailing" id="zn1-Ad-o2o"/>
                         </constraints>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Events" id="NXJ-Ah-Xuq">
-                        <offsetWrapper key="titlePositionAdjustment" horizontal="0.0" vertical="-15"/>
+                    <tabBarItem key="tabBarItem" title="Albums" image="albums" id="NXJ-Ah-Xuq">
+                        <offsetWrapper key="titlePositionAdjustment" horizontal="0.0" vertical="0.0"/>
                     </tabBarItem>
                     <connections>
                         <outlet property="NavBar" destination="siJ-uP-r3D" id="Vqh-rE-X3O"/>
@@ -629,15 +629,10 @@
                                 </constraints>
                                 <items>
                                     <navigationItem title="Add new event" id="3Ac-vG-nm9">
-                                        <barButtonItem key="leftBarButtonItem" style="plain" id="ZHr-I0-azq">
-                                            <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="u86-Z0-PYD">
-                                                <rect key="frame" x="20" y="7" width="83" height="30"/>
-                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                <state key="normal" title="Cancel"/>
-                                                <connections>
-                                                    <action selector="btnCancell:" destination="3q6-TK-zNN" eventType="touchUpInside" id="wsO-Pj-J1r"/>
-                                                </connections>
-                                            </button>
+                                        <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="ZHr-I0-azq">
+                                            <connections>
+                                                <action selector="cancelBtn:" destination="3q6-TK-zNN" id="IjD-X0-XHS"/>
+                                            </connections>
                                         </barButtonItem>
                                     </navigationItem>
                                 </items>
@@ -662,7 +657,7 @@
                             </navigationBar>
                             <button opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="251" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KVu-kF-Pp5">
                                 <rect key="frame" x="188.5" y="690" width="37" height="36"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                <fontDescription key="fontDescription" name=".SFNSDisplay" family=".SF NS Display" pointSize="20"/>
                                 <state key="normal" title="Add"/>
                                 <connections>
                                     <action selector="btnAdd:" destination="3q6-TK-zNN" eventType="touchUpInside" id="dkn-Ml-uoN"/>
@@ -913,7 +908,7 @@
                                                     </constraints>
                                                 </imageView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="44o-Wr-yxI">
-                                                    <rect key="frame" x="157.5" y="64" width="162.5" height="21"/>
+                                                    <rect key="frame" x="157.5" y="64" width="217.5" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
@@ -976,8 +971,8 @@
                             <constraint firstItem="nvU-h4-ros" firstAttribute="leading" secondItem="Vhn-4h-ozV" secondAttribute="leading" id="vmr-cC-TcJ"/>
                         </constraints>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Freinds" id="OfS-76-o3O">
-                        <offsetWrapper key="titlePositionAdjustment" horizontal="0.0" vertical="-15"/>
+                    <tabBarItem key="tabBarItem" title="Freinds" image="friends" id="OfS-76-o3O">
+                        <offsetWrapper key="titlePositionAdjustment" horizontal="0.0" vertical="0.0"/>
                     </tabBarItem>
                     <connections>
                         <outlet property="tableView" destination="nvU-h4-ros" id="BYJ-my-wxn"/>
@@ -1066,6 +1061,8 @@
     </scenes>
     <resources>
         <image name="NoOne" width="225" height="225"/>
+        <image name="albums" width="25" height="25"/>
+        <image name="friends" width="25" height="25"/>
         <image name="switchCamera" width="25" height="25"/>
     </resources>
 </document>

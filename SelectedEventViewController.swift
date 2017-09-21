@@ -136,7 +136,7 @@ class SelectedEventViewController: UIViewController,UICollectionViewDelegate,UIC
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
-       let selectedPhotoUrl = photosUrls[indexPath.row]
+       _ = photosUrls[indexPath.row]
      
         }
     

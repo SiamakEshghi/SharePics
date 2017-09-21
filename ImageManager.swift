@@ -46,13 +46,13 @@ extension UIImage {
         //check current orientation of original image
         switch self.imageOrientation {
         case .down, .downMirrored:
-            transform = transform.rotated(by: CGFloat(M_PI));
+            transform = transform.rotated(by: CGFloat(Double.pi));
             
         case .left, .leftMirrored:
-            transform = transform.rotated(by: CGFloat(M_PI_2));
+            transform = transform.rotated(by: CGFloat(Double.pi/2));
             isRotatedBy90 = true
         case .right, .rightMirrored:
-            transform = transform.rotated(by: CGFloat(-M_PI_2));
+            transform = transform.rotated(by: CGFloat(-Double.pi/2));
             isRotatedBy90 = true
         case .up, .upMirrored:
             break
