@@ -91,7 +91,7 @@ class EventsViewController: UIViewController ,UITableViewDelegate,UITableViewDat
     }
     
     
-    //Add some animation
+    //Add  animation
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         
         //1. set the initial state of the cell

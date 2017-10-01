@@ -118,4 +118,34 @@ func saveProfileImage(profileImage:UIImage,completionHandler : @escaping (String
     }
 }
 
+//MARK: -Fetch Photoes Url
+
+func fetvhPhotoesUrl(id:String,completionHandler: @escaping ([String]?) -> Void) {
+    var photosUrls = [String]()
+    let ref = Database.database().reference().child("event-photos").child(id)
+    
+    DispatchQueue.global(qos: .userInitiated).async {
+        ref.observe(.value, with: { (snapshot) in
+            
+            if let dictionary = snapshot.value as? [String:String]{
+                
+                for (_,value) in dictionary {
+                    if !photosUrls.contains(value) {
+                        photosUrls.append(value)
+                    }
+                }
+                completionHandler(photosUrls)
+                
+            }else{
+                DispatchQueue.main.async {
+                    completionHandler(nil)
+                }
+                
+            }
+            
+        }, withCancel: nil)
+    }
+   
+
+}
 

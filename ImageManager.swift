@@ -8,7 +8,7 @@
 
 import UIKit
 import Photos
-
+import SVProgressHUD
 
 
 public func imageRotatedByDegrees(oldImage: UIImage, deg degrees: CGFloat) -> UIImage {
@@ -118,14 +118,13 @@ let imageCache = NSCache<AnyObject, AnyObject>()
 
 extension UIImageView {
     
-    
-    
     // Download image and save in cach and  display in imageView,
     //for next didload fetch from cash
     public func imageFromUrl(urlString: String) {
         
         if let cachedImage = imageCache.object(forKey: urlString as AnyObject) as? UIImage{
             self.image = cachedImage
+            SVProgressHUD.dismiss()
             return
         }
         
@@ -140,6 +139,7 @@ extension UIImageView {
                         if let downloadedImage = UIImage(data: data!){
                             imageCache.setObject(downloadedImage, forKey: urlString as AnyObject)
                             self.image = downloadedImage
+                            SVProgressHUD.dismiss()
                         }
                     }
                     

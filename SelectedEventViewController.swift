@@ -16,12 +16,34 @@ class SelectedEventViewController: UIViewController,UICollectionViewDelegate,UIC
     //MARK: -PROPERTIES
     var currentEvent = Event()
     var id:String?
-    var photosUrls = [String]()
+    var photos = [Photo]()
+    var selectedImageUrl: String?
+    var isSelectMode = false
+    var urlsForSaving = [String]()
+    var isSelectAll = false
+    var selectedIndexs = [IndexPath]()
+ 
     
+    override func viewDidAppear(_ animated: Bool) {
+        
+        self.fetchEvent()
+    }
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        collectionView.delegate = self
+        collectionView.dataSource = self
+        SVProgressHUD.show()
+        fetchUrls()
+        btnSelectAll.isEnabled = false
+    }
     
     
     //MARK: -OUTLETS AND ACTIONS
   
+    
+    @IBOutlet weak var btnSelected: UIBarButtonItem!
+    
+    @IBOutlet weak var btnSelectAll: UIBarButtonItem!
     @IBOutlet weak var collectionView: UICollectionView!
     
     @IBAction func cancell(_ sender: UIBarButtonItem) {
@@ -35,21 +57,76 @@ class SelectedEventViewController: UIViewController,UICollectionViewDelegate,UIC
     }
     
     @IBOutlet weak var navBar: UINavigationBar!
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        collectionView.delegate = self
-        collectionView.dataSource = self
-       }
-
-    override func viewWillAppear(_ animated: Bool) {
-        self.photosUrls.removeAll()
-        self.fetchEvent()
+    
+   
+    @IBAction func btnSelectTapped(_ sender: UIBarButtonItem) {
+        isSelectMode = !isSelectMode
+       
+        if isSelectMode {
+            btnSelected.title = "Done"
+            btnSelectAll.isEnabled = true
+            selectedIndexs.removeAll()
+        }else{
+            btnSelectAll.isEnabled = false
+            btnSelected.title = "Select"
+            for photo in photos{
+                photo.isSelected = false
+            }
+            isSelectAll = false
+            btnSelectAll.title = "SelectAll"
+        }
+        self.collectionView.reloadData()
     }
-    override func viewDidAppear(_ animated: Bool) {
-        SVProgressHUD.show()
-        fetchPhotos()
+    
+    @IBAction func btnSelectedAllTaped(_ sender: UIBarButtonItem) {
+        isSelectAll = !isSelectAll
+        
+        if isSelectAll {
+        btnSelectAll.title = "RemoveAll"
+        for photo in photos{
+            photo.isSelected = true
+            }
+        }else{
+            btnSelectAll.title = "SelectAll"
+            for photo in photos{
+                photo.isSelected = false
+            }
+        }
+        self.collectionView.reloadData()
     }
-
+    
+    @IBAction func btnSaveImages(_ sender: UIBarButtonItem) {
+        if selectedIndexs.count > 0 {
+        for indexpath in selectedIndexs {
+            let cell = self.collectionView.cellForItem(at: indexpath)
+//            let imageData = UIImagePNGRepresentation(cell)
+//            let compressedImage = UIImage(data: imageData!)
+//            UIImageWriteToSavedPhotosAlbum(compressedImage!, nil, nil, nil)
+            }
+         showAlert(text: "Images Saved successfully!", title: "Save", vc: self)
+        }
+    }
+   
+    
+    //Mark: -Fetch Photoes Urls
+    func fetchUrls() {
+        fetvhPhotoesUrl(id: self.id!) { (urls) in
+            if urls != nil {
+                for url in urls! {
+                    let newPhoto = Photo()
+                    newPhoto.url = url
+                    self.photos.append(newPhoto)
+                }
+                
+                DispatchQueue.main.async {
+                    self.collectionView.reloadData()
+                }
+            }else{
+                SVProgressHUD.dismiss()
+            }
+        }
+    }
+    
     //MARK: -FETCH CURRENT EVENT
     func fetchEvent() {
       
@@ -70,60 +147,43 @@ class SelectedEventViewController: UIViewController,UICollectionViewDelegate,UIC
         }
         
     }
-    
-    //MARK: -FETCH PHOTOS
-    func fetchPhotos()  {
-        let ref = Database.database().reference().child("event-photos").child(self.id!)
         
-        ref.observe(.value, with: { (snapshot) in
-            
-            if let dictionary = snapshot.value as? [String:String]{
-                
-                let group = DispatchGroup()
-                for (_,value) in dictionary {
-                
-                    group.enter()
-                    if !self.photosUrls.contains(value) {
-                    self.photosUrls.append(value)
-                    }
-                    group.leave()
-                  
-                }
-                group.notify(queue: .main, execute: {
-                    
-                   self.collectionView.reloadData()
-                    SVProgressHUD.dismiss()
-                    
-                   })
-            }else{
-                SVProgressHUD.dismiss()
-            }
-            
-        }, withCancel: nil)
-    }
-    
-    //MARK: -COLLECTION VIEW CONFIGURATION
+    //MARK: -COLLECTION VIEW DAtA SOURCE
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 1
     }
     
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return (photosUrls.count)
+        return (photos.count)
     }
     
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "PhotoCell", for: indexPath) as! PhotosCell
         
+        
+        
+        cell.isSelectMode = self.isSelectMode
+        
         // add a border to cell
         cell.layer.borderColor = UIColor.black.cgColor
         cell.layer.borderWidth = 3
         cell.layer.cornerRadius = 8 // optional
         
-        let url = photosUrls[indexPath.row]
-        cell.photoUrl = url
-    
+        let photo = photos[indexPath.row]
+        
+        //save selected or removing unselected indexpath for saving
+        if photo.isSelected {
+            if !selectedIndexs.contains(indexPath){
+                selectedIndexs.append(indexPath)
+            }
+        }else{
+            selectedIndexs = selectedIndexs.filter{$0 != indexPath}
+        }
+        
+        cell.photo = photo
+        
         return cell
     }
     
@@ -134,15 +194,31 @@ class SelectedEventViewController: UIViewController,UICollectionViewDelegate,UIC
        SVProgressHUD.dismiss()
     }
     
+    
+    //MARK: -collectionView DataSource
+    
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
-       _ = photosUrls[indexPath.row]
-     
+        
+        if !isSelectMode{
+            selectedImageUrl = photos[indexPath.row].url
+            performSegue(withIdentifier: "showDetail", sender: selectedImageUrl)
+        }else{
+            photos[indexPath.row].isSelected = !photos[indexPath.row].isSelected
+            self.collectionView.reloadData()
+            }
+        
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        
+        if segue.identifier ==  "showDetail"{
+            let detailVC = segue.destination as! ImageDetailViewController
+            detailVC.imageUrl = selectedImageUrl
         }
+    }
     
-    
-    
-    //define number of cell
+       //customize collectionView
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let width = collectionView.frame.width / 4 - 1
         
@@ -158,5 +234,6 @@ class SelectedEventViewController: UIViewController,UICollectionViewDelegate,UIC
         return 1.0
     }
 }
+
 
 
