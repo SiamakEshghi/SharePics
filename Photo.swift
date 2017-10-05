@@ -12,4 +12,5 @@ class Photo: NSObject {
 
     var url: String?
     var isSelected = false
+    
 }

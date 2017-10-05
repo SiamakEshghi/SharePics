@@ -32,16 +32,22 @@ class PhotoViewController: UIViewController {
         self.savePhoto()
         self.dismiss(animated: true, completion: nil)
     }
+    
+    
+    override func viewDidAppear(_ animated: Bool) {
+        
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+         AppUtility.lockOrientation(.all)
+    }
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-       
+        AppUtility.lockOrientation(.portrait)
+        
         if let availableImage = takenPhoto {
-            
-            
-            if UIDevice.current.orientation.isLandscape{
-                imageView.transform = imageView.transform.rotated(by: CGFloat(-Double.pi/2))
-                imageView.contentMode = .scaleAspectFit
-                }
             imageView.image = availableImage
             photo = availableImage
         }
@@ -52,7 +58,10 @@ class PhotoViewController: UIViewController {
     func savePhoto()  {
   
         let photoName = NSUUID().uuidString
-        let storageref = Storage.storage().reference().child("event-photos").child("\(photoName).jpg")
+        
+        let photoEventRef = Database.database().reference().child("event-photos").child(eventId!)
+        
+        let storageref = Storage.storage().reference().child("photos").child("\(photoName).jpg")
         
         if  let uploadData = UIImageJPEGRepresentation(photo!, 0.1){
             storageref.putData(uploadData, metadata: nil) { (metadata, error) in
@@ -60,13 +69,15 @@ class PhotoViewController: UIViewController {
                     return
                 }
                 
+                photoEventRef.updateChildValues([photoName:1])
+                
                 if let photoUrl = metadata?.downloadURL()?.absoluteString{
-                    let ref = Database.database().reference().child("event-photos").child(self.eventId!)
-                   ref.updateChildValues([photoName:photoUrl])
+                    let ref = Database.database().reference().child("Photos").child(photoName)
+                    ref.updateChildValues(["URL":photoUrl])
                 }
             }
         }
   }
     
-
+    
 }

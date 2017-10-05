@@ -11,29 +11,30 @@ import FirebaseDatabase
 import SVProgressHUD
 
 
-class SelectedEventViewController: UIViewController,UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout {
+class SelectedEventViewController: UIViewController,UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout,SaveImages {
 
     //MARK: -PROPERTIES
     var currentEvent = Event()
-    var id:String?
+    var eventId:String?
     var photos = [Photo]()
-    var selectedImageUrl: String?
+    var imageTapedUrl: String?
     var isSelectMode = false
-    var urlsForSaving = [String]()
     var isSelectAll = false
-    var selectedIndexs = [IndexPath]()
+    var urls = [String]()
+    var selectedImages = [UIImage]()
  
     
     override func viewDidAppear(_ animated: Bool) {
         
-        self.fetchEvent()
+        fetchUrls()
+        
     }
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.fetchEvent()
         collectionView.delegate = self
         collectionView.dataSource = self
         SVProgressHUD.show()
-        fetchUrls()
         btnSelectAll.isEnabled = false
     }
     
@@ -52,7 +53,7 @@ class SelectedEventViewController: UIViewController,UICollectionViewDelegate,UIC
     
     @IBAction func cameraBTN(_ sender: UIBarButtonItem) {
         let CameraVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "CameraVC") as! CameraController
-        CameraVC.eventId = self.id
+        CameraVC.eventId = self.eventId!
         self.present(CameraVC, animated: true, completion: nil)
     }
     
@@ -65,7 +66,7 @@ class SelectedEventViewController: UIViewController,UICollectionViewDelegate,UIC
         if isSelectMode {
             btnSelected.title = "Done"
             btnSelectAll.isEnabled = true
-            selectedIndexs.removeAll()
+            selectedImages.removeAll()
         }else{
             btnSelectAll.isEnabled = false
             btnSelected.title = "Select"
@@ -83,39 +84,80 @@ class SelectedEventViewController: UIViewController,UICollectionViewDelegate,UIC
         
         if isSelectAll {
         btnSelectAll.title = "RemoveAll"
-        for photo in photos{
-            photo.isSelected = true
-            }
+        customizeCheck(isSelected: true)
         }else{
             btnSelectAll.title = "SelectAll"
-            for photo in photos{
-                photo.isSelected = false
-            }
+            customizeCheck(isSelected: false)  }
+        
+    }
+    
+    
+    // customize Check status of cells
+    func customizeCheck(isSelected: Bool) {
+        for photo in photos{
+            photo.isSelected = isSelected
         }
         self.collectionView.reloadData()
     }
     
     @IBAction func btnSaveImages(_ sender: UIBarButtonItem) {
-        if selectedIndexs.count > 0 {
-        for indexpath in selectedIndexs {
-            let cell = self.collectionView.cellForItem(at: indexpath)
-//            let imageData = UIImagePNGRepresentation(cell)
-//            let compressedImage = UIImage(data: imageData!)
-//            UIImageWriteToSavedPhotosAlbum(compressedImage!, nil, nil, nil)
+        saveImagesIntoPhone { (isSavingComplete) in
+            if isSavingComplete {
+                    self.customizeCheck(isSelected: false)
+                    SVProgressHUD.dismiss()
+                    showAlert(text: "Images Saved successfully!", title: "Save", vc: self)
+                
             }
-         showAlert(text: "Images Saved successfully!", title: "Save", vc: self)
         }
+        
     }
    
+
+    
+    //MARk: Protocol SaveImages  functions
+    func saveSelectedImage(image:UIImage?){
+        if !selectedImages.contains(image!){
+        selectedImages.append(image!)
+        }
+    }
+    func removeUnselectedImage(image:UIImage?){
+        selectedImages = selectedImages.filter{$0 != image}
+    }
+    
+    //Mark: -saveImages
+    func saveImagesIntoPhone(completionHandler: @escaping(Bool) -> Void) {
+        if selectedImages.count > 0 {
+            SVProgressHUD.show()
+            DispatchQueue.global(qos: .userInitiated).async {
+                for image in self.selectedImages {
+                    let imageData = UIImagePNGRepresentation(image)
+                    let compressedImage = UIImage(data: imageData!)
+                    UIImageWriteToSavedPhotosAlbum(compressedImage!, nil, nil, nil)
+                }
+
+                self.selectedImages.removeAll()
+            }
+            completionHandler(true)
+        }
+    }
     
     //Mark: -Fetch Photoes Urls
     func fetchUrls() {
-        fetvhPhotoesUrl(id: self.id!) { (urls) in
+        photos.removeAll()
+        urls.removeAll()
+        fetchPhotoesUrl(eventId: self.eventId!) { (urls) in
+
             if urls != nil {
                 for url in urls! {
-                    let newPhoto = Photo()
-                    newPhoto.url = url
-                    self.photos.append(newPhoto)
+                    
+                    //we use urls array to have count for displaying images and avoiding cells duplicatin
+                    if !self.urls.contains(url){
+                        self.urls.append(url)
+                        let newPhoto = Photo()
+                        newPhoto.url = url
+                        self.photos.append(newPhoto)
+                    }
+                    
                 }
                 
                 DispatchQueue.main.async {
@@ -131,7 +173,7 @@ class SelectedEventViewController: UIViewController,UICollectionViewDelegate,UIC
     func fetchEvent() {
       
         DispatchQueue.global(qos: .userInitiated).async {
-            let eventRef = Database.database().reference().child("events").child(self.id!)
+            let eventRef = Database.database().reference().child("events").child(self.eventId!)
             var name: String?
             eventRef.observe(.value, with: { (snapshot) in
                 if let dictionary = snapshot.value as? [String:AnyObject]{
@@ -155,44 +197,30 @@ class SelectedEventViewController: UIViewController,UICollectionViewDelegate,UIC
     
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return (photos.count)
+        return (urls.count)
     }
     
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "PhotoCell", for: indexPath) as! PhotosCell
         
-        
+        cell.delegate = self
         
         cell.isSelectMode = self.isSelectMode
+        
+        cell.imageView.image = nil
+        cell.photo = nil
         
         // add a border to cell
         cell.layer.borderColor = UIColor.black.cgColor
         cell.layer.borderWidth = 3
         cell.layer.cornerRadius = 8 // optional
-        
         let photo = photos[indexPath.row]
-        
-        //save selected or removing unselected indexpath for saving
-        if photo.isSelected {
-            if !selectedIndexs.contains(indexPath){
-                selectedIndexs.append(indexPath)
-            }
-        }else{
-            selectedIndexs = selectedIndexs.filter{$0 != indexPath}
-        }
-        
         cell.photo = photo
         
         return cell
     }
     
-    func scrollViewWillBeginDecelerating(_ scrollView: UIScrollView) {
-         SVProgressHUD.show()
-    }
-    func scrollViewDidScroll(_ scrollView: UIScrollView) {
-       SVProgressHUD.dismiss()
-    }
     
     
     //MARK: -collectionView DataSource
@@ -201,9 +229,11 @@ class SelectedEventViewController: UIViewController,UICollectionViewDelegate,UIC
         
         
         if !isSelectMode{
-            selectedImageUrl = photos[indexPath.row].url
-            performSegue(withIdentifier: "showDetail", sender: selectedImageUrl)
+            imageTapedUrl = photos[indexPath.row].url
+            performSegue(withIdentifier: "showDetail", sender: imageTapedUrl)
         }else{
+            
+             //set selected status
             photos[indexPath.row].isSelected = !photos[indexPath.row].isSelected
             self.collectionView.reloadData()
             }
@@ -214,7 +244,7 @@ class SelectedEventViewController: UIViewController,UICollectionViewDelegate,UIC
         
         if segue.identifier ==  "showDetail"{
             let detailVC = segue.destination as! ImageDetailViewController
-            detailVC.imageUrl = selectedImageUrl
+            detailVC.imageUrl = imageTapedUrl
         }
     }
     

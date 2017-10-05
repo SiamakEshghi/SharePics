@@ -85,7 +85,7 @@ class EventsViewController: UIViewController ,UITableViewDelegate,UITableViewDat
         let id = eventsIds[indexPath.row]
         
         let oneEventVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "selectedEvent") as! SelectedEventViewController
-        oneEventVC.id = id
+        oneEventVC.eventId = id
         present(oneEventVC, animated: true, completion: nil)
 
     }

@@ -92,7 +92,8 @@ func saveNewUserInFirebase(profileImageUrl:String,uid : String,name: String,emai
             completionHandler(true)
             return
         }
-        completionHandler(false)
+       // completionHandler(false)
+    
     }
     
 }
@@ -120,30 +121,61 @@ func saveProfileImage(profileImage:UIImage,completionHandler : @escaping (String
 
 //MARK: -Fetch Photoes Url
 
-func fetvhPhotoesUrl(id:String,completionHandler: @escaping ([String]?) -> Void) {
+func fetchPhotoesUrl(eventId:String,completionHandler: @escaping ([String]?) -> Void) {
+    SVProgressHUD.dismiss()
     var photosUrls = [String]()
-    let ref = Database.database().reference().child("event-photos").child(id)
-    
-    DispatchQueue.global(qos: .userInitiated).async {
-        ref.observe(.value, with: { (snapshot) in
+    let ref = Database.database().reference().child("event-photos").child(eventId)
+
+  DispatchQueue.global(qos: .userInitiated).async {
+        ref.observe(.childAdded, with: { (snapshot) in
             
-            if let dictionary = snapshot.value as? [String:String]{
+            let photoName = snapshot.key
                 
-                for (_,value) in dictionary {
-                    if !photosUrls.contains(value) {
-                        photosUrls.append(value)
+                let photoRef =  Database.database().reference().child("Photos").child(photoName)
+                
+                photoRef.observe(.value, with: { (snapshot) in
+                    
+                    if let dictionary = snapshot.value as? [String:AnyObject]{
+                        let url = dictionary["URL"] as! String
+                        
+                        if !photosUrls.contains(url) {
+                            photosUrls.append(url)
+                        }
+                        
+                        completionHandler(photosUrls)
+                        
+                    }else{
+                        DispatchQueue.main.async {
+                            completionHandler(nil)
+                        }
+
                     }
-                }
-                completionHandler(photosUrls)
-                
-            }else{
-                DispatchQueue.main.async {
-                    completionHandler(nil)
-                }
-                
-            }
+                }, withCancel: nil)
             
+        
         }, withCancel: nil)
+    
+    
+    
+//        ref.observe(.value, with: { (snapshot) in
+//            
+//            if let dictionary = snapshot.value as? [String:String]{
+//                
+//                for (_,value) in dictionary {
+//                    if !photosUrls.contains(value) {
+//                        photosUrls.append(value)
+//                    }
+//                }
+//                completionHandler(photosUrls)
+//                
+//            }else{
+//                DispatchQueue.main.async {
+//                    completionHandler(nil)
+//                }
+//                
+//            }
+//            
+//        }, withCancel: nil)
     }
    
 

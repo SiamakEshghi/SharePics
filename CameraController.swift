@@ -8,6 +8,7 @@
 
 import UIKit
 import SwiftyCam
+import SVProgressHUD
 
 class CameraController: SwiftyCamViewController,SwiftyCamViewControllerDelegate {
     
@@ -20,6 +21,7 @@ class CameraController: SwiftyCamViewController,SwiftyCamViewControllerDelegate 
     }
 
     @IBAction func cancellBtnAction(_ sender: UIBarButtonItem) {
+        SVProgressHUD.show()
         self.dismiss(animated: true, completion: nil)
     }
     

@@ -25,12 +25,14 @@ class ImageDetailViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+       AppUtility.lockOrientation(.portrait)
        imageView.imageFromUrl(urlString: imageUrl!)
     }
 
    
-    
+    override func viewWillDisappear(_ animated: Bool) {
+        AppUtility.lockOrientation(.all)
+    }
 
     
 
