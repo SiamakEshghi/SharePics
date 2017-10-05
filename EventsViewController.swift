@@ -51,6 +51,7 @@ class EventsViewController: UIViewController ,UITableViewDelegate,UITableViewDat
         }
         fetchEvents(id: uid) { (fetchedEventIds) in
          self.eventsIds = fetchedEventIds
+            
             self.tableView.reloadData()
         }
      }

@@ -121,7 +121,10 @@ func saveProfileImage(profileImage:UIImage,completionHandler : @escaping (String
 
 //MARK: -Fetch Photoes Url
 
-func fetchPhotoesUrl(eventId:String,completionHandler: @escaping ([String]?) -> Void) {
+func fetchPhotoesUrl(eventId:String,imagesNumber:Int?,completionHandler: @escaping ([String]?) -> Void) {
+    
+    var counter = 0
+
     SVProgressHUD.dismiss()
     var photosUrls = [String]()
     let ref = Database.database().reference().child("event-photos").child(eventId)
@@ -129,6 +132,13 @@ func fetchPhotoesUrl(eventId:String,completionHandler: @escaping ([String]?) -> 
   DispatchQueue.global(qos: .userInitiated).async {
         ref.observe(.childAdded, with: { (snapshot) in
             
+            if imagesNumber != nil {
+                 counter += 1
+                if counter > imagesNumber!{
+                    completionHandler(photosUrls)
+                    return
+                }
+            }
             let photoName = snapshot.key
                 
                 let photoRef =  Database.database().reference().child("Photos").child(photoName)
@@ -155,29 +165,7 @@ func fetchPhotoesUrl(eventId:String,completionHandler: @escaping ([String]?) -> 
         
         }, withCancel: nil)
     
-    
-    
-//        ref.observe(.value, with: { (snapshot) in
-//            
-//            if let dictionary = snapshot.value as? [String:String]{
-//                
-//                for (_,value) in dictionary {
-//                    if !photosUrls.contains(value) {
-//                        photosUrls.append(value)
-//                    }
-//                }
-//                completionHandler(photosUrls)
-//                
-//            }else{
-//                DispatchQueue.main.async {
-//                    completionHandler(nil)
-//                }
-//                
-//            }
-//            
-//        }, withCancel: nil)
+
     }
    
-
 }
-

@@ -25,6 +25,8 @@ class FreindTableViewCell: UITableViewCell {
         didSet{
             let refFriend = Database.database().reference().child("users").child(friendId!)
             
+            self.friendImage.setRounded(radius: (self.friendImage.frame.width) / 2)
+            
             DispatchQueue.global(qos: .userInitiated).async {
                 refFriend.observe(.value, with: { (snapshot) in
                     //create user list and add to users
