@@ -33,14 +33,17 @@ extension UIImageView {
                     URLSession.shared.dataTask(with: url as URL, completionHandler: { (data, response, error) in
                         if error != nil {
                             print(error!.localizedDescription)
+                            DispatchQueue.main.async {
+                                SVProgressHUD.dismiss()
+                                return
+                            }
                             
-                            return
                         }
-                        DispatchQueue.main.async {
+                        DispatchQueue.main.async{
                             if let downloadedImage = UIImage(data: data!){
                                 imageCache.setObject(downloadedImage, forKey: urlString as AnyObject)
                                 self.image = downloadedImage
-                                SVProgressHUD.dismiss()
+                              SVProgressHUD.dismiss()
                                 
                             }
                         }
@@ -54,7 +57,6 @@ extension UIImageView {
     }
     
     //set image in circle
-    
     func setRounded(radius: CGFloat) {
         let radius = radius
         self.layer.cornerRadius = radius

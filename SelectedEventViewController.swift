@@ -34,7 +34,6 @@ class SelectedEventViewController: UIViewController,UICollectionViewDelegate,UIC
         self.fetchEvent()
         collectionView.delegate = self
         collectionView.dataSource = self
-        SVProgressHUD.show()
         btnSelectAll.isEnabled = false
     }
     
@@ -124,14 +123,15 @@ class SelectedEventViewController: UIViewController,UICollectionViewDelegate,UIC
         selectedImages = selectedImages.filter{$0 != image}
     }
     
-    //Mark: -saveImages
+    //Mark: -saveImages into phone
     func saveImagesIntoPhone(completionHandler: @escaping(Bool) -> Void) {
         if selectedImages.count > 0 {
             SVProgressHUD.show()
             DispatchQueue.global(qos: .userInitiated).async {
                 for image in self.selectedImages {
-                    let imageData = UIImagePNGRepresentation(image)
+                    let imageData = image.PNGRepresentation()
                     let compressedImage = UIImage(data: imageData!)
+                   
                     UIImageWriteToSavedPhotosAlbum(compressedImage!, nil, nil, nil)
                 }
 
@@ -239,6 +239,7 @@ class SelectedEventViewController: UIViewController,UICollectionViewDelegate,UIC
             }
         
     }
+    
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         

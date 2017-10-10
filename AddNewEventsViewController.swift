@@ -16,6 +16,7 @@ class AddNewEventsViewController: UIViewController,UITableViewDelegate,UITableVi
 
     //MARK: -PROPERTIES
     var selectedFriendsIds = [String]()
+    var friendsId = [String]()
     
     //MARK: -OUTLETS AND ACTIONS
     @IBOutlet weak var tableView: UITableView!
@@ -29,20 +30,29 @@ class AddNewEventsViewController: UIViewController,UITableViewDelegate,UITableVi
         self.dismiss(animated: true, completion: nil)
         }
     @IBAction func btnAdd(_ sender: UIButton) {
-        addNewEvent()
+        guard txtEventName.text != "" else {
+            showAlert(text: "Please enter name of event!", title: "Alert", vc: self)
+            return
         }
+        addNewEvent(name: txtEventName.text!, selectedFriendsIds: selectedFriendsIds)
+        removeAnimate(vc: self)
+        self.dismiss(animated: true, completion: nil)
+    }
     
     override func viewDidLoad() {
         SVProgressHUD.show()
         super.viewDidLoad()
         self.hideKeyboardWhenTappedAround()
-       // showAnimateChangeAlpha(vc: self)
         tableView.delegate = self
         tableView.dataSource = self
-        friendsId.removeAll()
+        
         fetchFriends { (fetchedFriendsIds) in
-            friendsId = fetchedFriendsIds
-            self.tableView.reloadData()
+            
+            if fetchedFriendsIds != nil {
+                self.friendsId = fetchedFriendsIds!
+                self.tableView.reloadData()
+            }
+            
         }
      }
 
@@ -75,33 +85,6 @@ class AddNewEventsViewController: UIViewController,UITableViewDelegate,UITableVi
             selectedFriendsIds.append(friendsId[indexPath.row])
         }
         
-    }
-    
-    //MARK: -ADD NEW FRIEND
-    func addNewEvent() {
-        let uid = Auth.auth().currentUser?.uid
-        let ref = Database.database().reference().child("events")
-        let eventdRef = ref.childByAutoId()
-        guard txtEventName.text != "" else {
-            showAlert(text: "Please enter name of event!", title: "Alert", vc: self)
-            return
-        }
-        eventdRef.updateChildValues(["name":txtEventName.text!])
-        eventdRef.updateChildValues(["date":""])
-        
-
-        
-        let eventId = eventdRef.key
-        let userEventRef = Database.database().reference().child("user-events").child(uid!)
-        userEventRef.updateChildValues([eventId:1])
-        
-        //add event id for all selected user
-        for friendId in selectedFriendsIds {
-            let userEventRef = Database.database().reference().child("user-events").child(friendId)
-            userEventRef.updateChildValues([eventId:1])
-        }
-        removeAnimate(vc: self)
-        self.dismiss(animated: true, completion: nil)
     }
     
 }

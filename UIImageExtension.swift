@@ -11,101 +11,88 @@ import Photos
 import SVProgressHUD
 
 
-public func imageRotatedByDegrees(oldImage: UIImage, deg degrees: CGFloat) -> UIImage {
-    //Calculate the size of the rotated view's containing box for our drawing space
-    let rotatedViewBox: UIView = UIView(frame: CGRect(x: 0, y: 0, width: oldImage.size.width, height: oldImage.size.height))
-    let t: CGAffineTransform = CGAffineTransform(rotationAngle: degrees * CGFloat.pi / 180)
-    rotatedViewBox.transform = t
-    let rotatedSize: CGSize = rotatedViewBox.frame.size
-    //Create the bitmap context
-    UIGraphicsBeginImageContext(rotatedSize)
-    let bitmap: CGContext = UIGraphicsGetCurrentContext()!
-    //Move the origin to the middle of the image so we will rotate and scale around the center.
-    bitmap.translateBy(x: rotatedSize.width / 2, y: rotatedSize.height / 2)
-    //Rotate the image context
-    bitmap.rotate(by: (degrees * CGFloat.pi / 180))
-    //Now, draw the rotated/scaled image into the context
-    bitmap.scaleBy(x: 1.0, y: -1.0)
-    bitmap.draw(oldImage.cgImage!, in: CGRect(x: -oldImage.size.width / 2, y: -oldImage.size.height / 2, width: oldImage.size.width, height: oldImage.size.height))
-    let newImage: UIImage = UIGraphicsGetImageFromCurrentImageContext()!
-    UIGraphicsEndImageContext()
-    return newImage
-}
-
 //MARK: -UIImage Extension
 
-//fixed image orientation
+
 extension UIImage {
     
-    func fixImageOrientation() -> UIImage? {
-        var flip:Bool = false //used to see if the image is mirrored
-        var isRotatedBy90:Bool = false // used to check whether aspect ratio is to be changed or not
+    //fix PNG data rotation
+         func PNGRepresentation() -> Data? {
+        // No-op if the orientation is already correct
+        if (self.imageOrientation == UIImageOrientation.up) {
+            return UIImagePNGRepresentation(self);
+        }
+        // We need to calculate the proper transformation to make the image upright.
+        // We do it in 2 steps: Rotate if Left/Right/Down, and then flip if Mirrored.
+        var transform:CGAffineTransform = CGAffineTransform.identity
         
-        var transform = CGAffineTransform.identity
-        
-        //check current orientation of original image
-        switch self.imageOrientation {
-        case .down, .downMirrored:
-            transform = transform.rotated(by: CGFloat(Double.pi));
+        if (self.imageOrientation == UIImageOrientation.down
+            || self.imageOrientation == UIImageOrientation.downMirrored) {
             
-        case .left, .leftMirrored:
-            transform = transform.rotated(by: CGFloat(Double.pi/2));
-            isRotatedBy90 = true
-        case .right, .rightMirrored:
-            transform = transform.rotated(by: CGFloat(-Double.pi/2));
-            isRotatedBy90 = true
-        case .up, .upMirrored:
-            break
+            transform = transform.translatedBy(x: self.size.width, y: self.size.height)
+            transform = transform.rotated(by: CGFloat(Double.pi))
         }
         
-        switch self.imageOrientation {
+        if (self.imageOrientation == UIImageOrientation.left
+            || self.imageOrientation == UIImageOrientation.leftMirrored) {
             
-        case .upMirrored, .downMirrored:
             transform = transform.translatedBy(x: self.size.width, y: 0)
-            flip = true
+            transform = transform.rotated(by: CGFloat(Double.pi/2))
+        }
+        
+        if (self.imageOrientation == UIImageOrientation.right
+            || self.imageOrientation == UIImageOrientation.rightMirrored) {
             
-        case .leftMirrored, .rightMirrored:
-            transform = transform.translatedBy(x: self.size.height, y: 0)
-            flip = true
-        default:
-            break;
+            transform = transform.translatedBy(x: 0, y: self.size.height);
+            transform = transform.rotated(by: CGFloat(-Double.pi/2));
         }
         
-        // calculate the size of the rotated view's containing box for our drawing space
-        let rotatedViewBox = UIView(frame: CGRect(origin: CGPoint(x:0, y:0), size: size))
-        rotatedViewBox.transform = transform
-        let rotatedSize = rotatedViewBox.frame.size
+        if (self.imageOrientation == UIImageOrientation.upMirrored
+            || self.imageOrientation == UIImageOrientation.downMirrored) {
+            
+            transform = transform.translatedBy(x: self.size.width, y: 0)
+            transform = transform.scaledBy(x: -1, y: 1)
+        }
         
-        // Create the bitmap context
-        UIGraphicsBeginImageContext(rotatedSize)
-        let bitmap = UIGraphicsGetCurrentContext()
+        if (self.imageOrientation == UIImageOrientation.leftMirrored
+            || self.imageOrientation == UIImageOrientation.rightMirrored) {
+            
+            transform = transform.translatedBy(x: self.size.height, y: 0);
+            transform = transform.scaledBy(x: -1, y: 1);
+        }
         
-        // Move the origin to the middle of the image so we will rotate and scale around the center.
-        bitmap!.translateBy(x: rotatedSize.width / 2.0, y: rotatedSize.height / 2.0);
         
-        // Now, draw the rotated/scaled image into the context
-        var yFlip: CGFloat
+        // Now we draw the underlying CGImage into a new context, applying the transform
+        // calculated above.
+        let ctx:CGContext = CGContext(data: nil, width: Int(self.size.width), height: Int(self.size.height),
+                                      bitsPerComponent: self.cgImage!.bitsPerComponent, bytesPerRow: 0,
+                                      space: self.cgImage!.colorSpace!,
+                                      bitmapInfo: self.cgImage!.bitmapInfo.rawValue)!
         
-        if(flip){
-            yFlip = CGFloat(-1.0)
+        ctx.concatenate(transform)
+        
+        
+        if (self.imageOrientation == UIImageOrientation.left
+            || self.imageOrientation == UIImageOrientation.leftMirrored
+            || self.imageOrientation == UIImageOrientation.right
+            || self.imageOrientation == UIImageOrientation.rightMirrored
+            ) {
+            
+            
+            ctx.draw(self.cgImage!, in: CGRect(x:0,y:0,width:self.size.height,height:self.size.width))
+            
         } else {
-            yFlip = CGFloat(1.0)
+            ctx.draw(self.cgImage!, in: CGRect(x:0,y:0,width:self.size.width,height:self.size.height))
         }
         
-        bitmap!.scaleBy(x: yFlip, y: -1.0)
         
-        //check if we have to fix the aspect ratio
-        if isRotatedBy90 {
-            bitmap?.draw(self.cgImage!, in: CGRect(x: -size.width / 2, y: -size.height / 2, width: size.height,height: size.width))
-        } else {
-            bitmap?.draw(self.cgImage!, in: CGRect(x: -size.width / 2, y: -size.height / 2, width: size.width,height: size.height))
-        }
+        // And now we just create a new UIImage from the drawing context
+        let cgimg:CGImage = ctx.makeImage()!
+        let imgEnd:UIImage = UIImage(cgImage: cgimg)
         
-        let fixedImage = UIGraphicsGetImageFromCurrentImageContext()
-        UIGraphicsEndImageContext()
-        
-        return fixedImage
+        return UIImagePNGRepresentation(imgEnd)
     }
+    
 }
 
 

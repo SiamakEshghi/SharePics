@@ -21,7 +21,7 @@ extension LoginViewController: UIImagePickerControllerDelegate,UINavigationContr
     func hiddensHandles()  {
         txtFieldName.isHidden = true
         txtFieldPass2.isHidden = true
-        imageViewProfile.image = #imageLiteral(resourceName: "welcom")
+        imageViewProfile.image = #imageLiteral(resourceName: "welcome")
         }
     
     

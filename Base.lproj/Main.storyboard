@@ -614,27 +614,16 @@
                                                                     <nil key="textColor"/>
                                                                     <nil key="highlightedColor"/>
                                                                 </label>
-                                                                <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="8Pj-i3-b2A">
+                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="date" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4Zw-P9-0k3">
                                                                     <rect key="frame" x="0.0" y="34" width="228" height="33"/>
-                                                                    <subviews>
-                                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="date" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4Zw-P9-0k3">
-                                                                            <rect key="frame" x="0.0" y="0.0" width="114" height="33"/>
-                                                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                                            <nil key="textColor"/>
-                                                                            <nil key="highlightedColor"/>
-                                                                        </label>
-                                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="place" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="X58-bU-qKH">
-                                                                            <rect key="frame" x="114" y="0.0" width="114" height="33"/>
-                                                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                                            <nil key="textColor"/>
-                                                                            <nil key="highlightedColor"/>
-                                                                        </label>
-                                                                    </subviews>
-                                                                </stackView>
+                                                                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                                                    <nil key="textColor"/>
+                                                                    <nil key="highlightedColor"/>
+                                                                </label>
                                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="infoDark" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cXb-3T-cMD">
                                                                     <rect key="frame" x="0.0" y="68" width="228" height="33"/>
                                                                     <connections>
-                                                                        <action selector="btnInformation:" destination="G7n-Gv-zDr" eventType="touchUpInside" id="HPR-rZ-p6I"/>
+                                                                        <action selector="btnInformation:" destination="6Fs-HM-lAo" eventType="touchUpInside" id="S5x-XD-yAQ"/>
                                                                     </connections>
                                                                 </button>
                                                             </subviews>
@@ -651,6 +640,7 @@
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
+                                            <outlet property="dateLb" destination="4Zw-P9-0k3" id="eew-L9-wQW"/>
                                             <outlet property="image1" destination="pMQ-8J-z5c" id="nvY-Rv-dOm"/>
                                             <outlet property="image2" destination="U8P-ul-jqI" id="V1k-mz-b8k"/>
                                             <outlet property="image3" destination="zch-Uy-dYv" id="zNC-bP-FVK"/>
@@ -682,7 +672,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dnq-zf-UZE" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2279.1999999999998" y="-344.07796101949026"/>
+            <point key="canvasLocation" x="2356" y="-344"/>
         </scene>
         <!--Add New Events View Controller-->
         <scene sceneID="qRk-Bf-GoH">
