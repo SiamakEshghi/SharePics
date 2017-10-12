@@ -23,10 +23,6 @@ class EventsViewController: UIViewController ,UITableViewDelegate,UITableViewDat
     @IBOutlet weak var tableView: UITableView!
    
     
-    @IBAction func btnInformation(_ sender: UIButton) {
-        print("info test")
-    }
-    
     @IBAction func btnLogoutTapped(_ sender: UIBarButtonItem) {
         handleLogout()
     }
@@ -43,14 +39,17 @@ class EventsViewController: UIViewController ,UITableViewDelegate,UITableViewDat
         }
     override func viewDidAppear(_ animated: Bool) {
         self.isUserLogedIn()
+        SVProgressHUD.show()
         guard (Auth.auth().currentUser?.uid) != nil else {
             handleLogout()
             return
         }
         fetchEvents() { (events) in
-            if events != nil {
+            if events != nil , (events?.count)! > 0  {
                 self.events = (events?.sorted{ $0.date! > $1.date!})!
                 self.tableView.reloadData()
+            }else{
+                SVProgressHUD.dismiss()
             }
         }
      }

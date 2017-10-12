@@ -16,7 +16,7 @@ class AddNewEventsViewController: UIViewController,UITableViewDelegate,UITableVi
 
     //MARK: -PROPERTIES
     var selectedFriendsIds = [String]()
-    var friendsId = [String]()
+    var friends = [User]()
     
     //MARK: -OUTLETS AND ACTIONS
     @IBOutlet weak var tableView: UITableView!
@@ -35,7 +35,6 @@ class AddNewEventsViewController: UIViewController,UITableViewDelegate,UITableVi
             return
         }
         addNewEvent(name: txtEventName.text!, selectedFriendsIds: selectedFriendsIds)
-        removeAnimate(vc: self)
         self.dismiss(animated: true, completion: nil)
     }
     
@@ -46,10 +45,10 @@ class AddNewEventsViewController: UIViewController,UITableViewDelegate,UITableVi
         tableView.delegate = self
         tableView.dataSource = self
         
-        fetchFriends { (fetchedFriendsIds) in
+        fetchFriends { (friends) in
             
-            if fetchedFriendsIds != nil {
-                self.friendsId = fetchedFriendsIds!
+            if  friends != nil , (friends?.count)! > 0 {
+                self.friends = friends!
                 self.tableView.reloadData()
             }
             
@@ -61,14 +60,14 @@ class AddNewEventsViewController: UIViewController,UITableViewDelegate,UITableVi
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return friendsId.count
+        return friends.count
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "friendCell2", for: indexPath) as!
         FreindTableViewCell
      
-        let friendId = friendsId[indexPath.row]
-        cell.friendId = friendId
+        let friend = friends[indexPath.row]
+        cell.friend = friend
         return cell
     }
     
@@ -78,11 +77,11 @@ class AddNewEventsViewController: UIViewController,UITableViewDelegate,UITableVi
         if (cell?.accessoryType == UITableViewCellAccessoryType.checkmark){
             
             cell!.accessoryType = UITableViewCellAccessoryType.none;
-            selectedFriendsIds = selectedFriendsIds.filter(){$0 != friendsId[indexPath.row]}
+            selectedFriendsIds = selectedFriendsIds.filter(){$0 != friends[indexPath.row].id}
         }else{
             
             cell!.accessoryType = UITableViewCellAccessoryType.checkmark;
-            selectedFriendsIds.append(friendsId[indexPath.row])
+            selectedFriendsIds.append(friends[indexPath.row].id!)
         }
         
     }

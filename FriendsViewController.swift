@@ -14,7 +14,7 @@ import SVProgressHUD
 
 class FriendsViewController: UIViewController,UITableViewDelegate,UITableViewDataSource{
 
-   var friendsId = [String]()
+   var friends = [User]()
   
     
    //MARK: -OUTLETS AND ACTIONS
@@ -39,16 +39,18 @@ override func viewDidLoad() {
         tableView.dataSource = self
     }
     override func viewWillAppear(_ animated: Bool) {
-     friendsId.removeAll()
+     friends.removeAll()
      self.tableView.reloadData()
     }
     
     override func viewDidAppear(_ animated: Bool) {
         SVProgressHUD.show()
-        fetchFriends { (fetchedFriendsIds) in
-            if fetchedFriendsIds != nil {
-                self.friendsId = fetchedFriendsIds!
+        fetchFriends { (friends) in
+           if friends != nil , (friends?.count)! > 0 {
+                self.friends = friends!
                 self.tableView.reloadData()
+            }else{
+                SVProgressHUD.dismiss()
             }
         }
        
@@ -60,14 +62,14 @@ override func viewDidLoad() {
     }
    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return friendsId.count
+        return friends.count
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "friendCell", for: indexPath) as!
         FreindTableViewCell
         
-        let friendId = friendsId[indexPath.row]
-        cell.friendId = friendId
+        let friend = friends[indexPath.row]
+        cell.friend = friend
         
         return cell
     }

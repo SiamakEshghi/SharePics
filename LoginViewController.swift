@@ -48,9 +48,14 @@ class LoginViewController: UIViewController {
         super.viewDidLoad()
         self.hideKeyboardWhenTappedAround()
         parentStackView.distribution = .fillProportionally
-        setupVideoBackground()
         hiddensHandles()
         SVProgressHUD.dismiss()
        }
-   
+    override func viewWillDisappear(_ animated: Bool) {
+        AppUtility.lockOrientation(.all)
+    }
+    override func viewWillAppear(_ animated: Bool) {
+        setupVideoBackground()
+        AppUtility.lockOrientation(.portrait)
+    }
   }

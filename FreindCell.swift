@@ -21,39 +21,16 @@ class FreindTableViewCell: UITableViewCell {
     @IBOutlet weak var labelFriendName: UILabel!
     
     //MARK: -PROPERTIES
-    var friendId: String?{
+    var friend: User?{
         didSet{
-           
            self.friendImage.setRounded(radius: (self.friendImage.frame.width) / 2)
-           setCellInfo()
-           fetchProfileImageUrl(friendId: friendId!) { (url) in
-                if let profileImageUrl = url {
-                    self.friendImage.imageFromUrl(urlString: profileImageUrl)
-                }
-            }
-            
-        }
+           friendImage.imageFromUrl(urlString: (friend?.profileImageUrl)!)
+            labelFriendName.text = friend?.name!
+           }
     }
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        
-    }
-
-    func  setCellInfo(){
-         let refFriend = Database.database().reference().child("users").child(friendId!)
-        DispatchQueue.global(qos: .userInitiated).async {
-            refFriend.observe(.value, with: { (snapshot) in
-                if let dictionary = snapshot.value as? [String:AnyObject]{
-                    let name = dictionary["name"] as! String
-                    DispatchQueue.main.async {
-                        self.labelFriendName.text = name
-                        }
-                }
-            }, withCancel: nil)
         }
-    }
-    
-   
 
-}
+    }

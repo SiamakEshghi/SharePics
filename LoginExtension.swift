@@ -111,10 +111,12 @@ extension LoginViewController: UIImagePickerControllerDelegate,UINavigationContr
         
         Auth.auth().createUser(withEmail: txtFieldEmail.text!, password: txtFieldPass1.text!){ (user, error) in
             if error != nil{
+                SVProgressHUD.dismiss()
                 showAlert(text: (error?.localizedDescription)!, title: "Error", vc: self)
                 return
             }else{
                 guard let uid = user?.uid else{
+                    SVProgressHUD.dismiss()
                     return
                 }
                 
@@ -123,6 +125,7 @@ extension LoginViewController: UIImagePickerControllerDelegate,UINavigationContr
                         
                         saveNewUserInFirebase(profileImageUrl: profileImageUrl, uid: uid, name: self.txtFieldName.text!, email: self.txtFieldEmail.text!, completionHandler: { (isError) in
                             if isError {
+                                SVProgressHUD.dismiss()
                                 showAlert(text: "There is error in registeration!", title: "Error", vc: self)
                             }else{
                                 self.dismiss(animated: true, completion: nil)

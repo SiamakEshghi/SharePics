@@ -15,28 +15,52 @@ import SVProgressHUD
 
 
 //MARK: -FETCH FRIENDS FROM DATABASE
-public func fetchFriends(completionHandler:@escaping ([String]?) -> Void) {
+ func fetchFriends(completionHandler:@escaping ([User]?) -> Void) {
     
-    var ids = [String]()
+    var friendsList = [User]()
     
     let uid = Auth.auth().currentUser?.uid
-    let refFriendList = Database.database().reference().child("users").child(uid!).child("friends")
+    let ref = Database.database().reference().child("users").child(uid!)
     
-    DispatchQueue.global(qos: .userInitiated).async {
-        refFriendList.observe(.value, with: { (snapshot) in
-            
-            if let dictionary = snapshot.value as? [String:AnyObject]{
-                
-                for (key, _ ) in dictionary {
-                    ids.append(key)
-                }
-                completionHandler(ids)
-            }else{
-                completionHandler(nil)
+    ref.observe(.value, with: { (snapshot) in
+        if snapshot.hasChild("friends"){
+         let refFriendList = ref.child("friends")
+            DispatchQueue.global(qos: .userInitiated).async {
+                refFriendList.observe(.value, with: { (snapshot) in
+                    
+                    if let dictionary = snapshot.value as? [String:AnyObject]{
+                        
+                        for (key, _ ) in dictionary {
+                            let friendRef = Database.database().reference().child("users").child(key)
+                            friendRef.observe(.value, with: { (snapshot) in
+                                if let dictionary = snapshot.value as? [String:AnyObject]{
+                                    let friend = User()
+                                    friend.id = key
+                                    friend.name = dictionary["name"] as? String
+                                    friend.email = dictionary["email"] as? String
+                                    friend.profileImageUrl = dictionary["profileImageUrl"] as? String
+                                    
+                                    if !friendsList.contains(friend){
+                                        friendsList.append(friend)
+                                    }
+                                }
+                            })
+                        }
+                        let when = DispatchTime.now() + 0.1
+                        DispatchQueue.main.asyncAfter(deadline: when) {
+                            completionHandler(friendsList)
+                        }
+                    }else{
+                        completionHandler(nil)
+                    }
+                }, withCancel: nil)
             }
-         }, withCancel: nil)
+
+        }else{
+             completionHandler(nil)
+        }
+    }, withCancel: nil)
     }
-}
 
 
 
@@ -99,7 +123,7 @@ func saveNewUserInFirebase(profileImageUrl:String,uid : String,name: String,emai
             completionHandler(true)
             return
         }
-       // completionHandler(false)
+       completionHandler(false)
     
     }
     
@@ -128,54 +152,49 @@ func saveProfileImage(profileImage:UIImage,completionHandler : @escaping (String
 
 //MARK: -Fetch Photoes Url
 
-func fetchPhotoesUrl(eventId:String,imagesNumber:Int?,completionHandler: @escaping ([String]?) -> Void) {
+func fetchPhotosUrl(eventId:String,imagesNumber:Int?,completionHandler: @escaping ([String]?) -> Void) {
     var counter = 0
     var photosUrls = [String]()
-    let ref = Database.database().reference().child("event-photos").child(eventId)
-
-  DispatchQueue.global(qos: .userInitiated).async {
-        ref.observe(.childAdded, with: { (snapshot) in
-            
-            if imagesNumber != nil {
-                 counter += 1
-                if counter > imagesNumber!{
-                    completionHandler(photosUrls)
-                    return
-                }
-            }
-            let photoName = snapshot.key
-            let photoRef =  Database.database().reference().child("Photos").child(photoName)
-            photoRef.observe(.value, with: { (snapshot) in
-                    
-                    if let dictionary = snapshot.value as? [String:AnyObject]{
-                        let url = dictionary["URL"] as! String
-                        
-                        if !photosUrls.contains(url) {
-                            photosUrls.append(url)
-                        }
-                        completionHandler(photosUrls)
-                    }else{
+    let ref = Database.database().reference().child("event-photos")
+    
+    ref.observe(.value, with: { (snapshot) in
+        if snapshot.hasChild(eventId){
+            let eventPhotosRef = ref.child(eventId)
+            DispatchQueue.global(qos: .userInitiated).async {
+                eventPhotosRef.observe(.childAdded, with: { (snapshot) in
+                    if !snapshot.hasChildren(){
                         completionHandler(nil)
-                     }
+                    }
+                    if imagesNumber != nil {
+                        counter += 1
+                        if counter > imagesNumber!{
+                            completionHandler(photosUrls)
+                            return
+                        }
+                    }
+                    let photoName = snapshot.key
+                    let photoRef =  Database.database().reference().child("Photos").child(photoName)
+                    photoRef.observe(.value, with: { (snapshot) in
+                        
+                        if let dictionary = snapshot.value as? [String:AnyObject]{
+                            let url = dictionary["URL"] as! String
+                            
+                            if !photosUrls.contains(url) {
+                                photosUrls.append(url)
+                            }
+                            completionHandler(photosUrls)
+                        }else{
+                            completionHandler(nil)
+                        }
+                    }, withCancel: nil)
                 }, withCancel: nil)
-            }, withCancel: nil)
-       }
-   
-}
-//Mark: -Fetch Profiles Images
-func fetchProfileImageUrl(friendId: String,completionHandler: @escaping (String?) -> Void)  {
-    let refFriend = Database.database().reference().child("users").child(friendId)
-    var profilImageUrl: String?
-    DispatchQueue.global(qos: .userInitiated).async {
-        refFriend.observe(.value, with: { (snapshot) in
-            if let dictionary = snapshot.value as? [String:AnyObject]{
-                profilImageUrl = dictionary["profileImageUrl"] as? String
-                completionHandler(profilImageUrl!)
-            }else{
-                completionHandler(nil)
             }
-        }, withCancel: nil)
-    }
+
+        }else{
+            completionHandler(nil)
+        }
+    }, withCancel: nil)
+    
 }
 
 //MARK: -Fetch Event Members

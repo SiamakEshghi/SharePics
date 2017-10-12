@@ -145,7 +145,7 @@ class SelectedEventViewController: UIViewController,UICollectionViewDelegate,UIC
     func fetchUrls() {
         photos.removeAll()
         urls.removeAll()
-        fetchPhotoesUrl(eventId: self.eventId!, imagesNumber: nil) { (urls) in
+        fetchPhotosUrl(eventId: self.eventId!, imagesNumber: nil) { (urls) in
 
             if urls != nil {
                 for url in urls! {

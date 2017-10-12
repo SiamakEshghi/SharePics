@@ -17,7 +17,6 @@ class ForgetPasswordPopUpViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        removeAnimate(vc: self)
         self.view.backgroundColor = UIColor.black.withAlphaComponent(0.5)
        }
     
@@ -27,8 +26,7 @@ class ForgetPasswordPopUpViewController: UIViewController {
     @IBOutlet weak var txtFieldEmail: UITextField!
     
     @IBAction func btnClose(_ sender: UIButton) {
-       removeAnimate(vc: self)
-         self.view.removeFromSuperview()
+       self.view.removeFromSuperview()
         }
 
      //MARK: -RESET PASSWORD
@@ -42,6 +40,7 @@ class ForgetPasswordPopUpViewController: UIViewController {
              showAlert(text: "Reset email is sent successfully!", title: "Success",vc: self)
             }
         }
+        
         
     }
     

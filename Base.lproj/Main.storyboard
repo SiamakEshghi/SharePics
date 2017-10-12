@@ -47,7 +47,7 @@
                                                 <color key="backgroundColor" red="0.17397850751876831" green="0.50417107343673706" blue="0.99866753816604614" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <nil key="textColor"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                <textInputTraits key="textInputTraits" enablesReturnKeyAutomatically="YES"/>
+                                                <textInputTraits key="textInputTraits" keyboardType="emailAddress" enablesReturnKeyAutomatically="YES"/>
                                             </textField>
                                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Password" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="YMk-eH-kgj">
                                                 <rect key="frame" x="0.0" y="108.5" width="375" height="53"/>
@@ -131,7 +131,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-156" y="68"/>
+            <point key="canvasLocation" x="-295" y="388"/>
         </scene>
         <!--Forget Password Pop Up View Controller-->
         <scene sceneID="OKg-yg-5Sm">
@@ -210,7 +210,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Xqc-BL-Tgu" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="574" y="68"/>
+            <point key="canvasLocation" x="601" y="389"/>
         </scene>
         <!--Camera Controller-->
         <scene sceneID="Ec1-Zx-dR3">
@@ -811,8 +811,8 @@
                                             </variation>
                                         </tableViewCellContentView>
                                         <connections>
-                                            <outlet property="friendImage" destination="K45-QN-4GE" id="F17-N5-Tzk"/>
-                                            <outlet property="labelFriendName" destination="VlP-SH-j0c" id="YGb-Ge-GdA"/>
+                                            <outlet property="friendImage" destination="K45-QN-4GE" id="jHr-fb-Ge2"/>
+                                            <outlet property="labelFriendName" destination="VlP-SH-j0c" id="RKP-sJ-o3v"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
