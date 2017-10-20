@@ -26,19 +26,6 @@ public  func showAlert(text:String,title:String,vc:UIViewController)  {
 
 
 
-//MARK: -HIDE KEYBOARD
-extension UIViewController {
-    func hideKeyboardWhenTappedAround() {
-        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(UIViewController.dismissKeyboard))
-        tap.cancelsTouchesInView = false
-        view.addGestureRecognizer(tap)
-    }
-    
-    func dismissKeyboard() {
-        view.endEditing(true)
-    }
-}
-
 
 //Mark: -Lock Orientation
 struct AppUtility {

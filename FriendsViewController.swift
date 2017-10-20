@@ -14,49 +14,30 @@ import SVProgressHUD
 
 class FriendsViewController: UIViewController,UITableViewDelegate,UITableViewDataSource{
 
-   var friends = [User]()
-  
-    
-   //MARK: -OUTLETS AND ACTIONS
+  //MARK: -OUTLETS AND ACTIONS
     
     @IBOutlet weak var tableView: UITableView!
     
     
-    //MARK: -NEW FRIENDS
-    @IBAction func btnAddNewFriends(_ sender: UIBarButtonItem) {
-        let popOverNewFriendVc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "popUpNewFriend") as! AddNewFriendsViewController
-        self.addChildViewController(popOverNewFriendVc)
-        popOverNewFriendVc.view.frame = self.view.frame
-        self.view.addSubview(popOverNewFriendVc.view)
-        
-        popOverNewFriendVc.didMove(toParentViewController: self)
-    }
-    
-    
 override func viewDidLoad() {
     super.viewDidLoad()
-        tableView.delegate = self
-        tableView.dataSource = self
-    }
-    override func viewWillAppear(_ animated: Bool) {
-     friends.removeAll()
-     self.tableView.reloadData()
+    tableView.delegate = self
+    tableView.dataSource = self
     }
     
     override func viewDidAppear(_ animated: Bool) {
         SVProgressHUD.show()
-        fetchFriends { (friends) in
-           if friends != nil , (friends?.count)! > 0 {
-                self.friends = friends!
-                self.tableView.reloadData()
-            }else{
-                SVProgressHUD.dismiss()
-            }
+        self.tableView.reloadData()
+     }
+
+    override func viewWillAppear(_ animated: Bool) {
+        SVProgressHUD.show()
+        if friends.count == 0 {
+            fetchFriends(completionHandler: { (fetchedFriends) in
+                friends = fetchedFriends!
+            })
         }
-       
     }
-   
-    
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }

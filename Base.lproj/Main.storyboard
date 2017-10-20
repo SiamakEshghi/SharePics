@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12118" systemVersion="16D32" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="xaQ-t2-pja">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13196" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="xaQ-t2-pja">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12086"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13173"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -683,11 +683,11 @@
                         <viewControllerLayoutGuide type="bottom" id="uHP-jd-Geg"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="WU5-Go-TdH">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Aa3-Db-QX0">
-                                <rect key="frame" x="0.0" y="28" width="414" height="44"/>
+                                <rect key="frame" x="0.0" y="28" width="375" height="44"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="44" id="d1y-Pr-iqA"/>
                                     <constraint firstAttribute="height" constant="44" id="dJ7-qV-2RR"/>
@@ -722,7 +722,7 @@
                                 </variation>
                             </navigationBar>
                             <button opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="251" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KVu-kF-Pp5">
-                                <rect key="frame" x="188.5" y="690" width="37" height="36"/>
+                                <rect key="frame" x="169" y="621" width="37" height="36"/>
                                 <fontDescription key="fontDescription" name=".SFNSDisplay" family=".SF NS Display" pointSize="20"/>
                                 <state key="normal" title="Add"/>
                                 <connections>
@@ -730,20 +730,20 @@
                                 </connections>
                             </button>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter name of event" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="661-q3-yFd">
-                                <rect key="frame" x="131.5" y="82" width="151" height="30"/>
+                                <rect key="frame" x="112" y="82" width="151" height="30"/>
                                 <nil key="textColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="goP-ve-g8Z">
-                                <rect key="frame" x="0.0" y="147.5" width="414" height="532.5"/>
+                                <rect key="frame" x="0.0" y="147.5" width="375" height="463.5"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="friendCell2" rowHeight="150" id="itZ-nm-Pfg" customClass="FreindTableViewCell" customModule="SharePics" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="28" width="414" height="150"/>
+                                        <rect key="frame" x="0.0" y="28" width="375" height="150"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="itZ-nm-Pfg" id="dQt-aG-pww">
-                                            <rect key="frame" x="0.0" y="0.0" width="414" height="149.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="149.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="K45-QN-4GE">
@@ -753,7 +753,7 @@
                                                     </constraints>
                                                 </imageView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VlP-SH-j0c">
-                                                    <rect key="frame" x="165.5" y="64.5" width="232.5" height="21"/>
+                                                    <rect key="frame" x="165.5" y="64.5" width="193.5" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
@@ -818,7 +818,7 @@
                                 </prototypes>
                             </tableView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Choose friends for new event" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iGu-Fw-fL6">
-                                <rect key="frame" x="20" y="122" width="374" height="20.5"/>
+                                <rect key="frame" x="20" y="122" width="335" height="20.5"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="20.5" id="btw-9A-egc"/>
                                 </constraints>
@@ -950,7 +950,7 @@
                                     <navigationItem title="Freinds" id="o1C-PC-xJr">
                                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="yHN-a6-fxu">
                                             <connections>
-                                                <action selector="btnAddNewFriends:" destination="QCB-wd-3aV" id="xxi-il-RRf"/>
+                                                <segue destination="uPJ-q2-LzK" kind="show" id="ju3-mC-acB"/>
                                             </connections>
                                         </barButtonItem>
                                     </navigationItem>
@@ -1070,7 +1070,7 @@
                                         </constraints>
                                         <nil key="textColor"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                        <textInputTraits key="textInputTraits"/>
+                                        <textInputTraits key="textInputTraits" keyboardType="emailAddress"/>
                                     </textField>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cWH-x4-dui">
                                         <rect key="frame" x="84" y="130" width="72" height="30"/>

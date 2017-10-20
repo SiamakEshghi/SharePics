@@ -52,7 +52,7 @@ extension LoginViewController: UIImagePickerControllerDelegate,UINavigationContr
         imageViewProfile.isUserInteractionEnabled = true
         imageViewProfile.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleSelectProfileImage)))
     }
-    func handleSelectProfileImage()  {
+    @objc func handleSelectProfileImage()  {
         let picker = UIImagePickerController()
         picker.delegate = self
         picker.allowsEditing = true

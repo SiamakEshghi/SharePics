@@ -11,10 +11,12 @@ import FirebaseDatabase
 import FirebaseAuth
 import SVProgressHUD
 
+ var friends = [User]()
 class EventsViewController: UIViewController ,UITableViewDelegate,UITableViewDataSource,DisplayMembers{
 
     //MARK: -PROPERTIES
     var events = [Event]()
+    var refresh = UIRefreshControl()
     
     //MARK: -OUTLETS AND ACTIONS
     @IBOutlet weak var NavBar: UINavigationItem!
@@ -32,29 +34,40 @@ class EventsViewController: UIViewController ,UITableViewDelegate,UITableViewDat
         tableView.delegate = self
         tableView.dataSource = self
         }
-    override func viewWillAppear(_ animated: Bool) {
-        //Clean collectionView
-        self.events.removeAll()
-        self.tableView.reloadData()
-        }
+
     override func viewDidAppear(_ animated: Bool) {
         self.isUserLogedIn()
         SVProgressHUD.show()
         guard (Auth.auth().currentUser?.uid) != nil else {
+            SVProgressHUD.show()
             handleLogout()
             return
         }
-        fetchEvents() { (events) in
-            if events != nil , (events?.count)! > 0  {
-                self.events = (events?.sorted{ $0.date! > $1.date!})!
+        fetchEventsAndDisplay()
+     }
+    override func viewWillAppear(_ animated: Bool) {
+        fetchFriends { (fetchedFriends) in
+            if  (fetchedFriends?.count)! > 0 {
+                friends = fetchedFriends!
+                }
+        }
+    }
+    override func viewWillDisappear(_ animated: Bool) {
+        self.events.removeAll()
+        self.tableView.reloadData()
+    }
+    
+    func fetchEventsAndDisplay()  {
+        fetchEvents { (fetchedEvents) in
+            self.events = fetchedEvents!
+            if self.events.count > 0 {
                 self.tableView.reloadData()
             }else{
                 SVProgressHUD.dismiss()
             }
         }
-     }
-    
-    
+    }
+   
     //TableView Data Source
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
@@ -66,6 +79,7 @@ class EventsViewController: UIViewController ,UITableViewDelegate,UITableViewDat
    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "eventCell", for: indexPath) as! EventTableViewCell
+       
         cell.delegate = self
         // add a border to cell
         cell.layer.borderColor = UIColor.black.cgColor
@@ -95,11 +109,16 @@ class EventsViewController: UIViewController ,UITableViewDelegate,UITableViewDat
     func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
         
         let deleteAction = UITableViewRowAction(style: .default, title: "Delete", handler: { (action, indexPath) in
-            
-             let deletedEventId = self.events[indexPath.row].id!
+            let deletedEventId = self.events[indexPath.row].id!
              self.events.remove(at: indexPath.row)
              self.tableView.reloadData()
-             removeSelectedIdFromThisUserList(eventId:deletedEventId)
+            removeSelectedIdFromThisUserList(eventId: deletedEventId, completionHandler: { (isDeleted) in
+                if isDeleted {
+                   showAlert(text: "The group is removed successfully!", title: "DELETE", vc: self)
+                }else{
+                    showAlert(text: "There is an error in removing!", title: "ERROR", vc: self)
+                }
+             })
             })
         
         return [deleteAction]
@@ -116,6 +135,7 @@ class EventsViewController: UIViewController ,UITableViewDelegate,UITableViewDat
     }
 
     
+    
     //Add  animation
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         
@@ -131,4 +151,46 @@ class EventsViewController: UIViewController ,UITableViewDelegate,UITableViewDat
             cell.layer.transform = CATransform3DIdentity
         }
     }
+    
+    //MARK: -CHECK CURRENT USER
+    func isUserLogedIn()  {
+        guard let uid = Auth.auth().currentUser?.uid else {
+            handleLogout()
+            return
+        }
+        let userRef = Database.database().reference().child("users").child(uid)
+        
+        userRef.observeSingleEvent(of: .value, with: { (snapshot) in
+            if let dictionary = snapshot.value as? [String:AnyObject]{
+                let name = dictionary["name"] as! String
+                self.NavBar.title = name + "'s groups"
+            }
+        })
+        
+    }
+    
+    
+    //MARK: -LOGOUT
+    func handleLogout()  {
+        do{
+            try Auth.auth().signOut()
+        }catch {
+            showAlert(text: error.localizedDescription, title: "Error", vc: self)
+        }
+        
+        DispatchQueue.main.async {
+            let Loginview = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "loginView") as! LoginViewController
+            self.present(Loginview, animated: true, completion:nil)
+        }
+    }
+    //MARK: Display AddNewEvent View
+    func addNewEvent()  {
+        let popOverAddNewEvent = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "AddNewEvent") as! AddNewEventsViewController
+        self.addChildViewController(popOverAddNewEvent)
+        popOverAddNewEvent.view.frame = self.view.frame
+        self.view.addSubview(popOverAddNewEvent.view)
+        popOverAddNewEvent.didMove(toParentViewController: self)
+    }
+    
+    
 }

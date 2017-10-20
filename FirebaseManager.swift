@@ -16,52 +16,44 @@ import SVProgressHUD
 
 //MARK: -FETCH FRIENDS FROM DATABASE
  func fetchFriends(completionHandler:@escaping ([User]?) -> Void) {
-    
     var friendsList = [User]()
     
-    let uid = Auth.auth().currentUser?.uid
-    let ref = Database.database().reference().child("users").child(uid!)
-    
-    ref.observe(.value, with: { (snapshot) in
+    if let uid = Auth.auth().currentUser?.uid{
+    let ref = Database.database().reference().child("users").child(uid)
+   
+    ref.observe(.value) { (snapshot) in
         if snapshot.hasChild("friends"){
-         let refFriendList = ref.child("friends")
-            DispatchQueue.global(qos: .userInitiated).async {
-                refFriendList.observe(.value, with: { (snapshot) in
-                    
-                    if let dictionary = snapshot.value as? [String:AnyObject]{
-                        
-                        for (key, _ ) in dictionary {
-                            let friendRef = Database.database().reference().child("users").child(key)
-                            friendRef.observe(.value, with: { (snapshot) in
-                                if let dictionary = snapshot.value as? [String:AnyObject]{
-                                    let friend = User()
-                                    friend.id = key
-                                    friend.name = dictionary["name"] as? String
-                                    friend.email = dictionary["email"] as? String
-                                    friend.profileImageUrl = dictionary["profileImageUrl"] as? String
-                                    
-                                    if !friendsList.contains(friend){
-                                        friendsList.append(friend)
-                                    }
-                                }
-                            })
+            let refFriendList = ref.child("friends")
+            refFriendList.observe(.value){ (snapshot) in
+                let groupKeys = snapshot.children.flatMap { $0 as? DataSnapshot }.map { $0.key }
+                let group = DispatchGroup()
+                for groupKey in groupKeys {
+                    group.enter()
+                 let friendRef = Database.database().reference().child("users").child(groupKey)
+                    friendRef.observeSingleEvent(of: .value, with: { (snapshot) in
+                        if let dictionary = snapshot.value as? [String:AnyObject]{
+                            let friend = User()
+                            friend.id = groupKey
+                            friend.name = dictionary["name"] as? String
+                            friend.email = dictionary["email"] as? String
+                            friend.profileImageUrl = dictionary["profileImageUrl"] as? String
+                            
+                            if !friendsList.contains(friend){
+                                friendsList.append(friend)
+                            }
                         }
-                        let when = DispatchTime.now() + 0.1
-                        DispatchQueue.main.asyncAfter(deadline: when) {
-                            completionHandler(friendsList)
-                        }
-                    }else{
-                        completionHandler(nil)
-                    }
-                }, withCancel: nil)
+                   group.leave()
+                    })
+                 }
+                group.notify(queue: .main){
+                    completionHandler(friendsList)
+                }
             }
-
-        }else{
-             completionHandler(nil)
+          }
         }
-    }, withCancel: nil)
     }
-
+}
+    
 
 
 //MARK: -FETCH EVENTS ID FROM DATABASE
@@ -71,43 +63,33 @@ func fetchEvents( completionHandler :@escaping ([Event]?) -> Void)  {
     var events = [Event]()
    
     let ref = Database.database().reference().child("user-events").child(uid!)
-    
-    
-    DispatchQueue.global(qos: .userInitiated).async {
-        ref.observe(.value, with: { (snapshot) in
-            
-            if let dictionary = snapshot.value as? [String:AnyObject]{
-                
-                for (key, _ ) in dictionary {
-                    let eventRef = Database.database().reference().child("events").child(key)
-                    eventRef.observe(.value, with: { (snapshot) in
-                        if let dictionary = snapshot.value as? [String:AnyObject]{
-                            let name = dictionary["name"] as? String
-                            let interval = dictionary["interval"] as? TimeInterval ?? 00
-                            let event = Event()
-                            event.id = key
-                            event.name = name
-                            event.date = NSDate(timeIntervalSince1970: interval) as Date
-                            
-                            if !events.contains(event){
-                               events.append(event)
-                            }
-                            
-                        }
-                        
-                        let when = DispatchTime.now() + 0.1
-                        DispatchQueue.main.asyncAfter(deadline: when) {
-                            completionHandler(events)
-                        }
-                        
-                    })
+    ref.observeSingleEvent(of: .value) { (snapshot) in
+        let groupKeys = snapshot.children.flatMap { $0 as? DataSnapshot }.map { $0.key }
+        
+        let group = DispatchGroup()
+        
+        for groupKey in groupKeys{
+            group.enter()
+            let eventRef = Database.database().reference().child("events").child(groupKey)
+            eventRef.observeSingleEvent(of: .value, with: { (snapshot) in
+                if let dictionary2 = snapshot.value as? [String:AnyObject]{
+                    let name = dictionary2["name"] as? String
+                    let interval = dictionary2["interval"] as? TimeInterval ?? 00
+                    let event = Event()
+                    event.id = groupKey
+                    event.name = name
+                    event.date = NSDate(timeIntervalSince1970: interval) as Date
+                    
+                    if !events.contains(event){
+                        events.append(event)
+                    }
+            group.leave()
                 }
-                
-            }else{
-                completionHandler(nil)
-                SVProgressHUD.dismiss()
-            }
-        }, withCancel: nil)
+            })
+        }
+        group.notify(queue: .main){
+            completionHandler(events)
+        }
     }
     
 }
@@ -217,7 +199,6 @@ func fetchEventMembersId(eventId: String,completionHandler: @escaping ([String]?
                     }
                     let when = DispatchTime.now() + 0.2
                     DispatchQueue.main.asyncAfter(deadline: when) {
-                        print(memberNames.count)
                         completionHandler(memberNames)
                     }
                     
@@ -231,14 +212,17 @@ func fetchEventMembersId(eventId: String,completionHandler: @escaping ([String]?
 }
 
 //MARK: -Remove selected Event from user events list
-func removeSelectedIdFromThisUserList(eventId:String){
+func removeSelectedIdFromThisUserList(eventId:String,completionHandler: @escaping (Bool) -> Void){
     let uid = Auth.auth().currentUser?.uid
     let ref = Database.database().reference().child("user-events").child(uid!).child(eventId)
     ref.removeValue { (error, ref) in
         if error != nil {
             print("error \(String(describing: error))")
+            completionHandler(false)
+            return
         }
-    }
+       completionHandler(true)
+   }
 }
 
 //MARK: -Add New Event

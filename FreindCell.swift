@@ -24,8 +24,8 @@ class FreindTableViewCell: UITableViewCell {
     var friend: User?{
         didSet{
            self.friendImage.setRounded(radius: (self.friendImage.frame.width) / 2)
-           friendImage.imageFromUrl(urlString: (friend?.profileImageUrl)!)
             labelFriendName.text = friend?.name!
+           friendImage.imageFromUrl(urlString: (friend?.profileImageUrl)!)
            }
     }
     

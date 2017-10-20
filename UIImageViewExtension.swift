@@ -21,15 +21,12 @@ extension UIImageView {
     // Download image and save in cach and  display in imageView,
     //for next didload fetch from cash
     public func imageFromUrl(urlString: String)  {
-        
-        if let cachedImage = imageCache.object(forKey: urlString as AnyObject) as? UIImage{
+       if let cachedImage = imageCache.object(forKey: urlString as AnyObject) as? UIImage{
             self.image = cachedImage
             SVProgressHUD.dismiss()
             
         }else{
-            
-            DispatchQueue.global(qos: .userInitiated).async {
-                if let url = NSURL(string: urlString){
+           if let url = NSURL(string: urlString){
                     URLSession.shared.dataTask(with: url as URL, completionHandler: { (data, response, error) in
                         if error != nil {
                             print(error!.localizedDescription)
@@ -39,19 +36,17 @@ extension UIImageView {
                             }
                             
                         }
-                        DispatchQueue.main.async{
-                            if let downloadedImage = UIImage(data: data!){
-                                imageCache.setObject(downloadedImage, forKey: urlString as AnyObject)
-                                self.image = downloadedImage
-                              SVProgressHUD.dismiss()
-                                
+          if let downloadedImage = UIImage(data: data!){
+          DispatchQueue.main.async{
+                   self.image = downloadedImage
+                   imageCache.setObject(downloadedImage, forKey: urlString as AnyObject)
+            
+                   SVProgressHUD.dismiss()
                             }
                         }
                         
                     }).resume()
                 }
-                
-            }
         }
         
     }
@@ -65,3 +60,5 @@ extension UIImageView {
     
     
 }
+
+

@@ -12,11 +12,11 @@ import FirebaseDatabase
 import SVProgressHUD
 
 
-class AddNewEventsViewController: UIViewController,UITableViewDelegate,UITableViewDataSource {
+class AddNewEventsViewController: UIViewController,UITableViewDelegate,UITableViewDataSource,UITextFieldDelegate {
 
     //MARK: -PROPERTIES
     var selectedFriendsIds = [String]()
-    var friends = [User]()
+    
     
     //MARK: -OUTLETS AND ACTIONS
     @IBOutlet weak var tableView: UITableView!
@@ -42,18 +42,13 @@ class AddNewEventsViewController: UIViewController,UITableViewDelegate,UITableVi
         SVProgressHUD.show()
         super.viewDidLoad()
         self.hideKeyboardWhenTappedAround()
+        txtEventName.delegate = self
         tableView.delegate = self
         tableView.dataSource = self
-        
-        fetchFriends { (friends) in
-            
-            if  friends != nil , (friends?.count)! > 0 {
-                self.friends = friends!
-                self.tableView.reloadData()
-            }
-            
-        }
-     }
+      }
+    override func viewDidAppear(_ animated: Bool) {
+        self.tableView.reloadData()
+    }
 
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
@@ -85,7 +80,10 @@ class AddNewEventsViewController: UIViewController,UITableViewDelegate,UITableVi
         }
         
     }
-    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
+    }
 }
 
 

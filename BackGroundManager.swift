@@ -21,7 +21,7 @@ extension UIViewController {
         
         Player = AVPlayer.init(url:URL!)
         PlayerLayer = AVPlayerLayer(player: Player)
-        PlayerLayer.videoGravity = AVLayerVideoGravityResizeAspectFill
+        PlayerLayer.videoGravity = AVLayerVideoGravity.resizeAspectFill
         PlayerLayer.frame = view.layer.frame
         
         Player.actionAtItemEnd = AVPlayerActionAtItemEnd.none
@@ -32,7 +32,7 @@ extension UIViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(playerItemReachEnd(notification:)), name: NSNotification.Name.AVPlayerItemDidPlayToEndTime, object: Player.currentItem)
     }
     
-    func playerItemReachEnd(notification:NSNotification) {
+    @objc func playerItemReachEnd(notification:NSNotification) {
         Player.seek(to: kCMTimeZero)
     }
 }
