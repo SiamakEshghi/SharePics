@@ -9,9 +9,10 @@
 import UIKit
 import FirebaseDatabase
 import SVProgressHUD
+import DZNEmptyDataSet
 
 
-class SelectedEventViewController: UIViewController,UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout,SaveImages {
+class SelectedEventViewController: UIViewController,UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout,SaveImages,DZNEmptyDataSetSource, DZNEmptyDataSetDelegate {
 
     //MARK: -PROPERTIES
     var currentEvent = Event()
@@ -34,6 +35,8 @@ class SelectedEventViewController: UIViewController,UICollectionViewDelegate,UIC
         self.fetchEvent()
         collectionView.delegate = self
         collectionView.dataSource = self
+        collectionView.emptyDataSetDelegate = self
+        collectionView.emptyDataSetSource = self
         btnSelectAll.isEnabled = false
     }
     
@@ -63,7 +66,7 @@ class SelectedEventViewController: UIViewController,UICollectionViewDelegate,UIC
         isSelectMode = !isSelectMode
        
         if isSelectMode {
-            btnSelected.title = "Done"
+            btnSelected.title = "Remove"
             btnSelectAll.isEnabled = true
             selectedImages.removeAll()
         }else{
@@ -263,6 +266,13 @@ class SelectedEventViewController: UIViewController,UICollectionViewDelegate,UIC
     }
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
         return 1.0
+    }
+    
+    //Add description/subtitle on empty dataset
+    func description(forEmptyDataSet scrollView: UIScrollView!) -> NSAttributedString! {
+        let str = "Tap the camera button below  to take your first picture."
+        let attrs = [NSAttributedStringKey.font: UIFont.preferredFont(forTextStyle: UIFontTextStyle.body)]
+        return NSAttributedString(string: str, attributes: attrs)
     }
 }
 

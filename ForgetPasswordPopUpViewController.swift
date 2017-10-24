@@ -20,7 +20,6 @@ class ForgetPasswordPopUpViewController: UIViewController {
         self.view.backgroundColor = UIColor.black.withAlphaComponent(0.5)
        }
     
-    
    //MARK: -OUTLETS AND ACTIONS
     
     @IBOutlet weak var txtFieldEmail: UITextField!
@@ -40,13 +39,7 @@ class ForgetPasswordPopUpViewController: UIViewController {
              showAlert(text: "Reset email is sent successfully!", title: "Success",vc: self)
             }
         }
-        
-        
     }
-    
-    
-    
-    
     
 }
 

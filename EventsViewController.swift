@@ -10,13 +10,15 @@ import UIKit
 import FirebaseDatabase
 import FirebaseAuth
 import SVProgressHUD
+import DZNEmptyDataSet
 
  var friends = [User]()
-class EventsViewController: UIViewController ,UITableViewDelegate,UITableViewDataSource,DisplayMembers{
+class EventsViewController: UIViewController ,UITableViewDelegate,UITableViewDataSource,DisplayMembers, DZNEmptyDataSetSource, DZNEmptyDataSetDelegate{
 
     //MARK: -PROPERTIES
     var events = [Event]()
     var refresh = UIRefreshControl()
+    
     
     //MARK: -OUTLETS AND ACTIONS
     @IBOutlet weak var NavBar: UINavigationItem!
@@ -33,6 +35,9 @@ class EventsViewController: UIViewController ,UITableViewDelegate,UITableViewDat
         super.viewDidLoad()
         tableView.delegate = self
         tableView.dataSource = self
+        tableView.emptyDataSetSource = self
+        tableView.emptyDataSetDelegate = self
+        
         }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -192,5 +197,17 @@ class EventsViewController: UIViewController ,UITableViewDelegate,UITableViewDat
         popOverAddNewEvent.didMove(toParentViewController: self)
     }
     
-    
+    //Add title for empty dataset
+    func title(forEmptyDataSet scrollView: UIScrollView!) -> NSAttributedString! {
+        let str = "Welcome"
+        let attrs = [NSAttributedStringKey.font: UIFont.preferredFont(forTextStyle: UIFontTextStyle.headline)]
+        return NSAttributedString(string: str, attributes: attrs)
+    }
+    //Add description/subtitle on empty dataset
+    func description(forEmptyDataSet scrollView: UIScrollView!) -> NSAttributedString! {
+        let str = "Tap + to add your first group."
+        let attrs = [NSAttributedStringKey.font: UIFont.preferredFont(forTextStyle: UIFontTextStyle.body)]
+        return NSAttributedString(string: str, attributes: attrs)
+    }
+
 }

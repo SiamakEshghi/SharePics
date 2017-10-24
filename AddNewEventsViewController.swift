@@ -12,6 +12,7 @@ import FirebaseDatabase
 import SVProgressHUD
 
 
+
 class AddNewEventsViewController: UIViewController,UITableViewDelegate,UITableViewDataSource,UITextFieldDelegate {
 
     //MARK: -PROPERTIES
@@ -45,9 +46,13 @@ class AddNewEventsViewController: UIViewController,UITableViewDelegate,UITableVi
         txtEventName.delegate = self
         tableView.delegate = self
         tableView.dataSource = self
+       
       }
     override func viewDidAppear(_ animated: Bool) {
         self.tableView.reloadData()
+        if friends.count == 0 {
+            SVProgressHUD.dismiss()
+        }
     }
 
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -84,6 +89,7 @@ class AddNewEventsViewController: UIViewController,UITableViewDelegate,UITableVi
         textField.resignFirstResponder()
         return true
     }
+    
 }
 
 

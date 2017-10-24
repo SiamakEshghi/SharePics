@@ -26,15 +26,18 @@ class AddNewFriendsViewController: UIViewController,UITextFieldDelegate {
     
     @IBAction func btnAddFriendTapped(_ sender: UIButton) {
         perform(#selector(handleAddFriend), with: nil, afterDelay: 0)
-        
-    }
+        }
    
     override func viewDidLoad() {
         super.viewDidLoad()
        hideKeyboardWhenTappedAround()
         txtEmail.delegate = self
     }
-
+    override func viewWillAppear(_ animated: Bool) {
+        AppUtility.lockOrientation(.portrait)
+    }
+    override func viewWillDisappear(_ animated: Bool) {
+        AppUtility.lockOrientation(.all)}
     
     //MARK: -ADD FRIEND
     @objc func handleAddFriend() {

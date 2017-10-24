@@ -9,12 +9,15 @@ import UIKit
 import AVFoundation
 import SVProgressHUD
 
+
 class LoginViewController: UIViewController,UITextFieldDelegate {
     
     //MARK: -PROPERTIES
     var isSignIn = true
     
     //MARK: -OUTLETS AND ACTIONS
+    
+    @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var txtFieldName: UITextField!
     
     @IBOutlet weak var txtFieldEmail: UITextField!
@@ -53,7 +56,7 @@ class LoginViewController: UIViewController,UITextFieldDelegate {
         friends.removeAll()
         hiddensHandles()
         SVProgressHUD.dismiss()
-        
+        imageViewProfile.setRounded(radius: 10)
         txtFieldName.delegate = self
         txtFieldEmail.delegate = self
         txtFieldPass1.delegate = self
@@ -68,16 +71,27 @@ class LoginViewController: UIViewController,UITextFieldDelegate {
         setupVideoBackground()
         AppUtility.lockOrientation(.portrait)
     }
-
-//    func textFieldDidBeginEditing(_ textField: UITextField) {
-//        self.animateTextField(textField: textField, up:true)
-//    }
-//    func textFieldDidEndEditing(_ textField: UITextField) {
-//        self.animateTextField(textField: textField, up:false)
-//    }
-//    
+    
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        if textField.tag == 2 || textField.tag == 3 {
+        scrollView.setContentOffset(CGPoint(x: 0, y:100), animated: true)
+        }
+    }
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        scrollView.setContentOffset(CGPoint(x: 0, y:0), animated: true)
+    }
+    
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        textField.resignFirstResponder()
+        
+        if textField.tag == 0 {
+            txtFieldEmail.becomeFirstResponder()
+        }else if textField.tag == 1 {
+           txtFieldPass1.becomeFirstResponder()
+        }else if textField.tag == 2 {
+            txtFieldPass2.becomeFirstResponder()
+        }else {
+            txtFieldName.becomeFirstResponder()
+        }
         return true
     }
 

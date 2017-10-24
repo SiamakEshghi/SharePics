@@ -11,8 +11,9 @@ import FirebaseAuth
 import FirebaseDatabase
 import FirebaseStorage
 import SVProgressHUD
+import DZNEmptyDataSet
 
-class FriendsViewController: UIViewController,UITableViewDelegate,UITableViewDataSource{
+class FriendsViewController: UIViewController,UITableViewDelegate,UITableViewDataSource,DZNEmptyDataSetSource, DZNEmptyDataSetDelegate{
 
   //MARK: -OUTLETS AND ACTIONS
     
@@ -23,11 +24,16 @@ override func viewDidLoad() {
     super.viewDidLoad()
     tableView.delegate = self
     tableView.dataSource = self
+    tableView.emptyDataSetDelegate = self
+    tableView.emptyDataSetSource = self
     }
     
     override func viewDidAppear(_ animated: Bool) {
         SVProgressHUD.show()
         self.tableView.reloadData()
+        if friends.count == 0 {
+            SVProgressHUD.dismiss()
+        }
      }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -55,5 +61,11 @@ override func viewDidLoad() {
         return cell
     }
     
+    //Add description/subtitle on empty dataset
+    func description(forEmptyDataSet scrollView: UIScrollView!) -> NSAttributedString! {
+        let str = "Tap the +  to add your first friend."
+        let attrs = [NSAttributedStringKey.font: UIFont.preferredFont(forTextStyle: UIFontTextStyle.body)]
+        return NSAttributedString(string: str, attributes: attrs)
+    }
     
 }

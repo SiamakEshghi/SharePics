@@ -9,8 +9,9 @@
 import UIKit
 import FirebaseDatabase
 import FirebaseStorage
+import DZNEmptyDataSet
 
-class PhotoViewController: UIViewController {
+class PhotoViewController: UIViewController{
     
     //MARK: -PROPERTIES
     var takenPhoto: UIImage?
