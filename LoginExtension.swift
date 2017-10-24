@@ -21,7 +21,6 @@ extension LoginViewController: UIImagePickerControllerDelegate,UINavigationContr
     func hiddensHandles()  {
         txtFieldName.isHidden = true
         txtFieldPass2.isHidden = true
-        imageViewProfile.image = #imageLiteral(resourceName: "welcome")
         }
     
     
@@ -33,17 +32,16 @@ extension LoginViewController: UIImagePickerControllerDelegate,UINavigationContr
         if isSignIn{
             imageViewProfile.isUserInteractionEnabled = false
             btnSignIn.setTitle("SignIn", for: .normal)
+            imageViewProfile.image = #imageLiteral(resourceName: "welcome")
             hiddensHandles()
-            parentStackView.distribution = .fillProportionally
-            
+          
         }else{
             addProfileImage()
             btnSignIn.setTitle("Register", for: .normal)
             txtFieldName.isHidden = false
             txtFieldPass2.isHidden = false
             imageViewProfile.image =  #imageLiteral(resourceName: "NoOne")
-            parentStackView.distribution = .fillEqually
-        }
+      }
     }
     
  

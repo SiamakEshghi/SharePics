@@ -32,7 +32,7 @@ class LoginViewController: UIViewController,UITextFieldDelegate {
     
     @IBOutlet weak var imageViewProfile: UIImageView!
     
-    @IBOutlet weak var parentStackView: UIStackView!
+
     
     
     @IBAction func segmentAction(_ sender: UISegmentedControl) {
@@ -52,7 +52,6 @@ class LoginViewController: UIViewController,UITextFieldDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.hideKeyboardWhenTappedAround()
-        parentStackView.distribution = .fillProportionally
         friends.removeAll()
         hiddensHandles()
         SVProgressHUD.dismiss()
@@ -61,6 +60,7 @@ class LoginViewController: UIViewController,UITextFieldDelegate {
         txtFieldEmail.delegate = self
         txtFieldPass1.delegate = self
         txtFieldPass2.delegate = self
+        
     }
     override func viewWillDisappear(_ animated: Bool) {
         AppUtility.lockOrientation(.all)
@@ -94,7 +94,7 @@ class LoginViewController: UIViewController,UITextFieldDelegate {
         }
         return true
     }
-
+    
 }
 
 extension UIViewController{
