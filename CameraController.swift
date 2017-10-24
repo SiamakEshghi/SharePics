@@ -27,13 +27,12 @@ class CameraController: SwiftyCamViewController,SwiftyCamViewControllerDelegate 
     
     @IBAction func takingPhotoAction(_ sender: UIBarButtonItem) {
         takePhoto()
-        
-    }
+        }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         cameraDelegate = self
-     
+        flashEnabled = true
     }
 
    
