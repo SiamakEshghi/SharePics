@@ -34,10 +34,7 @@ class PhotoViewController: UIViewController{
         self.dismiss(animated: true, completion: nil)
     }
     
-    
-    override func viewDidAppear(_ animated: Bool) {
-        
-    }
+  
     
     override func viewWillDisappear(_ animated: Bool) {
          AppUtility.lockOrientation(.all)

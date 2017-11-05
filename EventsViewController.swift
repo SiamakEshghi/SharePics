@@ -12,12 +12,14 @@ import FirebaseAuth
 import SVProgressHUD
 import DZNEmptyDataSet
 
+
  var friends = [User]()
 class EventsViewController: UIViewController ,UITableViewDelegate,UITableViewDataSource,DisplayMembers, DZNEmptyDataSetSource, DZNEmptyDataSetDelegate{
 
     //MARK: -PROPERTIES
     var events = [Event]()
     var refresh = UIRefreshControl()
+   
     
     
     //MARK: -OUTLETS AND ACTIONS
@@ -28,7 +30,9 @@ class EventsViewController: UIViewController ,UITableViewDelegate,UITableViewDat
    
     
     @IBAction func btnLogoutTapped(_ sender: UIBarButtonItem) {
-        handleLogout()
+        if isConnected(){
+         handleLogout()
+        }
     }
     
     override func viewDidLoad() {
@@ -42,19 +46,23 @@ class EventsViewController: UIViewController ,UITableViewDelegate,UITableViewDat
 
     override func viewDidAppear(_ animated: Bool) {
         self.isUserLogedIn()
-        SVProgressHUD.show()
-        guard (Auth.auth().currentUser?.uid) != nil else {
+        if isConnected(){
             SVProgressHUD.show()
-            handleLogout()
-            return
+            guard (Auth.auth().currentUser?.uid) != nil else {
+                SVProgressHUD.show()
+                handleLogout()
+                return
+            }
+            fetchEventsAndDisplay()
         }
-        fetchEventsAndDisplay()
      }
     override func viewWillAppear(_ animated: Bool) {
+        if  isConnected() {
         fetchFriends { (fetchedFriends) in
             if  (fetchedFriends?.count)! > 0 {
                 friends = fetchedFriends!
-                }
+             }
+            }
         }
     }
     override func viewWillDisappear(_ animated: Bool) {
@@ -205,9 +213,24 @@ class EventsViewController: UIViewController ,UITableViewDelegate,UITableViewDat
     }
     //Add description/subtitle on empty dataset
     func description(forEmptyDataSet scrollView: UIScrollView!) -> NSAttributedString! {
-        let str = "Tap + to add your first group."
+        var str = ""
+        if isConnected(){
+        str = "Tap + to add your first group."
+        }else {
+         str = "Please connect to internet."
+        }
+        
         let attrs = [NSAttributedStringKey.font: UIFont.preferredFont(forTextStyle: UIFontTextStyle.body)]
         return NSAttributedString(string: str, attributes: attrs)
     }
 
+    //Check internet connection
+    func isConnected() -> Bool{
+        if currentReachabilityStatus == .notReachable {
+            showAlert(text: "This application does not work correct without internet connection!", title: "ERROR", vc: self)
+            SVProgressHUD.dismiss()
+            return false
+        }
+        return true
+    }
 }

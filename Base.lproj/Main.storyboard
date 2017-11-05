@@ -10,6 +10,11 @@
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
+    <customFonts key="customFonts">
+        <array key="Savoye.ttc">
+            <string>SavoyeLetPlain</string>
+        </array>
+    </customFonts>
     <scenes>
         <!--loginView-->
         <scene sceneID="tne-QT-ifu">
@@ -39,7 +44,7 @@
                                                 <rect key="frame" x="0.0" y="0.0" width="336" height="30"/>
                                                 <color key="backgroundColor" red="0.17397850751876831" green="0.50417107343673706" blue="0.99866753816604614" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <nil key="textColor"/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                <fontDescription key="fontDescription" name="SavoyeLetPlain" family="Savoye LET" pointSize="28"/>
                                                 <textInputTraits key="textInputTraits" enablesReturnKeyAutomatically="YES"/>
                                                 <connections>
                                                     <outlet property="delegate" destination="BYZ-38-t0r" id="XzM-XV-PA5"/>
@@ -49,7 +54,7 @@
                                                 <rect key="frame" x="0.0" y="31" width="336" height="30"/>
                                                 <color key="backgroundColor" red="0.17397850751876831" green="0.50417107343673706" blue="0.99866753816604614" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <nil key="textColor"/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                <fontDescription key="fontDescription" name="SavoyeLetPlain" family="Savoye LET" pointSize="28"/>
                                                 <textInputTraits key="textInputTraits" keyboardType="emailAddress" enablesReturnKeyAutomatically="YES"/>
                                                 <connections>
                                                     <outlet property="delegate" destination="BYZ-38-t0r" id="QoE-kF-bK0"/>
@@ -59,7 +64,7 @@
                                                 <rect key="frame" x="0.0" y="62" width="336" height="30"/>
                                                 <color key="backgroundColor" red="0.17397850751876831" green="0.50417107343673706" blue="0.99866753816604614" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <nil key="textColor"/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                <fontDescription key="fontDescription" name="SavoyeLetPlain" family="Savoye LET" pointSize="28"/>
                                                 <textInputTraits key="textInputTraits" enablesReturnKeyAutomatically="YES" secureTextEntry="YES"/>
                                                 <connections>
                                                     <outlet property="delegate" destination="BYZ-38-t0r" id="7dU-Iy-hEL"/>
@@ -69,7 +74,7 @@
                                                 <rect key="frame" x="0.0" y="93" width="336" height="30"/>
                                                 <color key="backgroundColor" red="0.17484191252434755" green="0.50593220329197619" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <nil key="textColor"/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                <fontDescription key="fontDescription" name="SavoyeLetPlain" family="Savoye LET" pointSize="29"/>
                                                 <textInputTraits key="textInputTraits" enablesReturnKeyAutomatically="YES" secureTextEntry="YES"/>
                                                 <connections>
                                                     <outlet property="delegate" destination="BYZ-38-t0r" id="kcG-rF-l2C"/>
@@ -80,7 +85,7 @@
                                     <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="rrb-Or-dTi">
                                         <rect key="frame" x="123" y="403" width="129" height="29"/>
                                         <segments>
-                                            <segment title="SignIN"/>
+                                            <segment title="Sign in"/>
                                             <segment title="Register"/>
                                         </segments>
                                         <color key="tintColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -89,9 +94,9 @@
                                         </connections>
                                     </segmentedControl>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fFS-5a-4lQ">
-                                        <rect key="frame" x="160" y="461" width="55" height="36"/>
+                                        <rect key="frame" x="158" y="461" width="59" height="36"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="20"/>
-                                        <state key="normal" title="SignIn"/>
+                                        <state key="normal" title="Sign in"/>
                                         <connections>
                                             <action selector="btnAction:" destination="BYZ-38-t0r" eventType="touchUpInside" id="czK-4H-KEC"/>
                                         </connections>
@@ -160,9 +165,9 @@
                                 <rect key="frame" x="67.5" y="233.5" width="240" height="200"/>
                                 <subviews>
                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Email" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="5Tm-hq-Rei">
-                                        <rect key="frame" x="10" y="85" width="220" height="30"/>
+                                        <rect key="frame" x="10" y="81" width="220" height="38"/>
                                         <nil key="textColor"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <fontDescription key="fontDescription" name="SavoyeLetPlain" family="Savoye LET" pointSize="28"/>
                                         <textInputTraits key="textInputTraits"/>
                                     </textField>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Tkc-nt-fjG">
@@ -179,8 +184,12 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="18V-fT-YTx">
-                                        <rect key="frame" x="58.5" y="160" width="123" height="30"/>
-                                        <state key="normal" title="Send resent email"/>
+                                        <rect key="frame" x="57.5" y="144" width="125" height="46"/>
+                                        <fontDescription key="fontDescription" name="SavoyeLetPlain" family="Savoye LET" pointSize="28"/>
+                                        <state key="normal" title="Send resent email">
+                                            <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                            <color key="titleShadowColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
                                         <connections>
                                             <action selector="btnResetPass:" destination="2hS-uK-YbS" eventType="touchUpInside" id="Rja-Ca-wR4"/>
                                         </connections>
@@ -201,7 +210,7 @@
                                 </constraints>
                             </view>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" red="0.65079766511917114" green="0.76595431566238403" blue="0.92396074533462524" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="XFb-64-k1L" firstAttribute="centerY" secondItem="dRv-94-1mo" secondAttribute="centerY" id="3zK-vA-Pzb"/>
                             <constraint firstItem="XFb-64-k1L" firstAttribute="centerX" secondItem="dRv-94-1mo" secondAttribute="centerX" id="8W0-iK-pFX"/>
@@ -379,7 +388,7 @@
                             </navigationBar>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="qT6-HW-nqb">
                                 <rect key="frame" x="0.0" y="72" width="375" height="545"/>
-                                <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="backgroundColor" red="0.74277034099999995" green="0.87332245340000003" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="6To-2f-wOC">
                                     <size key="itemSize" width="96" height="93"/>
                                     <size key="headerReferenceSize" width="0.0" height="0.0"/>
@@ -555,7 +564,7 @@
                             </navigationBar>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="133" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Vcz-lv-0NN">
                                 <rect key="frame" x="0.0" y="72" width="375" height="546"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="backgroundColor" red="0.65079766511917114" green="0.76595431566238403" blue="0.92396074533462524" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="eventCell" rowHeight="150" id="6Fs-HM-lAo" customClass="EventTableViewCell" customModule="SharePics" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="375" height="150"/>
@@ -613,18 +622,19 @@
                                                             <subviews>
                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="eventName" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="C2Q-dx-YK6">
                                                                     <rect key="frame" x="0.0" y="0.0" width="228" height="33"/>
-                                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                                    <nil key="textColor"/>
+                                                                    <fontDescription key="fontDescription" name="SavoyeLetPlain" family="Savoye LET" pointSize="28"/>
+                                                                    <color key="textColor" red="0.0" green="0.3719146006001145" blue="0.77105805837563457" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                     <nil key="highlightedColor"/>
                                                                 </label>
                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="date" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4Zw-P9-0k3">
                                                                     <rect key="frame" x="0.0" y="34" width="228" height="33"/>
-                                                                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                                                                    <nil key="textColor"/>
+                                                                    <fontDescription key="fontDescription" name="SavoyeLetPlain" family="Savoye LET" pointSize="24"/>
+                                                                    <color key="textColor" red="0.0" green="0.37191460059999998" blue="0.77105805839999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                     <nil key="highlightedColor"/>
                                                                 </label>
                                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="infoDark" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cXb-3T-cMD">
                                                                     <rect key="frame" x="0.0" y="68" width="228" height="33"/>
+                                                                    <color key="tintColor" red="0.0" green="0.37191460059999998" blue="0.77105805839999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                     <connections>
                                                                         <action selector="btnInformation:" destination="6Fs-HM-lAo" eventType="touchUpInside" id="S5x-XD-yAQ"/>
                                                                     </connections>
@@ -634,7 +644,7 @@
                                                     </subviews>
                                                 </stackView>
                                             </subviews>
-                                            <color key="backgroundColor" red="0.19808651413336753" green="1" blue="0.99063771128896772" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                            <color key="backgroundColor" red="0.80314418523627706" green="0.92535555883659826" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             <constraints>
                                                 <constraint firstItem="EYU-X0-z2E" firstAttribute="leading" secondItem="oRN-Vw-A7P" secondAttribute="leadingMargin" constant="10" id="CYQ-Zh-Xir"/>
                                                 <constraint firstAttribute="trailingMargin" secondItem="EYU-X0-z2E" secondAttribute="trailing" constant="10" id="PnX-79-SKc"/>
@@ -654,7 +664,7 @@
                                 </prototypes>
                             </tableView>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" red="0.74277034099999995" green="0.87332245340000003" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="Afy-eP-0bI" secondAttribute="trailing" id="1RJ-GT-PPO"/>
                             <constraint firstItem="Vcz-lv-0NN" firstAttribute="leading" secondItem="TLL-1C-bOk" secondAttribute="leadingMargin" constant="-16" id="BSr-ob-Lkl"/>
@@ -733,14 +743,15 @@
                                 </connections>
                             </button>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter name of event" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="661-q3-yFd">
-                                <rect key="frame" x="112" y="82" width="151" height="30"/>
-                                <nil key="textColor"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <rect key="frame" x="116.5" y="82" width="142.5" height="33"/>
+                                <color key="backgroundColor" red="0.80314418519999997" green="0.92535555879999998" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="textColor" red="0.0" green="0.37191460059999998" blue="0.77105805839999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <fontDescription key="fontDescription" name="SavoyeLetPlain" family="Savoye LET" pointSize="24"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="goP-ve-g8Z">
-                                <rect key="frame" x="0.0" y="147.5" width="375" height="463.5"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <rect key="frame" x="0.0" y="150.5" width="375" height="460.5"/>
+                                <color key="backgroundColor" red="0.65079766511917114" green="0.76595431566238403" blue="0.92396074533462524" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="friendCell2" rowHeight="150" id="itZ-nm-Pfg" customClass="FreindTableViewCell" customModule="SharePics" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="375" height="150"/>
@@ -756,12 +767,13 @@
                                                     </constraints>
                                                 </imageView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VlP-SH-j0c">
-                                                    <rect key="frame" x="165.5" y="64.5" width="193.5" height="21"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <nil key="textColor"/>
+                                                    <rect key="frame" x="165.5" y="58.5" width="193.5" height="33.5"/>
+                                                    <fontDescription key="fontDescription" name="SavoyeLetPlain" family="Savoye LET" pointSize="28"/>
+                                                    <color key="textColor" red="0.0" green="0.37191460059999998" blue="0.77105805839999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
+                                            <color key="backgroundColor" red="0.80314418519999997" green="0.92535555879999998" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             <constraints>
                                                 <constraint firstItem="VlP-SH-j0c" firstAttribute="leading" secondItem="K45-QN-4GE" secondAttribute="trailing" constant="8" id="5zB-3h-6E5"/>
                                                 <constraint firstItem="K45-QN-4GE" firstAttribute="top" secondItem="dQt-aG-pww" secondAttribute="top" id="8A8-gr-KXp"/>
@@ -821,16 +833,16 @@
                                 </prototypes>
                             </tableView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Choose friends for new event" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iGu-Fw-fL6">
-                                <rect key="frame" x="20" y="122" width="335" height="20.5"/>
+                                <rect key="frame" x="20" y="125" width="335" height="20.5"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="20.5" id="btw-9A-egc"/>
                                 </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" red="1" green="0.95265694883198671" blue="0.047471029759460381" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <fontDescription key="fontDescription" name="SavoyeLetPlain" family="Savoye LET" pointSize="29"/>
+                                <color key="textColor" red="0.04626186708598666" green="0.18632707376127902" blue="0.7937762179459672" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" red="0.74277034099999995" green="0.87332245340000003" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="iGu-Fw-fL6" secondAttribute="trailing" constant="20" id="2ph-tA-suZ"/>
                             <constraint firstItem="KVu-kF-Pp5" firstAttribute="top" secondItem="goP-ve-g8Z" secondAttribute="bottom" constant="10" id="8EA-DS-lHN"/>
@@ -953,7 +965,7 @@
                                     <navigationItem title="Freinds" id="o1C-PC-xJr">
                                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="yHN-a6-fxu">
                                             <connections>
-                                                <segue destination="uPJ-q2-LzK" kind="show" id="ju3-mC-acB"/>
+                                                <segue destination="uPJ-q2-LzK" kind="show" id="zc0-54-kxC"/>
                                             </connections>
                                         </barButtonItem>
                                     </navigationItem>
@@ -961,7 +973,7 @@
                             </navigationBar>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="nvU-h4-ros">
                                 <rect key="frame" x="0.0" y="72" width="375" height="546"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="backgroundColor" red="0.65079766511917114" green="0.76595431566238403" blue="0.92396074533462524" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" restorationIdentifier="friendCell" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="friendCell" rowHeight="150" id="jG9-t1-VbH" customClass="FreindTableViewCell" customModule="SharePics" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="375" height="150"/>
@@ -977,9 +989,9 @@
                                                     </constraints>
                                                 </imageView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="44o-Wr-yxI">
-                                                    <rect key="frame" x="157.5" y="64" width="217.5" height="21"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <nil key="textColor"/>
+                                                    <rect key="frame" x="157.5" y="60" width="217.5" height="31"/>
+                                                    <fontDescription key="fontDescription" name="SavoyeLetPlain" family="Savoye LET" pointSize="26"/>
+                                                    <color key="textColor" red="0.0" green="0.37191460059999998" blue="0.77105805839999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
@@ -1021,6 +1033,7 @@
                                                 </mask>
                                             </variation>
                                         </tableViewCellContentView>
+                                        <color key="backgroundColor" red="0.80314418519999997" green="0.92535555879999998" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <connections>
                                             <outlet property="friendImage" destination="QH1-TK-QrU" id="lrc-Tc-cHm"/>
                                             <outlet property="labelFriendName" destination="44o-Wr-yxI" id="RPk-73-icb"/>
@@ -1029,7 +1042,7 @@
                                 </prototypes>
                             </tableView>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" red="0.74277034099999995" green="0.87332245340000003" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="WEv-Be-c6E" firstAttribute="top" secondItem="3JW-Fx-Gu9" secondAttribute="bottom" constant="8" id="BxA-1Q-6H0"/>
                             <constraint firstItem="dx5-0j-Tav" firstAttribute="top" secondItem="nvU-h4-ros" secondAttribute="bottom" id="DnX-t5-7iv"/>
@@ -1067,15 +1080,16 @@
                                 <rect key="frame" x="67.5" y="233.5" width="240" height="200"/>
                                 <subviews>
                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter your freind email" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="KOV-WQ-Z4V">
-                                        <rect key="frame" x="10" y="85" width="220" height="30"/>
+                                        <rect key="frame" x="10" y="81" width="220" height="38"/>
                                         <nil key="textColor"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <fontDescription key="fontDescription" name="SavoyeLetPlain" family="Savoye LET" pointSize="28"/>
                                         <textInputTraits key="textInputTraits" keyboardType="emailAddress"/>
                                     </textField>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cWH-x4-dui">
-                                        <rect key="frame" x="84" y="160" width="72" height="30"/>
+                                        <rect key="frame" x="79.5" y="144" width="81" height="46"/>
+                                        <fontDescription key="fontDescription" name="SavoyeLetPlain" family="Savoye LET" pointSize="28"/>
                                         <state key="normal" title="Add freind">
-                                            <color key="titleColor" red="0.13629778133571702" green="0.073614848734695176" blue="0.22751427664974622" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         </state>
                                         <connections>
                                             <action selector="btnAddFriendTapped:" destination="uPJ-q2-LzK" eventType="touchUpInside" id="3i6-GO-52q"/>
@@ -1087,15 +1101,13 @@
                                             <constraint firstAttribute="width" secondItem="QvD-Q7-OE1" secondAttribute="height" multiplier="1:1" id="DGr-Vk-9DA"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" type="system" pointSize="22"/>
-                                        <state key="normal" title="⊗">
-                                            <color key="titleColor" red="0.13792330026626587" green="0.077199496328830719" blue="0.22705784440040588" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                        </state>
+                                        <state key="normal" title="⊗"/>
                                         <connections>
                                             <action selector="btncCloseTapped:" destination="uPJ-q2-LzK" eventType="touchUpInside" id="b94-o8-XZB"/>
                                         </connections>
                                     </button>
                                 </subviews>
-                                <color key="backgroundColor" red="0.59907353218780546" green="0.3235614477416896" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="backgroundColor" red="0.21855631750000001" green="0.63911489570000002" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstItem="QvD-Q7-OE1" firstAttribute="leading" secondItem="hYn-AL-nyv" secondAttribute="leading" constant="10" id="F9W-I8-h9b"/>
                                     <constraint firstItem="cWH-x4-dui" firstAttribute="centerX" secondItem="hYn-AL-nyv" secondAttribute="centerX" id="IRL-XP-sUZ"/>
@@ -1110,7 +1122,7 @@
                                 </constraints>
                             </view>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" red="0.65079766511917114" green="0.76595431566238403" blue="0.92396074533462524" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="hYn-AL-nyv" firstAttribute="centerY" secondItem="S24-wE-d5x" secondAttribute="centerY" id="PW7-Ay-7gb"/>
                             <constraint firstItem="hYn-AL-nyv" firstAttribute="centerX" secondItem="S24-wE-d5x" secondAttribute="centerX" id="u9k-tQ-Wlu"/>
