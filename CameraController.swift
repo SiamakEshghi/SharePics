@@ -16,6 +16,8 @@ class CameraController: SwiftyCamViewController,SwiftyCamViewControllerDelegate 
      var eventId: String?
     //MARK: -OUtlets and Actions
     
+    @IBOutlet weak var imageViewflash: UIImageView!
+    
     @IBAction func switchCameraAction(_ sender: UIBarButtonItem) {
         switchCamera()
     }
@@ -29,10 +31,27 @@ class CameraController: SwiftyCamViewController,SwiftyCamViewControllerDelegate 
         takePhoto()
         }
     
+  
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         cameraDelegate = self
-        flashEnabled = true
+        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(imageTapped(tapGestureRecognizer:)))
+        imageViewflash.isUserInteractionEnabled = true
+        imageViewflash.addGestureRecognizer(tapGestureRecognizer)
+    }
+    
+    @objc func imageTapped(tapGestureRecognizer: UITapGestureRecognizer)
+    {
+        flashEnabled = !flashEnabled
+        
+        if flashEnabled {
+            imageViewflash.image = #imageLiteral(resourceName: "flashOn")
+        }else {
+            imageViewflash.image = #imageLiteral(resourceName: "flashOff")
+        }
+        
     }
 
    
