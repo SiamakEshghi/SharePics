@@ -191,9 +191,13 @@ class EventsViewController: UIViewController ,UITableViewDelegate,UITableViewDat
             showAlert(text: error.localizedDescription, title: "Error", vc: self)
         }
         
+//        DispatchQueue.main.async {
+//            let Loginview = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "loginView") as! LoginViewController
+//            self.present(Loginview, animated: true, completion:nil)
+//        }
         DispatchQueue.main.async {
-            let Loginview = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "loginView") as! LoginViewController
-            self.present(Loginview, animated: true, completion:nil)
+            let phoneLoginView = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "PhoneLoginView") as! PhoneLoginViewController
+            self.present(phoneLoginView, animated: true, completion:nil)
         }
     }
     //MARK: Display AddNewEvent View

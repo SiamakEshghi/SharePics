@@ -111,6 +111,23 @@ func saveNewUserInFirebase(profileImageUrl:String,uid : String,name: String,emai
     
 }
 
+//MARK: Register New User Into firebase Database
+func saveNewUser(profileImageUrl:String,uid : String,name: String,phoneNumber:String,completionHandler :@escaping (_ isError: Bool) -> Void) -> Void {
+    let values = ["name":name,"phoneNumber":phoneNumber,"profileImageUrl":profileImageUrl]
+    let ref = Database.database().reference()
+    
+    let userRef = ref.child("users").child(uid)
+    userRef.updateChildValues(values) { (error, ref) in
+        if error != nil{
+            completionHandler(true)
+            return
+        }
+        completionHandler(false)
+        
+    }
+    
+}
+
 
 //MARK: -Save Profile Image
 func saveProfileImage(profileImage:UIImage,completionHandler : @escaping (String) -> Void)  {
