@@ -60,7 +60,11 @@ extension PhoneLoginViewController :UIImagePickerControllerDelegate,UINavigation
             showAlert(text: "Please fill all fields!", title: "Error", vc: self)
             return
         }
-      
+        
+        guard isPhonenumberValid(phoneNumber: phoneNumber) else{
+         showAlert(text: "Phone number must start with +contry code like +1, +98, ...!", title: "Input Format", vc: self)
+            return
+        }
         
         let alert = UIAlertController(title: "Phone number", message: "Is this your phone number \n \(phoneNumber)", preferredStyle: .alert)
         let action = UIAlertAction(title: "Yes", style: .default) { (alerAction) in

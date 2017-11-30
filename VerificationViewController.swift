@@ -16,6 +16,8 @@ class VerificationViewController: UIViewController {
     //properties
     var profileImage: UIImage?
     var name: String?
+//    var friendManager: FriendManager?
+//    var contactsPhoneNumbers = [String]()
     
     @IBOutlet weak var txtVerification: UITextField!
     
@@ -24,10 +26,18 @@ class VerificationViewController: UIViewController {
         super.viewDidLoad()
         SVProgressHUD.dismiss()
         hideKeyboardWhenTappedAround()
+//        friendManager = FriendManager()
         // Do any additional setup after loading the view.
+    }
+    override func viewDidAppear(_ animated: Bool) {
+//        contactsPhoneNumbers = (friendManager?.fetchPhoneNumbers())!
     }
     override func viewWillDisappear(_ animated: Bool) {
         AppUtility.lockOrientation(.all)
+        
+//        if !(contactsPhoneNumbers.isEmpty){
+//            syncContacys(contactsNumber: contactsPhoneNumbers, completionHandler: nil)
+//        }
     }
     override func viewWillAppear(_ animated: Bool) {
         setupVideoBackground()

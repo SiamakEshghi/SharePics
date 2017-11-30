@@ -1024,65 +1024,69 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hYn-AL-nyv">
-                                <rect key="frame" x="67.5" y="233.5" width="240" height="200"/>
-                                <subviews>
-                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter your freind email" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="KOV-WQ-Z4V">
-                                        <rect key="frame" x="10" y="81" width="220" height="38"/>
-                                        <nil key="textColor"/>
-                                        <fontDescription key="fontDescription" name="SavoyeLetPlain" family="Savoye LET" pointSize="28"/>
-                                        <textInputTraits key="textInputTraits" keyboardType="emailAddress"/>
-                                    </textField>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cWH-x4-dui">
-                                        <rect key="frame" x="79.5" y="144" width="81" height="46"/>
-                                        <fontDescription key="fontDescription" name="SavoyeLetPlain" family="Savoye LET" pointSize="28"/>
-                                        <state key="normal" title="Add freind">
-                                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        </state>
-                                        <connections>
-                                            <action selector="btnAddFriendTapped:" destination="uPJ-q2-LzK" eventType="touchUpInside" id="3i6-GO-52q"/>
-                                        </connections>
-                                    </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QvD-Q7-OE1">
-                                        <rect key="frame" x="10" y="10" width="39" height="39"/>
-                                        <constraints>
-                                            <constraint firstAttribute="width" secondItem="QvD-Q7-OE1" secondAttribute="height" multiplier="1:1" id="DGr-Vk-9DA"/>
-                                        </constraints>
-                                        <fontDescription key="fontDescription" type="system" pointSize="22"/>
-                                        <state key="normal" title="⊗"/>
-                                        <connections>
-                                            <action selector="btncCloseTapped:" destination="uPJ-q2-LzK" eventType="touchUpInside" id="b94-o8-XZB"/>
-                                        </connections>
-                                    </button>
-                                </subviews>
-                                <color key="backgroundColor" red="0.21855631750000001" green="0.63911489570000002" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8fY-Hg-Gyl">
+                                <rect key="frame" x="0.0" y="28" width="375" height="44"/>
                                 <constraints>
-                                    <constraint firstItem="QvD-Q7-OE1" firstAttribute="leading" secondItem="hYn-AL-nyv" secondAttribute="leading" constant="10" id="F9W-I8-h9b"/>
-                                    <constraint firstItem="cWH-x4-dui" firstAttribute="centerX" secondItem="hYn-AL-nyv" secondAttribute="centerX" id="IRL-XP-sUZ"/>
-                                    <constraint firstItem="KOV-WQ-Z4V" firstAttribute="centerY" secondItem="hYn-AL-nyv" secondAttribute="centerY" id="J2e-pn-8eb"/>
-                                    <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="QvD-Q7-OE1" secondAttribute="trailing" constant="20" symbolic="YES" id="JKS-c5-9bu"/>
-                                    <constraint firstAttribute="trailing" secondItem="KOV-WQ-Z4V" secondAttribute="trailing" constant="10" id="XH1-zf-byX"/>
-                                    <constraint firstAttribute="height" constant="200" id="fbm-2c-y3O"/>
-                                    <constraint firstItem="KOV-WQ-Z4V" firstAttribute="leading" secondItem="hYn-AL-nyv" secondAttribute="leading" constant="10" id="hfF-tp-M3v"/>
-                                    <constraint firstAttribute="width" constant="240" id="jz4-it-1DY"/>
-                                    <constraint firstItem="QvD-Q7-OE1" firstAttribute="top" secondItem="hYn-AL-nyv" secondAttribute="top" constant="10" id="ori-qU-bXb"/>
-                                    <constraint firstAttribute="bottom" secondItem="cWH-x4-dui" secondAttribute="bottom" constant="10" id="wa3-vw-7Qf"/>
+                                    <constraint firstAttribute="height" constant="44" id="p8v-hf-OGo"/>
                                 </constraints>
-                            </view>
+                                <items>
+                                    <navigationItem title="Add Friend" id="VNF-fK-I1X">
+                                        <barButtonItem key="leftBarButtonItem" title="Cancel" id="vta-jb-9uR">
+                                            <connections>
+                                                <action selector="cancelBtn:" destination="uPJ-q2-LzK" id="Uj7-GP-yaK"/>
+                                            </connections>
+                                        </barButtonItem>
+                                    </navigationItem>
+                                </items>
+                            </navigationBar>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter phoneNumber " textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="KOV-WQ-Z4V">
+                                <rect key="frame" x="16" y="112" width="343" height="38"/>
+                                <nil key="textColor"/>
+                                <fontDescription key="fontDescription" name="SavoyeLetPlain" family="Savoye LET" pointSize="28"/>
+                                <textInputTraits key="textInputTraits" keyboardType="phonePad"/>
+                            </textField>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cWH-x4-dui">
+                                <rect key="frame" x="147" y="160" width="81" height="46"/>
+                                <fontDescription key="fontDescription" name="SavoyeLetPlain" family="Savoye LET" pointSize="28"/>
+                                <state key="normal" title="Add freind">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <connections>
+                                    <action selector="btnAddFriendTapped:" destination="uPJ-q2-LzK" eventType="touchUpInside" id="3i6-GO-52q"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aEh-aM-AWF">
+                                <rect key="frame" x="121" y="312" width="132" height="42"/>
+                                <fontDescription key="fontDescription" name="SavoyeLetPlain" family="Savoye LET" pointSize="25"/>
+                                <state key="normal" title="Sync phone numbers">
+                                    <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                </state>
+                                <connections>
+                                    <action selector="btnSyncPhoneNumbers:" destination="uPJ-q2-LzK" eventType="touchUpInside" id="XmP-gq-Xmb"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" red="0.65079766511917114" green="0.76595431566238403" blue="0.92396074533462524" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="hYn-AL-nyv" firstAttribute="centerY" secondItem="S24-wE-d5x" secondAttribute="centerY" id="PW7-Ay-7gb"/>
-                            <constraint firstItem="hYn-AL-nyv" firstAttribute="centerX" secondItem="S24-wE-d5x" secondAttribute="centerX" id="u9k-tQ-Wlu"/>
+                            <constraint firstItem="aEh-aM-AWF" firstAttribute="centerX" secondItem="S24-wE-d5x" secondAttribute="centerX" id="1BZ-8C-5Gl"/>
+                            <constraint firstItem="KOV-WQ-Z4V" firstAttribute="top" secondItem="8fY-Hg-Gyl" secondAttribute="bottom" constant="40" id="2Dk-oQ-K0g"/>
+                            <constraint firstItem="cWH-x4-dui" firstAttribute="centerX" secondItem="S24-wE-d5x" secondAttribute="centerX" id="Hp3-BI-t8y"/>
+                            <constraint firstAttribute="trailing" secondItem="8fY-Hg-Gyl" secondAttribute="trailing" id="IpN-d7-bfc"/>
+                            <constraint firstItem="8fY-Hg-Gyl" firstAttribute="leading" secondItem="S24-wE-d5x" secondAttribute="leading" id="Ld1-Ht-4uJ"/>
+                            <constraint firstItem="aEh-aM-AWF" firstAttribute="centerY" secondItem="S24-wE-d5x" secondAttribute="centerY" id="Lgc-CE-vkJ"/>
+                            <constraint firstItem="cWH-x4-dui" firstAttribute="top" secondItem="KOV-WQ-Z4V" secondAttribute="bottom" constant="10" id="eJB-Vj-k1i"/>
+                            <constraint firstItem="8fY-Hg-Gyl" firstAttribute="top" secondItem="vmo-8c-fYb" secondAttribute="bottom" constant="8" id="faQ-2b-Nii"/>
+                            <constraint firstItem="KOV-WQ-Z4V" firstAttribute="trailing" secondItem="S24-wE-d5x" secondAttribute="trailingMargin" id="qx2-5p-QSL"/>
+                            <constraint firstItem="KOV-WQ-Z4V" firstAttribute="leading" secondItem="S24-wE-d5x" secondAttribute="leadingMargin" id="tQe-sm-sgH"/>
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="txtEmail" destination="KOV-WQ-Z4V" id="Lxk-2a-27r"/>
+                        <outlet property="txtPhoneNumber" destination="KOV-WQ-Z4V" id="ZJw-pt-ik5"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="bZy-RE-QrG" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3446" y="482"/>
+            <point key="canvasLocation" x="3445.5999999999999" y="481.70914542728639"/>
         </scene>
         <!--Camera Controller-->
         <scene sceneID="Etu-IS-tB0">

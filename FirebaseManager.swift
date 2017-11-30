@@ -35,7 +35,8 @@ import SVProgressHUD
                             let friend = User()
                             friend.id = groupKey
                             friend.name = dictionary["name"] as? String
-                            friend.email = dictionary["email"] as? String
+                            friend.phoneNumber = dictionary["phoneNumber"] as? String
+//                            friend.email = dictionary["email"] as? String
                             friend.profileImageUrl = dictionary["profileImageUrl"] as? String
                             
                             if !friendsList.contains(friend){
@@ -54,7 +55,6 @@ import SVProgressHUD
     }
 }
     
-
 
 //MARK: -FETCH EVENTS ID FROM DATABASE
 func fetchEvents( completionHandler :@escaping ([Event]?) -> Void)  {

@@ -24,8 +24,13 @@ public  func showAlert(text:String,title:String,vc:UIViewController)  {
     vc.present(alert, animated: true, completion: nil)
 }
 
-
-
+//Mark: - Check Entered phone number start by +
+public func isPhonenumberValid(phoneNumber: String) -> Bool{
+    if phoneNumber.hasPrefix("+"){
+        return true
+    }
+    return false
+}
 
 //Mark: -Lock Orientation
 struct AppUtility {
