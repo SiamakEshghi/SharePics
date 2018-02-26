@@ -12,15 +12,15 @@ import FirebaseAuth
 import SVProgressHUD
 import DZNEmptyDataSet
 
-
  var friends = [User]()
-class EventsViewController: UIViewController ,UITableViewDelegate,UITableViewDataSource,DisplayMembers, DZNEmptyDataSetSource, DZNEmptyDataSetDelegate{
+class EventsViewController: AdViewController ,UITableViewDelegate,UITableViewDataSource,DisplayMembers, DZNEmptyDataSetSource, DZNEmptyDataSetDelegate{
 
     //MARK: -PROPERTIES
     var events = [Event]()
     var refresh = UIRefreshControl()
-   
-    
+    var memberList: [User]?
+    var selectedEventId: String?
+ 
     
     //MARK: -OUTLETS AND ACTIONS
     @IBOutlet weak var NavBar: UINavigationItem!
@@ -41,7 +41,7 @@ class EventsViewController: UIViewController ,UITableViewDelegate,UITableViewDat
         tableView.dataSource = self
         tableView.emptyDataSetSource = self
         tableView.emptyDataSetDelegate = self
-        
+     
         }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -68,6 +68,10 @@ class EventsViewController: UIViewController ,UITableViewDelegate,UITableViewDat
     override func viewWillDisappear(_ animated: Bool) {
         self.events.removeAll()
         self.tableView.reloadData()
+    }
+    
+    func bannerViewSetup()  {
+        
     }
     
     func fetchEventsAndDisplay()  {
@@ -121,33 +125,58 @@ class EventsViewController: UIViewController ,UITableViewDelegate,UITableViewDat
     }
     func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
         
-        let deleteAction = UITableViewRowAction(style: .default, title: "Delete", handler: { (action, indexPath) in
+        let deleteAction = UITableViewRowAction(style: .default, title: "Remove", handler: { (action, indexPath) in
             let deletedEventId = self.events[indexPath.row].id!
-             self.events.remove(at: indexPath.row)
-             self.tableView.reloadData()
-            removeSelectedIdFromThisUserList(eventId: deletedEventId, completionHandler: { (isDeleted) in
-                if isDeleted {
-                   showAlert(text: "The group is removed successfully!", title: "DELETE", vc: self)
-                }else{
-                    showAlert(text: "There is an error in removing!", title: "ERROR", vc: self)
-                }
-             })
+            
+            let alert = UIAlertController(title: "Remove Event", message: "Are You Sure you want to remove the event?", preferredStyle: .alert)
+            
+            let action = UIAlertAction(title: "Yes", style: .default) { (alerAction) in
+                self.events.remove(at: indexPath.row)
+                self.tableView.reloadData()
+                removeSelectedIdFromThisUserList(eventId: deletedEventId, completionHandler: { (isDeleted) in
+                    if isDeleted {
+                        showAlert(text: "The group is removed successfully!", title: "Remove", vc: self)
+                    }else{
+                        showAlert(text: "There is an error in removing!", title: "ERROR", vc: self)
+                    }
+                })
+            }
+            let cancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+            
+            alert.addAction(action)
+            alert.addAction(cancel)
+            self.present(alert, animated: true, completion: nil)
+            
             })
         
         return [deleteAction]
     }
     
     //MARK: -Display event member sent by delegate DisplayMembers
-    func sendingMemberList(members: [String]) {
-        var nameList = "*-"
-        for member in members {
-            nameList +=  member + "-"
-        }
-        nameList += "*"
-        showAlert(text: nameList, title: "Members!", vc: self)
+    func sendingMemberList(eventId:String,members: [User]) {
+//        var nameList = "*-"
+//        for member in members {
+//            nameList +=  member + "-"
+//        }
+//        nameList += "*"
+//        showAlert(text: nameList, title: "Members!", vc: self)
+        self.memberList = members
+        selectedEventId = eventId
+        performSegue(withIdentifier: "Info", sender: Any.self)
     }
 
-    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if  let EI = segue.destination as? EventInfoViewController, memberList != nil{
+            EI.members = memberList!
+            
+            for event in events{
+                if event.id == selectedEventId!{
+                    EI.event = event
+                }
+            }
+            
+        }
+    }
     
     //Add  animation
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {

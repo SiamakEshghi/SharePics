@@ -11,7 +11,9 @@ import FirebaseAuth
 import FirebaseDatabase
 import SVProgressHUD
 
-class AddNewFriendsViewController: UIViewController,UITextFieldDelegate {
+
+
+class AddNewFriendsViewController: AdViewController,UITextFieldDelegate {
 
       var isAddedSuccessfull = false
     
@@ -19,6 +21,8 @@ class AddNewFriendsViewController: UIViewController,UITextFieldDelegate {
     //MARK: -OUTLETS AND ACTIONS
     
     @IBOutlet weak var txtPhoneNumber: UITextField!
+    
+
     
     @IBAction func cancelBtn(_ sender: UIBarButtonItem) {
         if isAddedSuccessfull {
@@ -36,7 +40,7 @@ class AddNewFriendsViewController: UIViewController,UITextFieldDelegate {
         var friendManager = FriendManager()
         var contactsPhoneNumbers = [String]()
         
-        let alert = UIAlertController(title: "Sync Numbers", message: "SharePics Just Syncs your contact's phone number wich are started with + country code like +1, +98, ...", preferredStyle: .alert)
+        let alert = UIAlertController(title: "Sync Numbers", message: "SharePics Just Syncs your contact's phone number wich are started with + and country code like +1, +98", preferredStyle: .alert)
         let action = UIAlertAction(title: "Ok", style: .default) { (alerAction) in
             SVProgressHUD.show()
             contactsPhoneNumbers = (friendManager.fetchPhoneNumbers())
@@ -58,6 +62,8 @@ class AddNewFriendsViewController: UIViewController,UITextFieldDelegate {
         super.viewDidLoad()
        hideKeyboardWhenTappedAround()
         txtPhoneNumber.delegate = self
+        
+     
     }
     override func viewWillAppear(_ animated: Bool) {
         AppUtility.lockOrientation(.portrait)
@@ -74,7 +80,7 @@ class AddNewFriendsViewController: UIViewController,UITextFieldDelegate {
         let uid = Auth.auth().currentUser?.uid
         
         guard isPhonenumberValid(phoneNumber: phoneNumber!) else{
-            showAlert(text: "Phone number must start with +contry code like +1, +98, ...!", title: "Input Format", vc: self)
+            showAlert(text: "Phone number must start with + and contry code like +1, +98", title: "Input Format", vc: self)
             return
         }
         
@@ -117,13 +123,14 @@ class AddNewFriendsViewController: UIViewController,UITextFieldDelegate {
                     
                     userRef.observe(.value, with: { (snapshot) in
                         if let dictionary = snapshot.value as? [String:AnyObject]{
-                            let userPhoneNumber = dictionary["phoneNumber"] as! String
+                            if let userPhoneNumber = dictionary["phoneNumber"] as? String {
                             
                             for contact in contactsNumber {
                                 if contact == userPhoneNumber {
                                     let newValue = [userId:contact]
                                     friendsRef.updateChildValues(newValue)
                                 }
+                              }
                             }
                         }
 //                          group.leave()
@@ -134,13 +141,9 @@ class AddNewFriendsViewController: UIViewController,UITextFieldDelegate {
         }
     }
 
-    
-
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         return true
     }
     
-    
-
 }

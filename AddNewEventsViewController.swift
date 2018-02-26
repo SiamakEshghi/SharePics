@@ -18,7 +18,6 @@ class AddNewEventsViewController: UIViewController,UITableViewDelegate,UITableVi
     //MARK: -PROPERTIES
     var selectedFriendsIds = [String]()
     
-    
     //MARK: -OUTLETS AND ACTIONS
     @IBOutlet weak var tableView: UITableView!
     
@@ -46,8 +45,7 @@ class AddNewEventsViewController: UIViewController,UITableViewDelegate,UITableVi
         txtEventName.delegate = self
         tableView.delegate = self
         tableView.dataSource = self
-       
-      }
+        }
     override func viewDidAppear(_ animated: Bool) {
         self.tableView.reloadData()
         if friends.count == 0 {

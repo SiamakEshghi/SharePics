@@ -12,4 +12,5 @@ class Event: NSObject {
     var id: String?
     var name: String?
     var date: Date?
+    var adminId: String?
 }

@@ -63,6 +63,7 @@ extension PhoneLoginViewController :UIImagePickerControllerDelegate,UINavigation
         
         guard isPhonenumberValid(phoneNumber: phoneNumber) else{
          showAlert(text: "Phone number must start with +contry code like +1, +98, ...!", title: "Input Format", vc: self)
+            SVProgressHUD.dismiss()
             return
         }
         

@@ -9,6 +9,9 @@
 import UIKit
 import Firebase
 import UserNotifications
+import GoogleMobileAds
+import Fabric
+import Crashlytics
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -17,12 +20,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
-        FirebaseApp.configure()
+        Fabric.with([Crashlytics.self])
         
+        FirebaseApp.configure()
+        GADMobileAds.configure(withApplicationID: "ca-app-pub-8264821528994220~3057976010")
         if #available(iOS 10, *){
             UNUserNotificationCenter.current().requestAuthorization(options: [.badge,.sound,.alert], completionHandler: { (granted, error) in
                DispatchQueue.main.async(execute: {
+                print("Test")
                     UIApplication.shared.registerForRemoteNotifications()
+                
                 })
             })
         }else {
@@ -67,6 +74,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
 
-
+   
 }
 

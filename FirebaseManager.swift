@@ -64,6 +64,10 @@ func fetchEvents( completionHandler :@escaping ([Event]?) -> Void)  {
    
     let ref = Database.database().reference().child("user-events").child(uid!)
     ref.observeSingleEvent(of: .value) { (snapshot) in
+        if snapshot.value == nil {
+            completionHandler(nil)
+            return
+        }
         let groupKeys = snapshot.children.flatMap { $0 as? DataSnapshot }.map { $0.key }
         
         let group = DispatchGroup()
@@ -75,10 +79,12 @@ func fetchEvents( completionHandler :@escaping ([Event]?) -> Void)  {
                 if let dictionary2 = snapshot.value as? [String:AnyObject]{
                     let name = dictionary2["name"] as? String
                     let interval = dictionary2["interval"] as? TimeInterval ?? 00
+                    let adminId = dictionary2["admin"] as? String
                     let event = Event()
                     event.id = groupKey
                     event.name = name
                     event.date = NSDate(timeIntervalSince1970: interval) as Date
+                    event.adminId = adminId
                     
                     if !events.contains(event){
                         events.append(event)
@@ -197,8 +203,8 @@ func fetchPhotosUrl(eventId:String,imagesNumber:Int?,completionHandler: @escapin
 }
 
 //MARK: -Fetch Event Members
-func fetchEventMembersId(eventId: String,completionHandler: @escaping ([String]?) -> Void){
-    var memberNames = [String]()
+func fetchEventMembersId(eventId: String,completionHandler: @escaping ([User]?) -> Void){
+    var members = [User]()
     let ref = Database.database().reference().child("event-users").child(eventId)
     DispatchQueue.global(qos: .userInitiated).async {
         ref.observe(.value, with: { (snapshot) in
@@ -210,13 +216,20 @@ func fetchEventMembersId(eventId: String,completionHandler: @escaping ([String]?
                         refFriend.observe(.value, with: { (snapshot) in
                         if let dictionary = snapshot.value as? [String:AnyObject]{
                            let name = dictionary["name"] as! String
-                           memberNames.append(name)
+                           let phoneNumber = dictionary["phoneNumber"] as! String
+                           let id = key
+                           let member = User()
+                            member.name = name
+                            member.phoneNumber = phoneNumber
+                            member.id = id
+                            
+                            members.append(member)
                             }
                              }, withCancel: nil)
                     }
                     let when = DispatchTime.now() + 0.2
                     DispatchQueue.main.asyncAfter(deadline: when) {
-                        completionHandler(memberNames)
+                        completionHandler(members)
                     }
                     
                 }else{
@@ -242,12 +255,26 @@ func removeSelectedIdFromThisUserList(eventId:String,completionHandler: @escapin
    }
 }
 
+//MARK: -Remove selected Event from user events list
+func removeSelectedIdFromMemberList(memberId:String,eventId:String,completionHandler: @escaping (Bool) -> Void){
+   let ref = Database.database().reference().child("event-users").child(eventId).child(memberId)
+    ref.removeValue { (error, ref) in
+        if error != nil {
+            print("error \(String(describing: error))")
+            completionHandler(false)
+            return
+        }
+        completionHandler(true)
+    }
+}
+
 //MARK: -Add New Event
 func addNewEvent(name:String,selectedFriendsIds:[String]){
     let uid = Auth.auth().currentUser?.uid
     let ref = Database.database().reference().child("events")
     let eventdRef = ref.childByAutoId()
     eventdRef.updateChildValues(["name":name])
+    eventdRef.updateChildValues(["admin":uid!])
     let interval = NSDate().timeIntervalSince1970
     eventdRef.updateChildValues(["interval":interval])
     

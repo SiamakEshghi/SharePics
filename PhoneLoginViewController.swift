@@ -46,9 +46,7 @@ class PhoneLoginViewController: UIViewController {
         register()
     }
     
-    
-    
-    
+
     
 
 }

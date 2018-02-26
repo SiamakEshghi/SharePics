@@ -13,12 +13,14 @@ import FirebaseStorage
 import SVProgressHUD
 import DZNEmptyDataSet
 
-class FriendsViewController: UIViewController,UITableViewDelegate,UITableViewDataSource,DZNEmptyDataSetSource, DZNEmptyDataSetDelegate{
+
+class FriendsViewController: AdViewController,UITableViewDelegate,UITableViewDataSource,DZNEmptyDataSetSource, DZNEmptyDataSetDelegate{
 
   //MARK: -OUTLETS AND ACTIONS
     
     @IBOutlet weak var tableView: UITableView!
     
+
     
 override func viewDidLoad() {
     super.viewDidLoad()
@@ -43,6 +45,8 @@ override func viewDidLoad() {
                 friends = fetchedFriends!
             })
         }
+        
+       
     }
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
